@@ -17,29 +17,29 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
+    protected $table = 'users'; // Tên bảng trong cơ sở dữ liệu
+
+    protected $primaryKey = 'UserID'; // Khóa chính của bảng
+
+ 
     protected $fillable = [
-        'name',
-        'email',
-        'password',
+        'UserName',
+        'Email',
+        'Password',
+        'HoTen',
+        'Phai',
+        'DiaChi',
+        'NgaySinh',
+        'RoleID',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+  
     protected $hidden = [
-        'password',
-        'remember_token',
+        'Password', 
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-        'password' => 'hashed',
-    ];
+    public function role()
+    {
+        return $this->belongsTo('App\Role', 'RoleID', 'RoleID');
+    }
 }
