@@ -21,9 +21,8 @@
         <div class="card mx-auto bg-info py-5" style="width: 38rem;">
             <h1 style="text-align: center;">Đăng Ký</h1>
             <div class="card-body">
-                <form action="{{ route('register') }}" method="post">
-                    @csrf
-
+                <form action="/user/register" method="post">
+                    
                     <div class="row mb-3">
                         <div class="col-md-6">
                             <label style="text-align:left;" for="username" class="form-label">Tên Đăng Nhập</label>
@@ -56,7 +55,7 @@
 
                         <div class="col-md-6">
                             <label for="ho_ten" class="form-label">Họ Tên </label>
-                            <input type="text" class="form-control text-left" id="ho_ten" name="ho_ten" required>
+                            <input type="text" class="form-control text-left" id="hoten" name="hoten" required>
 
                             @if ($errors->has('ho_ten'))
                                 <span class="text-danger">{{ $errors->first('ho_ten') }}</span>
@@ -67,7 +66,7 @@
                     <div class="row mb-3">
                         <div class="col-md-4">
                                 <label for="ngay_sinh" class="form-label">Ngày sinh</label>
-                                <input type="date" class="form-control text-left" id="ngay_sinh" name="ngay_sinh" required>
+                                <input type="date" class="form-control text-left" id="ngaysinh" name="ngaysinh" required>
 
                                 @if ($errors->has('ngay_sinh'))
                                     <span class="text-danger">{{ $errors->first('ngay_sinh')}}</span>
@@ -76,7 +75,7 @@
 
                         <div class="col-md-4">
                             <label for="dia_chi" class="form-label">Địa chỉ</label>
-                            <input type="text" class="form-control text-left" id="dia_chi" name="dia_chi" required>
+                            <input type="text" class="form-control text-left" id="diachi" name="diachi" required>
 
                             @if ($errors->has('dia_chi'))
                                 <span class="text-danger">{{ $errors->first('dia_chi') }}</span>
@@ -99,12 +98,26 @@
 
                     <div class="row mb-3">
                         
-                        
+                    <div style="margin-top: 10px;" class="col-md-4">
+</br>
+                                <label for="role_id" class="form-label">role_id</label>
+                                <select name="role_id">
+                                    <option value="1">QL</option>
+                                    <option value="2">GV</option>
+                                    <option value="3">CB</option>
+                                    <option value="4">SV</option>
+                                </select>
+
+                                @if ($errors->has('phai'))
+                                    <span class="text-danger">{{ $errors->first('phai') }}</span>
+                                @endif
+                        </div>
                     </div>
 
                     <div  style="text-align: center;" class="mb-3">
-                        <button  type="submit" class="btn btn-primary" name="dang-ky">Đăng Ký</button>
+                        <button  type="submit" class="btn btn-primary">Đăng Ký</button>
                     </div>
+                    @csrf
                 </form>
             </div>
         </div>

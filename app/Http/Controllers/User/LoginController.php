@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\User;
-use App\Models\User;
+
+use App\Models\Users;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
@@ -19,8 +20,10 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        $username = $request->input('username');
-        $password = $request->input('password');
+        $username = $request->username;
+        $password = $request->password;
+        // $username = $request->input('username');
+        // $password = $request->input('password');
 
         // Xác thực dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
@@ -34,9 +37,11 @@ class LoginController extends Controller
                 ->withInput();
         }
 
-        $user = User::where('username', $username)->first();
+        $user = Users::where('username', $username)->first();
 
-        if ($user && Hash::check( $password, $user->password)) {
+
+        if ($user && Hash::check( $password, $user->Password)) {
+            dd($user->UserName);
             // Đăng nhập thành công
             // Thực hiện hành động sau đăng nhập
         } else {
