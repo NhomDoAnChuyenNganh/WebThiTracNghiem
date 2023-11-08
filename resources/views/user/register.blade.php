@@ -98,7 +98,7 @@
 
                     <div class="row mb-3">
                         
-                    <div style="margin-top: 10px;" class="col-md-4">
+                    <!-- <div style="margin-top: 10px;" class="col-md-4">
 </br>
                                 <label for="role_id" class="form-label">role_id</label>
                                 <select name="role_id">
@@ -110,7 +110,7 @@
 
                                 @if ($errors->has('phai'))
                                     <span class="text-danger">{{ $errors->first('phai') }}</span>
-                                @endif
+                                @endif -->
                         </div>
                     </div>
 

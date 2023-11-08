@@ -28,7 +28,7 @@ class RegisterController extends Controller
             'phai' => 'required|integer|in:0,1',
             'diachi' => 'required|string',
             'ngaysinh' => 'required|date',
-            'role_id' => 'required|integer',
+            // 'role_id' => 'required|integer',
             // 'role_id' => 'required|integer|exists:roles,id|default:4',
         ]);
 
@@ -52,12 +52,11 @@ class RegisterController extends Controller
         $user->Phai = $request->input('phai');
         $user->DiaChi = $request->input('diachi');
         $user->NgaySinh = $request->input('ngaysinh');
-        $user->RoleID = $request->input('role_id');
+        $user->RoleID = 4;
          
 
         $user->save();
 
-        // Thông báo đăng ký thành công
-        return redirect()->route('/user/register')->with('success', 'Đăng ký thành công!');
+        return redirect('user/login');
     }
 }

@@ -19,9 +19,9 @@
 <body>
     <div class="container text-center d-flex align-items-center min-vh-100">
         <div class="card mx-auto bg-info py-5" style="width: 25rem;">
-            <h1>Đăng Nhập</h1>
+            <h1>Quên Mật Khẩu</h1>
             <div class="card-body">
-            <form action="/user/login" method="post">
+            <form action="/user/forgot-password" method="post">
                 <div class="mb-3">
                     <label style="text-align: left;" for="username" class="form-label">Tên Đăng Nhập</label>
                     <input type="text" class="form-control" id="username" name="username" required>
@@ -31,17 +31,25 @@
                     @endif
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" required>
+                    <label for="email" class="form-label">Email Đã Đăng Ký</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
 
-                    @if ($errors->has('password'))
-                        <span class="text-danger">{{ $errors->first('password') }}</span>
+                    @if ($errors->has('email'))
+                        <span class="text-danger">{{ $errors->first('email') }}</span>
                     @endif
                 </div>
                 <button type="submit" class="btn btn-primary" name="login">Submit</button><br><br>
-                <a href="{{ route('forgot-password') }}" class="btn btn-primary" style="max-width: 200px;">Quên Mật Khẩu</a>
-                <a href="{{ route('register') }}" class="btn btn-primary" style="max-width: 200px;">Đăng Ký</a>
                 @csrf
+                @if (session('success'))
+                    <div class="alert alert-success">
+                        {{ session('success') }}
+                    </div>
+                @endif
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
             </form>
             </div>
         </div>

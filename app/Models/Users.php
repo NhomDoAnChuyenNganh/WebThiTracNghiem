@@ -21,6 +21,8 @@ class Users extends Model
         'DiaChi',
         'NgaySinh',
         'RoleID',
+        'Token',
+        'TimeReset',
     ];
     
     public $timestamps = false;
