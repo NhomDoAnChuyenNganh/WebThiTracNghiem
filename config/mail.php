@@ -33,17 +33,19 @@ return [
     |
     */
 
+    'mailables' => [
+        'reset_password' => App\Mail\ResetPasswordMail::class,
+    ],
+
     'mailers' => [
         'smtp' => [
             'transport' => 'smtp',
-            'url' => env('MAIL_URL'),
-            'host' => env('MAIL_HOST', 'smtp.mailgun.org'),
-            'port' => env('MAIL_PORT', 587),
-            'encryption' => env('MAIL_ENCRYPTION', 'tls'),
-            'username' => env('MAIL_USERNAME'),
-            'password' => env('MAIL_PASSWORD'),
-            'timeout' => null,
-            'local_domain' => env('MAIL_EHLO_DOMAIN'),
+            'host' => 'smtp.elasticemail.com',
+            'port' => 2525,
+            'encryption' =>'tls',
+            'username' => 'vanhau98.nhd@gmail.com',
+            'password' => '5C7E9891E430D9493C191F8321CD8DABB058',
+            'timeout' =>  60,
         ],
 
         'ses' => [
@@ -100,8 +102,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'vanhau98.nhd@gmail.com'),
+        'name' => env('MAIL_FROM_NAME', 'WebThi'),
     ],
 
     /*
