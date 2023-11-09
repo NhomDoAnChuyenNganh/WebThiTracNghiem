@@ -1,0 +1,62 @@
+<?php
+
+namespace App\Http\Controllers\User;
+
+use App\Models\Users;
+use Illuminate\Support\Facades\Hash;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+
+class RegisterController extends Controller
+{
+    public function index()
+    {
+        return view('user.register',[
+            'title'=>'Đăng Ký'
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        // Xác thực dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'username' => 'required|min:8',
+            'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/',
+            'email' => 'required|email|unique:users',
+            'hoten' => 'required|string',
+            'phai' => 'required|integer|in:0,1',
+            'diachi' => 'required|string',
+            'ngaysinh' => 'required|date',
+            // 'role_id' => 'required|integer',
+            // 'role_id' => 'required|integer|exists:roles,id|default:4',
+        ]);
+
+        if ($validator->fails()) {
+            // Nếu có lỗi xác thực, hiển thị chúng
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
+
+        // Mã hóa mật khẩu
+        $hashedPassword = Hash::make($request->input('password'));  
+       
+        // Tạo bản ghi mới trong bảng người dùng
+        $user = new Users();
+
+        $user->UserName = $request->input('username');
+        $user->Email = $request->input('email');
+        $user->Password = $hashedPassword;
+        $user->HoTen = $request->input('hoten');
+        $user->Phai = $request->input('phai');
+        $user->DiaChi = $request->input('diachi');
+        $user->NgaySinh = $request->input('ngaysinh');
+        $user->RoleID = 4;
+         
+
+        $user->save();
+
+        return redirect('user/login');
+    }
+}
