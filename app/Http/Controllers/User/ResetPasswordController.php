@@ -10,7 +10,17 @@ use Illuminate\Http\Request;
 class ResetPasswordController extends Controller
 {
     public function index($token) {
-        return view('user.reset-password', ['token' => $token]);
+        $user = Users::where('Token', $token)->first();
+
+        // Kiểm tra xem người dùng có tồn tại và thời gian reset còn hợp lệ không
+        if ($user && $user->TimeReset > now()) {
+            return view('user.reset-password', ['token' => $token]);
+        } else {
+            $user->Token = null;
+            $user->TimeReset = null;
+            $user->save();
+            abort(404, 'Liên kết đặt lại mật khẩu đã hết hạn hoặc không hợp lệ.');
+        }
     }
     public function resetPassword(Request $request)
     {
