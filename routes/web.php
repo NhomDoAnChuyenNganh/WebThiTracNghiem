@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CB_CoiThi\TrangChuCanBoCoiThiController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegisterController;
 use App\Http\Controllers\User\ForgotPasswordController;
@@ -8,6 +9,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonHocController;
 use App\Http\Controllers\ChuongController;
 use App\Http\Controllers\DoanVanController;
+use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
+use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
+use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Models\Chuong;
 
 /*
@@ -33,7 +37,9 @@ Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->
 Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
 Route::post('/soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
 
+//Chức năng đăng nhập, đăng kí, resetpassword
 Route::get('/user/login', [LoginController::class, 'index'])->name('login');
+Route::get('/user/logout', [LoginController::class, 'logout'])->name('logout');
 Route::post('/user/login', [LoginController::class, 'login'])->name('login.post');
 Route::get('/user/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/user/register', [RegisterController::class, 'register'])->name('register.post');
@@ -42,3 +48,25 @@ Route::post('/user/forgot-password', [ForgotPasswordController::class, 'forgotpa
 Route::get('/user/reset-password/{token}', [ResetPasswordController::class, 'index'])->name('reset-password');
 Route::post('/user/reset-password/{token}', [ResetPasswordController::class, 'resetPassword'])->name('reset-password.post');
 
+//Chức năng của nhóm quản lý
+Route::group(['middleware' => 'checkLogin:1'], function () {
+
+    Route::get('/quanly/trang-chu-quan-ly', [TrangChuQuanLyController::class, 'index'])->name('trang-chu-quan-ly');
+
+});
+//Chức năng của nhóm giáo viên soạn đề
+Route::group(['middleware' => 'checkLogin:2'], function () {
+
+    Route::get('/gv_soande/trang-chu-giao-vien-soan-de', [TrangChuGiaoVienSoanDeController::class, 'index'])->name('trang-chu-giao-vien-soan-de');
+});
+//Chức năng của nhóm quản cán bộ coi thi
+Route::group(['middleware' => 'checkLogin:3'], function () {
+
+    Route::get('/cb_coithi/trang-chu-can-bo-coi-thi', [TrangChuCanBoCoiThiController::class, 'index'])->name('trang-chu-can-bo-coi-thi');
+});
+//Chức năng của nhóm quản sinh viên
+Route::group(['middleware' => 'checkLogin:4'], function () {
+
+    Route::get('/sinhvien/trang-chu-sinh-vien', [TrangChuSinhVienController::class, 'index'])->name('trang-chu-sinh-vien');
+
+});
