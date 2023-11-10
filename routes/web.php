@@ -27,7 +27,7 @@ use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home', ['title' => 'Trang chủ']);
 });
 
 Route::get('/soande/them-mon-hoc', [MonHocController::class, 'themMonHocForm']);
@@ -58,14 +58,11 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/delete-user/{id}', [QLUserController::class, 'deleteUser'])->name('delete-user');
     Route::get('/quanly/edit-user/{id}', [QLUserController::class, 'edituser'])->name('edit-user');
     Route::put('/quanly/update-user/{id}', [QLUserController::class, 'updateuser'])->name('update-user');
-
-
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
 
     Route::get('/gv_soande/trang-chu-giao-vien-soan-de', [TrangChuGiaoVienSoanDeController::class, 'index'])->name('trang-chu-giao-vien-soan-de');
-    
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {
@@ -76,5 +73,4 @@ Route::group(['middleware' => 'checkLogin:3'], function () {
 Route::group(['middleware' => 'checkLogin:4'], function () {
 
     Route::get('/sinhvien/trang-chu-sinh-vien', [TrangChuSinhVienController::class, 'index'])->name('trang-chu-sinh-vien');
-
 });

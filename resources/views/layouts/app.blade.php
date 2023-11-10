@@ -32,6 +32,26 @@
             width: 100%;
         }
 
+        ul.navbar-nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.navbar-nav li.nav-item {
+            margin-right: 20px;
+        }
+
+        ul.navbar-nav li.nav-item a {
+            color: black;
+        }
+
+        ul.navbar-nav li.nav-item a.nav-link.active {
+            color: #0d6efd;
+        }
+
         ul li a {
             color: white;
             text-decoration: none;
@@ -71,26 +91,27 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        @foreach ($additionalLinks as $link)
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Link 1</a>
+                            <a class="nav-link {{ Request::url() == $link['url'] ? 'active' : '' }}" href="{{ $link['url'] }}">{{ $link['label'] }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Link 2</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Link 3</a>
-                        </li>
+                        @endforeach
                     </ul>
                     <div class="ms-auto d-flex">
+                        @if (!session('user'))
+                        <a class="dropdown-item" href="{{ route('login') }}">Đăng nhập</a>
+                        @else
                         <a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a>
+                        @endif
                     </div>
+
                 </div>
             </div>
         </nav>
     </header>
 
     <main role="main">
-        <div class="container">
+        <div class="container mt-3">
             @yield('content') <!-- Đây là nơi nội dung cụ thể của từng trang sẽ được hiển thị -->
         </div>
     </main>
