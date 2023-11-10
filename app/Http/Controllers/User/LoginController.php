@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -41,12 +42,36 @@ class LoginController extends Controller
 
 
         if ($user && Hash::check( $password, $user->Password)) {
-            dd($user->UserName);
-            // Đăng nhập thành công
-            // Thực hiện hành động sau đăng nhập
+            Session::put('user', $user);
+           if($user->RoleID==1)
+           {
+                return redirect()->route('trang-chu-quan-ly');
+           }
+           elseif($user->RoleID==2)
+           {
+                return redirect()->route('trang-chu-giao-vien-soan-de');
+           }
+           elseif($user->RoleID==3)
+           {
+                return redirect()->route('trang-chu-can-bo-coi-thi');
+           }
+           else
+           {
+                return redirect()->route('trang-chu-sinh-vien');
+           }
         } else {
             return redirect()->back()->with('error', 'Tên đăng nhập hoặc mật khẩu không chính xác');
         }
     }
+    public function logout()
+    {
+        // Xóa thông tin người dùng khỏi session
+        Session::forget('user');
 
+        // Hoặc sử dụng Session::flush() để xóa tất cả dữ liệu trong session
+        // Session::flush();
+
+        // Chuyển hướng hoặc thực hiện các hành động khác sau khi đăng xuất
+        return redirect()->route('login');
+    }
 }
