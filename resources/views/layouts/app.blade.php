@@ -52,6 +52,12 @@
             background-color: #ff0000;
             border-color: #ff0000;
         }
+        body {
+            background-image: url('/images/hinh1.jpg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
     </style>
 </head>
 
