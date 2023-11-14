@@ -27,6 +27,9 @@ class RegisterController extends Controller
             'hoten' => 'required|string',
             'phai' => 'required|integer|in:0,1',
             'diachi' => 'required|string',
+            'city' => 'required|string',
+            'district' => 'required|string',
+            'ward' => 'required|string',
             'ngaysinh' => 'required|date',
             // 'role_id' => 'required|integer',
             // 'role_id' => 'required|integer|exists:roles,id|default:4',
@@ -51,6 +54,9 @@ class RegisterController extends Controller
         $user->HoTen = $request->input('hoten');
         $user->Phai = $request->input('phai');
         $user->DiaChi = $request->input('diachi');
+        $user->TinhThanh = $request->input('city');
+        $user->QuanHuyen = $request->input('district');
+        $user->PhuongXa = $request->input('ward');
         $user->NgaySinh = $request->input('ngaysinh');
         $user->RoleID = 4;
          
