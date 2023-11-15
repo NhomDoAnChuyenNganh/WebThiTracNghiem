@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class DoanVan extends Model
 {
+    use HasFactory;
+
     protected $table = 'doanvan'; 
 
     protected $primaryKey = 'MaDV'; 
@@ -17,6 +19,5 @@ class DoanVan extends Model
     {
         return $this->belongsTo(Chuong::class, 'MaChuong', 'MaChuong');
     }
-    use HasFactory;
     public $timestamps = false;
 }
