@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Chuong extends Model
 {
+    use HasFactory;
+
     protected $table = 'chuong';
     protected $primaryKey = 'MaChuong';
     public $timestamps = false;
@@ -17,5 +19,5 @@ class Chuong extends Model
     {
         return $this->belongsTo(Monhoc::class, 'MaMH', 'MaMH');
     }
-    use HasFactory;
+
 }

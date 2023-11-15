@@ -5,6 +5,7 @@ use Illuminate\Support\ServiceProvider;
 
 return [
 
+    
     /*
     |--------------------------------------------------------------------------
     | Application Name
@@ -183,6 +184,7 @@ return [
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'Example' => App\Facades\Example::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ])->toArray(),
 
 ];
