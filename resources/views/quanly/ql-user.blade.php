@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="noidung" style="height: 2000px; width: 1200px; background-color: white; margin: 0 auto;">
+<div class="noidung" style="height: 2000px; width: 1350px; background-color: white;">
     <form action="{{ route('getUsersByRole') }}" method="POST">
         @csrf
         <div style="display: flex; align-items: center; margin-left: 20px;">
@@ -26,6 +26,9 @@
                 <th>Họ Tên</th>
                 <th>Phái</th>
                 <th>Địa Chỉ</th>
+                <th>Phường Xã</th>
+                <th>Quận Huyện</th>
+                <th>Tỉnh Thành</th>
                 <th>Ngày Sinh</th>
                 <th>Email</th>
             </tr>
@@ -42,6 +45,9 @@
                         @endif
                     </td>
                     <td >{{ $user->DiaChi }}</td>
+                    <td >{{ $user->PhuongXa }}</td>
+                    <td >{{ $user->QuanHuyen }}</td>
+                    <td >{{ $user->TinhThanh }}</td>
                     <td >{{ date('d/m/Y', strtotime($user->NgaySinh)) }}</td>
                     <td >{{ $user->Email }}</td>
                     <td >

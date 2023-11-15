@@ -72,7 +72,18 @@
                                     <span class="text-danger">{{ $errors->first('ngay_sinh')}}</span>
                                 @endif
                         </div>
-
+                        <div  class="col-md-4">
+                            <div class="form-group">
+                                <label for="phai" class="form-label">Giới tính</label>
+                                <select name="phai" class="form-select form-select-sm">
+                                    <option value="0">Nam</option>
+                                    <option value="1">Nữ</option>
+                                </select>
+                            </div>
+                                @if ($errors->has('phai'))
+                                    <span class="text-danger">{{ $errors->first('phai') }}</span>
+                                @endif
+                        </div>
                         <div class="col-md-4">
                             <label for="dia_chi" class="form-label">Địa chỉ</label>
                             <input type="text" class="form-control text-left" id="diachi" name="diachi" required>
@@ -80,39 +91,35 @@
                             @if ($errors->has('dia_chi'))
                                 <span class="text-danger">{{ $errors->first('dia_chi') }}</span>
                             @endif
-                        </div>
-
-                        <div style="margin-top: 10px;" class="col-md-4">
-</br>
-                                <label for="phai" class="form-label">Giới tính</label>
-                                <select name="phai">
-                                    <option value="0">Nam</option>
-                                    <option value="1">Nữ</option>
-                                </select>
-
-                                @if ($errors->has('phai'))
-                                    <span class="text-danger">{{ $errors->first('phai') }}</span>
-                                @endif
-                        </div>
+                        </div>                
                     </div>
 
                     <div class="row mb-3">
-                        
-                    <!-- <div style="margin-top: 10px;" class="col-md-4">
-</br>
-                                <label for="role_id" class="form-label">role_id</label>
-                                <select name="role_id">
-                                    <option value="1">QL</option>
-                                    <option value="2">GV</option>
-                                    <option value="3">CB</option>
-                                    <option value="4">SV</option>
-                                </select>
+                        <div>
+                            <select name="city" class="form-select form-select-sm mb-3" id="city" aria-label=".form-select-sm">
+                            <option value="" selected>Chọn tỉnh thành</option>           
+                            </select>
+                                @if ($errors->has('city'))
+                                    <span class="text-danger">{{ $errors->first('city') }}</span>
+                                @endif   
 
-                                @if ($errors->has('phai'))
-                                    <span class="text-danger">{{ $errors->first('phai') }}</span>
-                                @endif -->
+                            <select name="district" class="form-select form-select-sm mb-3" id="district" aria-label=".form-select-sm">
+                            <option value="" selected>Chọn quận huyện</option>
+                            </select>
+                                @if ($errors->has('district'))
+                                    <span class="text-danger">{{ $errors->first('district') }}</span>
+                                @endif    
+
+                            <select name="ward" class="form-select form-select-sm" id="ward" aria-label=".form-select-sm">
+                            <option value="" selected>Chọn phường xã</option>
+                            </select>
+                                @if ($errors->has('ward'))
+                                    <span class="text-danger">{{ $errors->first('ward') }}</span>
+                                @endif   
                         </div>
+                                
                     </div>
+        
 
                     <div  style="text-align: center;" class="mb-3">
                         <button  type="submit" class="btn btn-primary">Đăng Ký</button>
@@ -124,3 +131,48 @@
     </div>
 </body>
 </html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+<script>
+    var citis = document.getElementById("city");
+    var districts = document.getElementById("district");
+    var wards = document.getElementById("ward");
+
+    var Parameter = {
+        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+        method: "GET",
+        responseType: "application/json",
+    };
+
+    var promise = axios(Parameter);
+    promise.then(function (result) {
+        renderCity(result.data);
+    });
+
+    function renderCity(data) {
+        for (const x of data) {
+            citis.options[citis.options.length] = new Option(x.Name, x.Name);
+        }
+        citis.onchange = function () {
+            district.length = 1;
+            ward.length = 1;
+            if (this.value !== "") {
+                const result = data.filter(n => n.Name === this.value);
+
+                for (const k of result[0].Districts) {
+                    district.options[district.options.length] = new Option(k.Name, k.Name);
+                }
+            }
+        };
+        district.onchange = function () {
+            ward.length = 1;
+            const dataCity = data.filter((n) => n.Name === citis.value);
+            if (this.value !== "") {
+                const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
+
+                for (const w of dataWards) {
+                    wards.options[wards.options.length] = new Option(w.Name, w.Name);
+                }
+            }
+        };
+    }
+</script>
