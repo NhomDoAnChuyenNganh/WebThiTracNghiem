@@ -9,11 +9,13 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonHocController;
 use App\Http\Controllers\ChuongController;
 use App\Http\Controllers\DoanVanController;
+use App\Http\Controllers\GV_SoanDe\ThemCauHoiDienKhuyetController;
+use App\Http\Controllers\GV_SoanDe\ThemCauHoiTracNghiemController;
 use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
-
+use App\Models\DoanVan;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,14 +31,26 @@ use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 Route::get('/', function () {
     return view('welcome');
 });
-
+//Chức năng thêm xóa sửa môn học
 Route::get('/soande/them-mon-hoc', [MonHocController::class, 'themMonHocForm']);
 Route::post('/soande/them-mon-hoc', [MonHocController::class, 'themMonHoc']);
-Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm']);
+Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm'])->name('them-chuong');
 Route::post('/soande/them-chuong', [ChuongController::class, 'themChuong']);
-Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('doanvan.form');
+Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('them-doan');
 Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
 Route::post('/soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
+Route::get('/soande/sua-mon-hoc/{id}', [MonHocController::class, 'suaMonHocForm']);
+Route::post('/soande/sua-mon-hoc/{id}',[MonHocController::class, 'suaMonHoc']);
+Route::delete('/soande/xoa-mon-hoc/{id}', [MonHocController::class, 'xoaMonHoc']);
+Route::get('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuongForm'])->name('sua-chuong');
+Route::post('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuong']);
+Route::delete('/soande/xoa-chuong/{id}', [ChuongController::class, 'xoaChuong']);
+Route::get('/get-chuongs/{mamh}', [ChuongController::class, 'getChuongs']);
+Route::get('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVanForm']);
+Route::post('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVan']);
+Route::delete('/soande/xoa-doan-van/{id}', [DoanVanController::class, 'xoaDoanVan'])->name('doanvan.xoa');
+Route::get('/get-doanvans/{machuong}', [DoanVanController::class, 'getDoanVans']);
+Route::post('/soande/them-mon-hoc-excel', [MonHocController::class, 'themMonHocExcel'])->name('them-mon-hoc-excel');
 
 //Chức năng đăng nhập, đăng kí, resetpassword
 Route::get('/user/login', [LoginController::class, 'index'])->name('login');
@@ -65,7 +79,15 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
 Route::group(['middleware' => 'checkLogin:2'], function () {
 
     Route::get('/gv_soande/trang-chu-giao-vien-soan-de', [TrangChuGiaoVienSoanDeController::class, 'index'])->name('trang-chu-giao-vien-soan-de');
-    
+    Route::get('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'index']);
+    Route::get('/get-chuongs/{mamh}', [ThemCauHoiTracNghiemController::class, 'getChuongs']);
+    Route::get('/get-doanvans/{machuong}', [ThemCauHoiTracNghiemController::class, 'getDoanVans']);
+    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'themCauHoi']);
+    Route::get('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'index']);
+    Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
+    Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
+    Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
+
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {

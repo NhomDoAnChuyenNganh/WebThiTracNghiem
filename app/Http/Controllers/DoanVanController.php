@@ -13,7 +13,10 @@ class DoanVanController extends Controller
     public function themDoanVanForm()
     {
         $monhocs = MonHoc::all();
-        return view('/soande/them-doan', ['monhocs' => $monhocs]);
+        return view('/soande/them-doan', [
+            'monhocs' => $monhocs,
+            'title' => 'Thêm Đoạn Văn'
+        ]);
     }
     public function themDoanVan(Request $request)
     {
@@ -34,6 +37,47 @@ class DoanVanController extends Controller
     {
         $chuongs = Chuong::where('MaMH', $mamh)->get();
         return response()->json($chuongs);
+    }
+
+    public function getDoanVans($machuong)
+    {
+        $doanvans = DoanVan::where('MaChuong', $machuong)->get();
+        return response()->json($doanvans);
+    }
+
+    public function suaDoanVanForm($id)
+    {
+        $doanVan = DoanVan::find($id);
+
+        return view('/soande/sua-doan-van', [
+            'doanVan' => $doanVan,
+            'title' => 'Sửa Đoạn Văn'
+        ]);
+    }
+
+    public function suaDoanVan(Request $request, $id)
+    {
+        $request->validate([
+            'TenDV' => 'required',
+        ]);
+
+        $doanVan = DoanVan::find($id);
+        $doanVan->TenDV = $request->input('TenDV');
+        $doanVan->save();
+
+        return redirect('/soande/them-doan')->with('success', 'Sửa đoạn văn thành công.');
+    }
+
+    public function xoaDoanVan($id)
+    {
+        $doanVan = DoanVan::find($id);
+
+        if (!$doanVan) {
+            return redirect('/soande/them-doan')->with('error', 'Không tìm thấy đoạn văn.');
+        }
+
+        $doanVan->delete();
+        return redirect('/soande/them-doan')->with('success', 'Xóa đoạn văn thành công.');
     }
 
 }
