@@ -7,7 +7,7 @@
     <div class="card mx-auto bg-info py-5" style="width: 38rem;">
         <h1 style="text-align: center;">Cập Nhật</h1>
         <div class="card-body">
-        <form action="{{ route('update-user', ['id' => $user->UserID]) }}" method="POST">
+        <form action="{{ route('update-user',['id' => $user->UserID]) }}" method="POST">
             @csrf
             @method('PUT')
             <div class="row mb-3">
@@ -36,19 +36,9 @@
                         @endif
                 </div>
                 <div class="col-md-6">
-                    <label for="dia_chi" class="form-label">Địa chỉ</label>
-                    <input type="text" class="form-control text-left" id="diachi" name="diachi" value="{{ $user->DiaChi}}"required>
-
-                        @if ($errors->has('dia_chi'))
-                            <span class="text-danger">{{ $errors->first('dia_chi') }}</span>
-                        @endif
-                </div>             
-            </div>
-            <div class="row mb-3">
-                <div class="col-md-6">
                     <div class="form-group">
                         <label for="phai" class="form-label">Giới tính</label>
-                        <select name="phai" class="form-control">
+                        <select name="phai" class="form-select">
                             <option value="0" {{ $user->Phai == 0 ? 'selected' : '' }}>Nam</option>
                             <option value="1" {{ $user->Phai == 1 ? 'selected' : '' }}>Nữ</option>
                         </select>
@@ -57,16 +47,56 @@
                         @if ($errors->has('phai'))
                             <span class="text-danger">{{ $errors->first('phai') }}</span>
                         @endif
-                </div>
+                </div>   
+            </div>
+            <div class="row mb-3">    
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="role_id" class="form-label">Quyền</label>
-                        <select name="role_id " class="form-control">
+                        <select name="role_id " class="form-select">
                             @foreach($dsrole as $role)
                                 <option value="{{ $role->RoleID }}" {{ $user->RoleID == $role->RoleID ? 'selected' : '' }}>{{ $role->RoleName }}</option>
                             @endforeach
                         </select>
                     </div>
+                </div>
+                <div class="col-md-6">
+                    <label for="dia_chi" class="form-label">Địa chỉ</label>
+                    <input type="text" class="form-control text-left" id="diachi" name="diachi" value="{{ $user->DiaChi}}"required>
+
+                        @if ($errors->has('dia_chi'))
+                            <span class="text-danger">{{ $errors->first('dia_chi') }}</span>
+                        @endif
+                </div>          
+            </div>
+            <div class="row mb-3">
+                <div class="col-md-4">
+                    <label for="city" class="form-label">Tỉnh/Thành phố</label>
+                    <select name="city" id="city" class="form-control">
+                        <option value="" selected>{{ $user->TinhThanh}}</option>
+                        
+                    </select>
+                    @if ($errors->has('city'))
+                            <span class="text-danger">{{ $errors->first('city') }}</span>
+                     @endif
+                </div>
+                <div class="col-md-4">
+                    <label for="district" class="form-label">Quận/Huyện</label>
+                    <select name="district" id="district" class="form-control">
+                        <option value="" selected>{{ $user->QuanHuyen}}</option>
+                    </select>
+                    @if ($errors->has('district'))
+                            <span class="text-danger">{{ $errors->first('district') }}</span>
+                        @endif
+                </div>
+                <div class="col-md-4">
+                    <label for="ward" class="form-label">Xã/Phường</label>
+                    <select name="ward" id="ward" class="form-control">
+                        <option value="" selected>{{ $user->PhuongXa}}</option>
+                    </select>
+                    @if ($errors->has('ward'))
+                            <span class="text-danger">{{ $errors->first('ward') }}</span>
+                     @endif
                 </div>
             </div>
 

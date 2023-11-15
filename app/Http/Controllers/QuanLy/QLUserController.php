@@ -68,7 +68,7 @@ class QLUserController extends Controller
         // Trả về view form sửa và truyền thông tin người dùng
         $roles = Role::all();
         return view('quanly.edit-user', [
-            'title'=>'Xóa Người Dùng',
+            'title'=>'Edit Người Dùng',
             'user' => $user,
             'dsrole' => $roles,
         ]);
@@ -82,8 +82,12 @@ class QLUserController extends Controller
         $user->Email=$request->email;
         $user->NgaySinh=$request->ngaysinh;
         $user->DiaChi=$request->diachi;
+        $user->PhuongXa = $request->city;
+        $user->QuanHuyen = $request->district;
+        $user->TinhThanh = $request->ward;
         $user->Phai=$request->phai;
         $user->RoleID=$request->role_id_;
+
 
         $user->save();
 
