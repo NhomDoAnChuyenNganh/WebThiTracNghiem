@@ -72,6 +72,7 @@
             background-color: #ff0000;
             border-color: #ff0000;
         }
+
         body {
             background-image: url('/images/hinh1.jpg');
             background-size: cover;
@@ -116,14 +117,83 @@
         </div>
     </main>
 
-    <footer>
+    <footer class="text-center text-lg-start text-dark" style="background-color: #ECEFF1">
         <div class="container">
-            <!-- Thêm thông tin footer của trang web ở đây -->
+            <section class="">
+                <div class="container text-center text-md-start mt-5">
+                    <div class="row mt-3">
+                        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                            <h6 class="text-uppercase fw-bold">NHCQuiz</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                Hệ thống thi trắc nghiệm online dành cho các trường đại học tại Việt Nam
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Điều khoản</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                <a href="#!" class="text-dark">Điều khoản sử dụng</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Điều khoản bảo mật thông tin</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Liên kết</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                <a href="{{ $homeLink }}" class="text-dark">Trang chủ</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Hướng dẫn</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Liên hệ</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Thông tin liên hệ</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p><i class="fas fa-home mr-3"></i> 140, Lê Trọng Tấn, Thành Phố Hồ Chí Minh</p>
+                            <p><i class="fas fa-envelope mr-3"></i> nhat7858@gmail.com</p>
+                            <p><i class="fas fa-phone mr-3"></i> (+84) 936 018 006</p>
+                            <p><i class="fas fa-print mr-3"></i> (+84) 936 018 006</p>
+                        </div>
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                </div>
+            </section>
+            <!-- Section: Links  -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+                © 2023 Copyright:
+                <a class="text-dark" href="/">NHCQuiz</a>
+            </div>
+            <!-- Copyright -->
         </div>
+
     </footer>
+    <!-- Footer -->
 
     <!-- Bổ sung các tài liệu JavaScript ở đây -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>

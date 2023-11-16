@@ -11,7 +11,10 @@ class MonHocController extends Controller
 
     public function themMonHocForm()
     {
-        return view('/soande/them-mon-hoc');
+        return view(
+            '/gv_soande/them-mon-hoc',
+            ['title' => 'Thêm môn học']
+        );
     }
 
     public function themMonHoc(Request $request)
@@ -26,6 +29,4 @@ class MonHocController extends Controller
 
         return redirect('/soande/them-mon-hoc')->with('success', 'Thêm môn học thành công.');
     }
-
-
 }

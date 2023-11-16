@@ -13,7 +13,7 @@ use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
-
+use Illuminate\Support\Facades\Redirect;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,16 +27,21 @@ use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 */
 
 Route::get('/', function () {
-    return view('home', ['title' => 'Trang chủ']);
+    $user = session('user');
+    if (!$user)
+        return redirect()->route('login');
+    else {
+        if ($user->RoleID == 1) {
+            return redirect()->route('trang-chu-quan-ly');
+        } elseif ($user->RoleID == 2) {
+            return redirect()->route('trang-chu-giao-vien-soan-de');
+        } elseif ($user->RoleID == 3) {
+            return redirect()->route('trang-chu-can-bo-coi-thi');
+        } else {
+            return redirect()->route('trang-chu-sinh-vien');
+        }
+    }
 });
-
-Route::get('/soande/them-mon-hoc', [MonHocController::class, 'themMonHocForm']);
-Route::post('/soande/them-mon-hoc', [MonHocController::class, 'themMonHoc']);
-Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm']);
-Route::post('/soande/them-chuong', [ChuongController::class, 'themChuong']);
-Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('doanvan.form');
-Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
-Route::post('/soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
 
 //Chức năng đăng nhập, đăng kí, resetpassword
 Route::get('/user/login', [LoginController::class, 'index'])->name('login');
@@ -63,6 +68,13 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
 Route::group(['middleware' => 'checkLogin:2'], function () {
 
     Route::get('/gv_soande/trang-chu-giao-vien-soan-de', [TrangChuGiaoVienSoanDeController::class, 'index'])->name('trang-chu-giao-vien-soan-de');
+    Route::get('/gv_soande/them-mon-hoc', [MonHocController::class, 'themMonHocForm']);
+    Route::post('/gv_soande/them-mon-hoc', [MonHocController::class, 'themMonHoc']);
+    Route::get('/gv_soande/them-chuong', [ChuongController::class, 'themChuongForm']);
+    Route::post('/gv_soande/them-chuong', [ChuongController::class, 'themChuong']);
+    Route::get('/gv_soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('doanvan.form');
+    Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
+    Route::post('/gv_soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {

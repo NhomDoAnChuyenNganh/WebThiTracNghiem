@@ -14,10 +14,18 @@ class LoginController extends Controller
 
     public function index()
     {
-        return view('user.login',[
-            'title'=>'Đăng Nhập Hệ Thống'
+        // Kiểm tra xem người dùng đã đăng nhập hay chưa
+        $user = Session::get('user');
+        if ($user) {
+            return redirect('/');
+        }
+
+        // Nếu người dùng chưa đăng nhập, hiển thị trang đăng nhập
+        return view('user.login', [
+            'title' => 'Đăng Nhập Hệ Thống'
         ]);
     }
+
 
     public function login(Request $request)
     {
@@ -41,24 +49,17 @@ class LoginController extends Controller
         $user = Users::where('username', $username)->first();
 
 
-        if ($user && Hash::check( $password, $user->Password)) {
+        if ($user && Hash::check($password, $user->Password)) {
             Session::put('user', $user);
-           if($user->RoleID==1)
-           {
+            if ($user->RoleID == 1) {
                 return redirect()->route('trang-chu-quan-ly');
-           }
-           elseif($user->RoleID==2)
-           {
+            } elseif ($user->RoleID == 2) {
                 return redirect()->route('trang-chu-giao-vien-soan-de');
-           }
-           elseif($user->RoleID==3)
-           {
+            } elseif ($user->RoleID == 3) {
                 return redirect()->route('trang-chu-can-bo-coi-thi');
-           }
-           else
-           {
+            } else {
                 return redirect()->route('trang-chu-sinh-vien');
-           }
+            }
         } else {
             return redirect()->back()->with('error', 'Tên đăng nhập hoặc mật khẩu không chính xác');
         }

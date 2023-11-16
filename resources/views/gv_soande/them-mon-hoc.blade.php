@@ -1,10 +1,12 @@
-@extends('layouts.app')
+@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de'),
+'additionalLinks' => [['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn ngân hàng câu hỏi'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
 <div class="container">
     <h2>Thêm Môn Học</h2>
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">

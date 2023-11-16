@@ -15,8 +15,8 @@ class ForgotPasswordController extends Controller
 {
     public function index()
     {
-        return view('user.forgot-password',[
-            'title'=>'Quên Mật Khẩu'
+        return view('user.forgot-password', [
+            'title' => 'Quên Mật Khẩu'
         ]);
     }
 
@@ -46,9 +46,9 @@ class ForgotPasswordController extends Controller
             // Lưu token vào cơ sở dữ liệu
             $user->Token = $token;
             $user->TimeReset = now()->addMinutes(2);
-            $user->save(); 
+            $user->save();
 
-            Mail::to($user->Email)->send(new ResetPasswordMail($token,$email));
+            Mail::to($user->Email)->send(new ResetPasswordMail($token, $email));
             return redirect()->back()->with('success', 'Email đã được gửi. Vui lòng kiểm tra hộp thư để đặt lại mật khẩu.');
         } else {
             return redirect()->back()->with('error', 'Tên đăng nhập hoặc Email không chính xác');

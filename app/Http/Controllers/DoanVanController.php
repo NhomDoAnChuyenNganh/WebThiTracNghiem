@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; 
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Chuong;
@@ -13,7 +13,10 @@ class DoanVanController extends Controller
     public function themDoanVanForm()
     {
         $monhocs = MonHoc::all();
-        return view('/soande/them-doan', ['monhocs' => $monhocs]);
+        return view('/gv_soande/them-doan', [
+            'monhocs' => $monhocs,
+            'title' => 'Thêm đoạn văn'
+        ]);
     }
     public function themDoanVan(Request $request)
     {
@@ -27,7 +30,7 @@ class DoanVanController extends Controller
         $doanVan->MaChuong = $request->input('MaChuong');
         $doanVan->save();
 
-        return redirect('/soande/them-doan')->with('success', 'Thêm đoạn văn thành công.');
+        return redirect('/gv_soande/them-doan')->with('success', 'Thêm đoạn văn thành công.');
     }
 
     public function getChuongs($mamh)
@@ -35,5 +38,4 @@ class DoanVanController extends Controller
         $chuongs = Chuong::where('MaMH', $mamh)->get();
         return response()->json($chuongs);
     }
-
 }

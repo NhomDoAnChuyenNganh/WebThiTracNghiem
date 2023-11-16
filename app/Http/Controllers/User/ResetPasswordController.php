@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\User;
+
 use App\Models\Users;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
@@ -9,7 +10,8 @@ use Illuminate\Http\Request;
 
 class ResetPasswordController extends Controller
 {
-    public function index($token) {
+    public function index($token)
+    {
         $user = Users::where('Token', $token)->first();
 
         // Kiểm tra xem người dùng có tồn tại và thời gian reset còn hợp lệ không

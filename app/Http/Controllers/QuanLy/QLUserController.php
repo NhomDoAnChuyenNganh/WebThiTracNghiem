@@ -14,8 +14,8 @@ class QLUserController extends Controller
     {
         $roles = Role::all();
         $users = Users::all();
-        return view('quanly.ql-user',[
-            'title'=>'Quản Lý',
+        return view('quanly.ql-user', [
+            'title' => 'Quản Lý',
             'dsusers' => $users,
             'dsrole' => $roles,
         ]);
@@ -24,26 +24,22 @@ class QLUserController extends Controller
     {
         $roleId = $request->input('role_id');
 
-        if($roleId == null)
-        {
+        if ($roleId == null) {
             $users = Users::all();
-        }
-        else
-        {
+        } else {
             $users = Users::where('RoleID', $roleId)->get();
         }
-       
+
 
         $roles = Role::all();
         return view('quanly.ql-user', [
-            'title'=>'Quản Lý',
+            'title' => 'Quản Lý',
             'dsusers' => $users,
             'dsrole' => $roles,
         ]);
     }
     public function them()
     {
-        
     }
     public function deleteUser($id)
     {
@@ -53,10 +49,10 @@ class QLUserController extends Controller
         if (!$user) {
             return redirect()->route('ql-user')->with('error', 'Không tìm thấy người dùng.');
         }
-    
+
         // Bước 2: Thực hiện xóa người dùng
         $user->delete();
-    
+
         // Bước 3: Chuyển hướng người dùng đến trang danh sách người dùng
         return redirect()->route('ql-user')->with('success', 'Người dùng đã được xóa thành công.');
     }
@@ -68,22 +64,22 @@ class QLUserController extends Controller
         // Trả về view form sửa và truyền thông tin người dùng
         $roles = Role::all();
         return view('quanly.edit-user', [
-            'title'=>'Xóa Người Dùng',
+            'title' => 'Sửa người dùng',
             'user' => $user,
             'dsrole' => $roles,
         ]);
     }
     public function updateuser(Request $request, $id)
     {
-    // Lấy thông tin người dùng từ ID
+        // Lấy thông tin người dùng từ ID
         $user = Users::where('UserID', $id)->first();
         // Cập nhật thông tin người dùng dựa trên dữ liệu từ request
-        $user->HoTen=$request->hoten;
-        $user->Email=$request->email;
-        $user->NgaySinh=$request->ngaysinh;
-        $user->DiaChi=$request->diachi;
-        $user->Phai=$request->phai;
-        $user->RoleID=$request->role_id_;
+        $user->HoTen = $request->hoten;
+        $user->Email = $request->email;
+        $user->NgaySinh = $request->ngaysinh;
+        $user->DiaChi = $request->diachi;
+        $user->Phai = $request->phai;
+        $user->RoleID = $request->role_id_;
 
         $user->save();
 

@@ -12,7 +12,7 @@ class ChuongController extends Controller
     public function themChuongForm()
     {
         $monhocs = MonHoc::all();
-        return view('/soande/them-chuong', ['monhocs' => $monhocs]);
+        return view('/gv_soande/them-chuong', ['monhocs' => $monhocs, 'title' => 'Thêm đoạn văn']);
     }
     public function themChuong(Request $request)
     {
@@ -26,6 +26,6 @@ class ChuongController extends Controller
         $chuong->TenChuong = $request->input('TenChuong');
         $chuong->save();
 
-        return redirect('/soande/them-chuong')->with('success', 'Thêm chương thành công.');
+        return redirect('/gv_soande/them-chuong')->with('success', 'Thêm chương thành công.');
     }
 }

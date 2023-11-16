@@ -9,9 +9,9 @@ class TrangChuSinhVienController extends Controller
 {
     public function index()
     {
-        return view('sinhvien.trang-chu-sinh-vien',[
-            'title'=>'Sinh Viên',
-            'role' =>'Sinh Vien' 
+        return view('sinhvien.trang-chu-sinh-vien', [
+            'title' => 'Sinh Viên',
+            'role' => 'Sinh Vien'
         ]);
     }
 }

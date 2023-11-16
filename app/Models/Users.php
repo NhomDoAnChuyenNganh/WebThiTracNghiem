@@ -11,7 +11,7 @@ class Users extends Model
 
     protected $primaryKey = 'UserID'; // Khóa chính của bảng
 
- 
+
     protected $fillable = [
         'UserName',
         'Email',
@@ -19,16 +19,19 @@ class Users extends Model
         'HoTen',
         'Phai',
         'DiaChi',
+        'PhuongXa',
+        'QuanHuyen',
+        'TinhThanh',
         'NgaySinh',
         'RoleID',
         'Token',
         'TimeReset',
     ];
-    
+
     public $timestamps = false;
-  
+
     protected $hidden = [
-        'Password', 
+        'Password',
     ];
 
     public function role()

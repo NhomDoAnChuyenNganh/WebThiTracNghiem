@@ -44,11 +44,6 @@
                     <a href="{{ route('forgot-password') }}" class="btn btn-primary" style="max-width: 200px;">Quên Mật Khẩu</a>
                     <a href="{{ route('register') }}" class="btn btn-primary" style="max-width: 200px;">Đăng Ký</a>
                     @csrf
-                    @if (session('error'))
-                    <div class="alert alert-danger">
-                        {{ session('error') }}
-                    </div>
-                    @endif
                 </form>
             </div>
         </div>

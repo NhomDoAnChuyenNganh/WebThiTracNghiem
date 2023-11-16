@@ -1,11 +1,12 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@extends('layouts.app')
+@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de'),
+'additionalLinks' => [['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn ngân hàng câu hỏi'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
 <div class="container">
     <h2>Thêm Đoạn Văn</h2>
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <form method="POST" action="{{ route('doanvan.them') }}">
@@ -15,7 +16,7 @@
             <select class="form-control" id="MonHoc" name="MonHoc" required>
                 <option value="">Chọn môn học</option>
                 @foreach($monhocs as $monhoc)
-                    <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
+                <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
                 @endforeach
             </select>
         </div>
@@ -26,7 +27,7 @@
                 <option value="">Chọn chương</option>
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="TenDV">Tên Đoạn Văn</label>
             <input type="text" class="form-control" id="TenDV" name="TenDV" placeholder="Nhập tên đoạn văn" required>
