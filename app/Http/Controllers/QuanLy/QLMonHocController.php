@@ -1,24 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\QuanLy;
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Models\MonHoc;
-use PHPExcel_IOFactory;
-use PhpOffice\PhpSpreadsheet\IOFactory;
+use Illuminate\Http\Request;
 
-
-class MonHocController extends Controller
+class QLMonHocController extends Controller
 {
-    //
-
     public function themMonHocForm()
     {
         $monhocs = MonHoc::all();
         
-        return view('/soande/them-mon-hoc', [
+        return view('/quanly/ql-monhoc', [
             'monhocs' => $monhocs,
-            'title'=>'Thêm Môn Học'
+            'title'=>'Quản Lý Môn Học'
         ]);
     }
 
@@ -69,26 +65,25 @@ class MonHocController extends Controller
         return redirect('/soande/them-mon-hoc')->with('success', 'Xóa môn học thành công.');
     }
 
-    public function themMonHocExcel(Request $request)
-    {
-        $file = $request->file('excel_file');
+    // public function themMonHocExcel(Request $request)
+    // {
+    //     $file = $request->file('excel_file');
 
-        if ($file) {
-            $path = $file->store('uploads/excel_files');
+    //     if ($file) {
+    //         $path = $file->store('uploads/excel_files');
 
-            $reader = PHPExcel_IOFactory::load($path);
-            $data = $reader->getActiveSheet()->toArray(null, true, true, true);
+    //         $reader = PHPExcel_IOFactory::load($path);
+    //         $data = $reader->getActiveSheet()->toArray(null, true, true, true);
 
-            foreach ($data as $row) {
-                $monHoc = new MonHoc;
-                $monHoc->TenMH = $row['TenMH'];
-                $monHoc->save();
-            }
+    //         foreach ($data as $row) {
+    //             $monHoc = new MonHoc;
+    //             $monHoc->TenMH = $row['TenMH'];
+    //             $monHoc->save();
+    //         }
 
-            return redirect('/soande/them-mon-hoc')->with('success', 'Thêm môn học bằng file excel thành công.');
-        } else {
-            return redirect('/soande/them-mon-hoc')->with('error', 'Vui lòng chọn file excel.');
-        }
-    }
-
+    //         return redirect('/soande/them-mon-hoc')->with('success', 'Thêm môn học bằng file excel thành công.');
+    //     } else {
+    //         return redirect('/soande/them-mon-hoc')->with('error', 'Vui lòng chọn file excel.');
+    //     }
+    // }
 }

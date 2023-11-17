@@ -13,6 +13,7 @@ use App\Http\Controllers\GV_SoanDe\ThemCauHoiDienKhuyetController;
 use App\Http\Controllers\GV_SoanDe\ThemCauHoiTracNghiemController;
 use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
+use App\Http\Controllers\QuanLy\QLMonHocController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Models\DoanVan;
@@ -32,8 +33,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 //Chức năng thêm xóa sửa môn học
-Route::get('/soande/them-mon-hoc', [MonHocController::class, 'themMonHocForm']);
-Route::post('/soande/them-mon-hoc', [MonHocController::class, 'themMonHoc']);
+
 Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm'])->name('them-chuong');
 Route::post('/soande/them-chuong', [ChuongController::class, 'themChuong']);
 Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('them-doan');
@@ -72,8 +72,11 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/delete-user/{id}', [QLUserController::class, 'deleteUser'])->name('delete-user');
     Route::get('/quanly/edit-user/{id}', [QLUserController::class, 'edituser'])->name('edit-user');
     Route::put('/quanly/update-user/{id}', [QLUserController::class, 'updateuser'])->name('update-user');
-
-
+    Route::get('/quanly/insert-user', [QLUserController::class, 'indexinsert'])->name('insertUser');
+    Route::post('/quanly/insert-user', [QLUserController::class, 'insertUser'])->name('insertUser.post');
+    Route::post('/quanly/process-file', [QLUserController::class, 'processFile'])->name('processFile');
+    Route::get('/quanly/ql-monhoc', [QLMonHocController::class, 'themMonHocForm']);
+    Route::post('/quanly/them-mon-hoc', [QLMonHocController::class, 'themMonHoc']);
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {

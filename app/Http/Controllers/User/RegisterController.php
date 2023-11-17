@@ -21,7 +21,7 @@ class RegisterController extends Controller
     {
         // Xác thực dữ liệu đầu vào
         $validator = Validator::make($request->all(), [
-            'username' => 'required|min:8',
+            'username' => 'required|min:8|unique:users,UserName',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/',
             'email' => 'required|email|unique:users',
             'hoten' => 'required|string',
