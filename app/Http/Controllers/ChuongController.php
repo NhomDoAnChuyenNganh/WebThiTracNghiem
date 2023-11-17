@@ -12,7 +12,7 @@ class ChuongController extends Controller
     public function themChuongForm()
     {
         $monhocs = MonHoc::all();
-        return view('/gv_soande/them-chuong', ['monhocs' => $monhocs, 'title' => 'Thêm đoạn văn']);
+        return view('/soande/them-chuong', ['monhocs' => $monhocs, 'title' => 'Thêm đoạn văn']);
     }
     public function themChuong(Request $request)
     {

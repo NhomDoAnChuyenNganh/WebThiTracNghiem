@@ -23,13 +23,13 @@
         <a href="#" class="btn btn-primary">Thêm câu hỏi</a>
     </div>
     <div class="tab-pane" id="fill-tabpanel-1" role="tabpanel" aria-labelledby="fill-tab-1">
-        <a href="/gv_soande/them-mon-hoc" class="btn btn-primary">Thêm môn học</a>
+        <a href="/soande/them-mon-hoc" class="btn btn-primary">Thêm môn học</a>
     </div>
     <div class="tab-pane" id="fill-tabpanel-2" role="tabpanel" aria-labelledby="fill-tab-2">
-        <a href="/gv_soande/them-chuong" class="btn btn-primary">Thêm chương</a>
+        <a href="/soande/them-chuong" class="btn btn-primary">Thêm chương</a>
     </div>
     <div class="tab-pane" id="fill-tabpanel-3" role="tabpanel" aria-labelledby="fill-tab-2">
-        <a href="/gv_soande/them-doan" class="btn btn-primary">Thêm đoạn văn</a>
+        <a href="/soande/them-doan" class="btn btn-primary">Thêm đoạn văn</a>
     </div>
 </div>
 

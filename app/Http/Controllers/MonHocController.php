@@ -12,7 +12,7 @@ class MonHocController extends Controller
     public function themMonHocForm()
     {
         return view(
-            '/gv_soande/them-mon-hoc',
+            '/soande/them-mon-hoc',
             ['title' => 'Thêm môn học']
         );
     }

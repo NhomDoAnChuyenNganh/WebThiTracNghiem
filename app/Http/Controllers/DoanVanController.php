@@ -13,7 +13,7 @@ class DoanVanController extends Controller
     public function themDoanVanForm()
     {
         $monhocs = MonHoc::all();
-        return view('/gv_soande/them-doan', [
+        return view('/soande/them-doan', [
             'monhocs' => $monhocs,
             'title' => 'Thêm đoạn văn'
         ]);
