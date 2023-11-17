@@ -1,7 +1,6 @@
 @extends('layouts.app', ['homeLink' => route('trang-chu-quan-ly')])
 
 @section('content')
-
 <div class="noidung" style="height: 2000px; width: 1350px; background-color: white;">
     <form action="{{ route('getUsersByRole') }}" method="POST">
         @csrf
@@ -14,12 +13,35 @@
                 @endforeach
             </select>
             <button type="submit" class="btn btn-primary" style="max-width: 80px; margin-left: 10px; margin-bottom: 10px;">Lọc</button>
+        </div>
+    </form>
+    <form action="{{ route('processFile') }}" method="POST" enctype="multipart/form-data" id="fileForm">
+        @csrf
+        <div style="display: flex; align-items: center; margin-left: 20px;">
             <div style="margin-left: auto; margin-right: 85px;">
-                <a href="{{ route('forgot-password') }}" class="btn btn-primary" style="max-width: 80px; margin-right: 10px;">Thêm</a>
-                <a href="{{ route('register') }}" class="btn btn-primary" style="max-width: 100px;">Add File</a>
+                <a href="{{ route('insertUser') }}" class="btn btn-primary" style="max-width: 80px; margin-right: 10px;">Thêm</a>
+                <label for="fileInput" class="btn btn-primary" style="max-width: 100px; margin: 0;">Add File</label>
+                <input type="file" id="fileInput" name="user_file" accept=".xlsx, .docx" style="display: none;">
+                <input type="submit" style="display: none;">
             </div>
         </div>
     </form>
+    <script>
+     document.getElementById('fileInput').addEventListener('change', function() {
+        // Hiển thị sự kiện submit khi người dùng đã chọn tệp
+        document.getElementById('fileForm').submit();
+    });
+    </script>
+     @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+    @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     <table class="table">
         <thead>
             <tr>
@@ -58,15 +80,6 @@
             @endforeach
         </tbody>
     </table>
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
-        </div>
-    @endif
-    @if (session('success'))
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    @endif
+   
 </div>
 @endsection
