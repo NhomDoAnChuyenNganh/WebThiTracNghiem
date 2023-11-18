@@ -32,6 +32,26 @@
             width: 100%;
         }
 
+        ul.navbar-nav {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul.navbar-nav li.nav-item {
+            margin-right: 20px;
+        }
+
+        ul.navbar-nav li.nav-item a {
+            color: black;
+        }
+
+        ul.navbar-nav li.nav-item a.nav-link.active {
+            color: #0d6efd;
+        }
+
         ul li a {
             color: white;
             text-decoration: none;
@@ -52,6 +72,7 @@
             background-color: #ff0000;
             border-color: #ff0000;
         }
+
         body {
             background-image: url('/images/hinh1.jpg');
             background-size: cover;
@@ -64,90 +85,126 @@
 <body>
     <header>
         <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-            <div class="container-fluid" style="height: 80px; max-width: 1200px">
-                <a class="navbar-brand" href="/"><img src="/images/logo.png" style="max-height: 150px;" /></a>
+            <div class="container-fluid" style="height: 80px; max-width: 1300px">
+                <a class="navbar-brand" href="{{ $homeLink }}"><img src="/images/logo.png" style="max-height: 150px;" /></a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        @foreach ($additionalLinks as $link)
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">Link 1</a>
+                            <a class="nav-link" href="{{ $link['url'] }}">{{ $link['label'] }}</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Link 2</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">Link 3</a>
-                        </li>
+                        @endforeach
                     </ul>
-                    <div class="ms-auto d-flex">
-                        <a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a>
+                    <div class="dropdown">
+                        <a class="btn btn-link position-relative" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fas fa-user" style="color: black;"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                            <a class="dropdown-item" href="{{ route('trang-chu-sinh-vien') }}">Dành cho sinh viên</a>
+                            <a class="dropdown-item" href="{{ route('trang-chu-giao-vien-soan-de') }}">Dành cho giáo viên soạn đề</a>
+                            <a class="dropdown-item" href="{{ route('trang-chu-can-bo-coi-thi') }}">Dành cho cán bộ coi thi</a>
+                            <a class="dropdown-item" href="{{ route('trang-chu-quan-ly') }}">Dành cho quản lý</a>
+                        </div>
                     </div>
+                    <div class="ms-auto d-flex">
+                        @if (!session('user'))
+                        <a class="dropdown-item" href="{{ route('login') }}">Đăng nhập</a>
+                        @else
+                        <a class="dropdown-item" href="{{ route('logout') }}">Đăng xuất</a>
+                        @endif
+                    </div>
+
                 </div>
             </div>
         </nav>
     </header>
 
     <main role="main">
-        <div class="container">
+        <div class="container mt-3">
             @yield('content') <!-- Đây là nơi nội dung cụ thể của từng trang sẽ được hiển thị -->
         </div>
     </main>
 
-    <footer>
+    <footer class="text-center text-lg-start text-dark" style="background-color: #ECEFF1">
         <div class="container">
-            <!-- Thêm thông tin footer của trang web ở đây -->
+            <section class="">
+                <div class="container text-center text-md-start mt-5">
+                    <div class="row mt-3">
+                        <div class="col-md-3 col-lg-4 col-xl-3 mx-auto mb-4">
+                            <h6 class="text-uppercase fw-bold">NHCQuiz</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                Hệ thống thi trắc nghiệm online dành cho các trường đại học tại Việt Nam
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-2 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Điều khoản</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                <a href="#!" class="text-dark">Điều khoản sử dụng</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Điều khoản bảo mật thông tin</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-3 col-lg-2 col-xl-2 mx-auto mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Liên kết</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p>
+                                <a href="{{ $homeLink }}" class="text-dark">Trang chủ</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Hướng dẫn</a>
+                            </p>
+                            <p>
+                                <a href="#!" class="text-dark">Liên hệ</a>
+                            </p>
+                        </div>
+                        <!-- Grid column -->
+
+                        <!-- Grid column -->
+                        <div class="col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4">
+                            <!-- Links -->
+                            <h6 class="text-uppercase fw-bold">Thông tin liên hệ</h6>
+                            <hr class="mb-4 mt-0 d-inline-block mx-auto" style="width: 60px; background-color: #7c4dff; height: 2px" />
+                            <p><i class="fas fa-home mr-3"></i> 140, Lê Trọng Tấn, Thành Phố Hồ Chí Minh</p>
+                            <p><i class="fas fa-envelope mr-3"></i> nhat7858@gmail.com</p>
+                            <p><i class="fas fa-phone mr-3"></i> (+84) 936 018 006</p>
+                            <p><i class="fas fa-print mr-3"></i> (+84) 936 018 006</p>
+                        </div>
+                        <!-- Grid column -->
+                    </div>
+                    <!-- Grid row -->
+                </div>
+            </section>
+            <!-- Section: Links  -->
+
+            <!-- Copyright -->
+            <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2)">
+                © 2023 Copyright:
+                <a class="text-dark" href="/">NHCQuiz</a>
+            </div>
+            <!-- Copyright -->
         </div>
+
     </footer>
+    <!-- Footer -->
 
     <!-- Bổ sung các tài liệu JavaScript ở đây -->
-    <script src="{{ asset('js/app.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js"></script>
 </body>
 
 </html>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
-<script>
-    var citis = document.getElementById("city");
-    var districts = document.getElementById("district");
-    var wards = document.getElementById("ward");
-
-    var Parameter = {
-        url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
-        method: "GET",
-        responseType: "application/json",
-    };
-
-    var promise = axios(Parameter);
-    promise.then(function (result) {
-        renderCity(result.data);
-    });
-
-    function renderCity(data) {
-        for (const x of data) {
-            citis.options[citis.options.length] = new Option(x.Name, x.Name);
-        }
-        citis.onchange = function () {
-            district.length = 1;
-            ward.length = 1;
-            if (this.value !== "") {
-                const result = data.filter(n => n.Name === this.value);
-
-                for (const k of result[0].Districts) {
-                    district.options[district.options.length] = new Option(k.Name, k.Name);
-                }
-            }
-        };
-        district.onchange = function () {
-            ward.length = 1;
-            const dataCity = data.filter((n) => n.Name === citis.value);
-            if (this.value !== "") {
-                const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
-
-                for (const w of dataWards) {
-                    wards.options[wards.options.length] = new Option(w.Name, w.Name);
-                }
-            }
-        };
-    }
-</script>
