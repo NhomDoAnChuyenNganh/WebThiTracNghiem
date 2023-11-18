@@ -18,7 +18,7 @@ class QLUserController extends Controller
     public function index()
     {
         $roles = Role::all();
-        $users = Users::all();
+        $users = Users::orderBy('UserID', 'desc')->get();
         return view('quanly.ql-user', [
             'title' => 'Quản Lý',
             'dsusers' => $users,

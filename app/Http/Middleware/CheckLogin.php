@@ -19,7 +19,7 @@ class CheckLogin
         $user = session('user');
 
         // Kiểm tra xem người dùng đã đăng nhập và có role phù hợp không
-        if ($user && $user->RoleID == $role || $user->RoleID == 1) {
+        if ($user && ($user->RoleID == $role || $user->RoleID == 1)) {
             return $next($request);
         }
 
