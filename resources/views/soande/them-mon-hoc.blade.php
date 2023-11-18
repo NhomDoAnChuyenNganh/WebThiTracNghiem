@@ -1,16 +1,18 @@
-@extends('layouts.app')
+@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de'),
+'additionalLinks' => [['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn ngân hàng câu hỏi'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
-<div class="container" >
+<div class="container">
 
     <button class="btn btn-primary" style="margin: 20px" onclick="window.location.href='{{ route('them-chuong') }}'">Thêm Chương</button>
 
     <button class="btn btn-success" style="margin: 20px" onclick="window.location.href='{{ route('them-doan') }}'">Thêm Đoạn Văn</button>
-    
+
 
     <h2>Thêm Môn Học</h2>
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <form method="POST" action="/soande/them-mon-hoc">
@@ -23,15 +25,15 @@
     </form>
 
     {{-- <form method="POST" action="{{ route('import.monhoc') }}" enctype="multipart/form-data">
-        @csrf
-        <div class="form-group">
-            <label for="file"><strong> Chọn File Excel</strong></label>
-            <input type="file" name="file" class="form-control" accept=".xlsx, .xls">
-        </div>
-        <button type="submit" class="btn btn-primary">Import từ Excel</button>
+    @csrf
+    <div class="form-group">
+        <label for="file"><strong> Chọn File Excel</strong></label>
+        <input type="file" name="file" class="form-control" accept=".xlsx, .xls">
+    </div>
+    <button type="submit" class="btn btn-primary">Import từ Excel</button>
     </form> --}}
-    
-    
+
+
     <form action="{{ route('them-mon-hoc-excel') }}" method="POST" enctype="multipart/form-data">
         @csrf
         <input type="file" name="excel_file" class="form-control" accept=".xlsx, .xls">
@@ -47,21 +49,21 @@
         </thead>
         <tbody>
             @foreach($monhocs as $monhoc)
-                <tr>
-                    <td>{{ $monhoc->TenMH }}</td>
-                    <td>
-                        <a class="btn btn-warning" href="{{ url('/soande/sua-mon-hoc/'.$monhoc->MaMH) }}">Sửa</a>
-                        <!-- Thêm form xóa cho môn học -->
-                        <form method="POST" action="{{ url('/soande/xoa-mon-hoc/'.$monhoc->MaMH) }}" style="display: inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa môn học này không?')">Xóa</button>
-                        </form>
-                    </td>
-                </tr>
+            <tr>
+                <td>{{ $monhoc->TenMH }}</td>
+                <td>
+                    <a class="btn btn-warning" href="{{ url('/soande/sua-mon-hoc/'.$monhoc->MaMH) }}">Sửa</a>
+                    <!-- Thêm form xóa cho môn học -->
+                    <form method="POST" action="{{ url('/soande/xoa-mon-hoc/'.$monhoc->MaMH) }}" style="display: inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa môn học này không?')">Xóa</button>
+                    </form>
+                </td>
+            </tr>
             @endforeach
         </tbody>
     </table>
-    
+
 </div>
 @endsection

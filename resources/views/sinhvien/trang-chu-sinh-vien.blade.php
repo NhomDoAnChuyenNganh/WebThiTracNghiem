@@ -1,4 +1,6 @@
-@extends('layouts.app', ['homeLink' => route('trang-chu-sinh-vien')])
+@extends('layouts.app', ['homeLink' => route('trang-chu-sinh-vien'),
+'additionalLinks' => [['url' => route('trang-chu-sinh-vien'), 'label' => 'Vào thi'],
+['url' => route('trang-chu-sinh-vien'), 'label' => 'Xem kết quả']]])
 
 @section('content')
 
