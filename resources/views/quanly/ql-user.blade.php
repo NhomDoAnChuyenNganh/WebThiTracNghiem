@@ -8,7 +8,7 @@
 ]])
 
 @section('content')
-<div class="noidung" style="height: 2000px; width: 1350px; background-color: white;">
+<div class="noidung" style="height: 2000px; width: 1350px; background-color: white;margin: auto;">
     <form action="{{ route('getUsersByRole') }}" method="POST">
         @csrf
         <div style="display: flex; align-items: center; margin-left: 20px;">

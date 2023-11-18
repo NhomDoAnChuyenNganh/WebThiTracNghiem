@@ -3,6 +3,7 @@
 ['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
+<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
 <div class="container">
 
     <button class="btn btn-primary" style="margin: 20px" onclick="window.location.href='{{ route('them-chuong') }}'">Thêm Chương</button>
@@ -65,5 +66,6 @@
         </tbody>
     </table>
 
+</div>
 </div>
 @endsection
