@@ -1,7 +1,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@extends('layouts.app')
+@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de'),
+'additionalLinks' => [['url' => route('them-chuong'), 'label' => 'Chương'],
+['url' => route('them-doan'), 'label' => 'Đoạn văn'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn ngân hàng câu hỏi'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
+<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
 <div class="container">
 
     <a href="{{ route('them-doan') }}" class="btn btn-success" style="margin: 20px">Thêm Đoạn Văn</a>
@@ -9,7 +14,7 @@
     <h2>Thêm Chương</h2>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
     <form method="POST" action="/soande/them-chuong">
         @csrf
@@ -18,13 +23,13 @@
             <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
                 <option value="">Chọn môn học</option>
                 @foreach($monhocs as $monhoc)
-                    <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
+                <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
                 @endforeach
             </select>
         </div>
         <div class="form-group">
             <label for="TenChuong"><strong>Tên Chương</strong></label>
-            <input style="max-width: 350px;" type="text" class="form-control" id="TenChuong" name="TenChuong" placeholder="Nhập tên chương"  required>
+            <input style="max-width: 350px;" type="text" class="form-control" id="TenChuong" name="TenChuong" placeholder="Nhập tên chương" required>
         </div>
         <button style="margin-top: 20px" type="submit" class="btn btn-primary">Thêm Chương</button>
     </form>
@@ -42,6 +47,7 @@
         </tbody>
     </table>
 </div>
+</div>
 <script>
     $(document).ready(function() {
         // Lắng nghe sự kiện khi thay đổi môn học và nạp dữ liệu vào dropdown chương tương ứng.
@@ -54,17 +60,17 @@
                     success: function(data) {
                         $('#chuongs-table').empty();
                         $.each(data, function(index, chuong) { // sửa ở đây
-                            $('#chuongs-table').append('<tr>' +                    
-                        '<td>' + chuong.TenChuong + '</td>' +
-                        '<td>' +
-                        '<a class="btn btn-warning" href="/soande/sua-chuong/' + chuong.MaChuong + '">Sửa</a>' +
-                        '<form method="POST" action="/soande/xoa-chuong/' + chuong.MaChuong + '" style="display: inline;">' +
-                        '@csrf' +
-                        '@method("DELETE")' +
-                        '<button type="submit" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa chương này không?\')">Xóa</button>' +
-                        '</form>' +
-                        '</td>' +
-                        '</tr>'); // sửa ở đây
+                            $('#chuongs-table').append('<tr>' +
+                                '<td>' + chuong.TenChuong + '</td>' +
+                                '<td>' +
+                                '<a class="btn btn-warning" href="/soande/sua-chuong/' + chuong.MaChuong + '">Sửa</a>' +
+                                '<form method="POST" action="/soande/xoa-chuong/' + chuong.MaChuong + '" style="display: inline;">' +
+                                '@csrf' +
+                                '@method("DELETE")' +
+                                '<button type="submit" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa chương này không?\')">Xóa</button>' +
+                                '</form>' +
+                                '</td>' +
+                                '</tr>'); // sửa ở đây
                         });
                     }
                 });

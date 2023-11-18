@@ -1,7 +1,12 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-@extends('layouts.app')
+@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de'),
+'additionalLinks' => [['url' => route('them-chuong'), 'label' => 'Chương'],
+['url' => route('them-doan'), 'label' => 'Đoạn văn'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn ngân hàng câu hỏi'],
+['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
+<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
 <div class="container">
 
     <a href="{{ route('them-chuong') }}" class="btn btn-success" style="margin: 20px">Thêm Chương</a>
@@ -9,7 +14,7 @@
 
     <h2>Thêm Đoạn Văn</h2>
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+    <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
     <form method="POST" action="{{ route('doanvan.them') }}">
@@ -19,7 +24,7 @@
             <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
                 <option value="">Chọn môn học</option>
                 @foreach($monhocs as $monhoc)
-                    <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
+                <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
                 @endforeach
             </select>
         </div>
@@ -30,7 +35,7 @@
                 <option value="">Chọn chương</option>
             </select>
         </div>
-        
+
         <div class="form-group">
             <label for="TenDV"><strong>Tên Đoạn Văn</strong></label>
             <input style="max-width: 350px;" type="text" class="form-control" id="TenDV" name="TenDV" placeholder="Nhập tên đoạn văn" required>
@@ -49,9 +54,9 @@
         <tbody id="doanvan-table">
             <!-- Dữ liệu đoạn văn sẽ được thêm bởi JavaScript -->
         </tbody>
-    </table>    
+    </table>
 </div>
-
+</div>
 <script>
     $(document).ready(function() {
         // Lắng nghe sự kiện khi thay đổi môn học và nạp dữ liệu vào dropdown chương tương ứng.

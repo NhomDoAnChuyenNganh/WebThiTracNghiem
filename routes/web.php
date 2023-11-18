@@ -13,6 +13,7 @@ use App\Http\Controllers\GV_SoanDe\ThemCauHoiDienKhuyetController;
 use App\Http\Controllers\GV_SoanDe\ThemCauHoiTracNghiemController;
 use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
+use App\Http\Controllers\QuanLy\QLMonHocController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Models\DoanVan;
@@ -29,11 +30,23 @@ use App\Models\DoanVan;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $user = session('user');
+    if (!$user)
+        return redirect()->route('login');
+    else {
+        if ($user->RoleID == 1) {
+            return redirect()->route('trang-chu-quan-ly');
+        } elseif ($user->RoleID == 2) {
+            return redirect()->route('trang-chu-giao-vien-soan-de');
+        } elseif ($user->RoleID == 3) {
+            return redirect()->route('trang-chu-can-bo-coi-thi');
+        } else {
+            return redirect()->route('trang-chu-sinh-vien');
+        }
+    }
 });
 //Chức năng thêm xóa sửa môn học
-Route::get('/soande/them-mon-hoc', [MonHocController::class, 'themMonHocForm']);
-Route::post('/soande/them-mon-hoc', [MonHocController::class, 'themMonHoc']);
+
 Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm'])->name('them-chuong');
 Route::post('/soande/them-chuong', [ChuongController::class, 'themChuong']);
 Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('them-doan');
@@ -72,6 +85,14 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/delete-user/{id}', [QLUserController::class, 'deleteUser'])->name('delete-user');
     Route::get('/quanly/edit-user/{id}', [QLUserController::class, 'edituser'])->name('edit-user');
     Route::put('/quanly/update-user/{id}', [QLUserController::class, 'updateuser'])->name('update-user');
+    Route::get('/quanly/insert-user', [QLUserController::class, 'indexinsert'])->name('insertUser');
+    Route::post('/quanly/insert-user', [QLUserController::class, 'insertUser'])->name('insertUser.post');
+    Route::post('/quanly/process-file', [QLUserController::class, 'processFile'])->name('processFile');
+    Route::get('/quanly/ql-monhoc', [QLMonHocController::class, 'QLMonHocForm'])->name('ql-monhoc');
+    Route::post('/quanly/them-mon-hoc', [QLMonHocController::class, 'themMonHoc'])->name('insertMonHoc');
+    Route::get('/quanly/delete-monhoc/{id}', [QLMonHocController::class, 'xoaMonHoc'])->name('delete-monhoc');
+    Route::post('/quanly/update-monhoc/{id}', [QLMonHocController::class, 'suaMonHoc'])->name('update-monhoc');
+    Route::post('/quanly/process-file-monhoc', [QLMonHocController::class, 'processFile'])->name('processFileMH');
 
 
 });
@@ -82,8 +103,8 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::get('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'index']);
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiTracNghiemController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiTracNghiemController::class, 'getDoanVans']);
-    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'themCauHoi']);
-    Route::get('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'index']);
+    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'themCauHoi'])->name('them-cau-hoi-trac-nghiem');
+    Route::get('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'index'])->name('them-cau-hoi-dien-khuyet');
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
