@@ -47,23 +47,7 @@ Route::get('/', function () {
 });
 //Chức năng thêm xóa sửa môn học
 
-Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm'])->name('them-chuong');
-Route::post('/soande/them-chuong', [ChuongController::class, 'themChuong']);
-Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('them-doan');
-Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
-Route::post('/soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
-Route::get('/soande/sua-mon-hoc/{id}', [MonHocController::class, 'suaMonHocForm']);
-Route::post('/soande/sua-mon-hoc/{id}',[MonHocController::class, 'suaMonHoc']);
-Route::delete('/soande/xoa-mon-hoc/{id}', [MonHocController::class, 'xoaMonHoc']);
-Route::get('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuongForm'])->name('sua-chuong');
-Route::post('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuong']);
-Route::delete('/soande/xoa-chuong/{id}', [ChuongController::class, 'xoaChuong']);
-Route::get('/get-chuongs/{mamh}', [ChuongController::class, 'getChuongs']);
-Route::get('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVanForm']);
-Route::post('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVan']);
-Route::delete('/soande/xoa-doan-van/{id}', [DoanVanController::class, 'xoaDoanVan'])->name('doanvan.xoa');
-Route::get('/get-doanvans/{machuong}', [DoanVanController::class, 'getDoanVans']);
-Route::post('/soande/them-mon-hoc-excel', [MonHocController::class, 'themMonHocExcel'])->name('them-mon-hoc-excel');
+
 
 //Chức năng đăng nhập, đăng kí, resetpassword
 Route::get('/user/login', [LoginController::class, 'index'])->name('login');
@@ -93,12 +77,26 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/delete-monhoc/{id}', [QLMonHocController::class, 'xoaMonHoc'])->name('delete-monhoc');
     Route::post('/quanly/update-monhoc/{id}', [QLMonHocController::class, 'suaMonHoc'])->name('update-monhoc');
     Route::post('/quanly/process-file-monhoc', [QLMonHocController::class, 'processFile'])->name('processFileMH');
-
-
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
-
+    Route::get('/soande/them-chuong', [ChuongController::class, 'themChuongForm'])->name('them-chuong');
+    Route::post('/soande/them-chuong', [ChuongController::class, 'themChuong']);
+    Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('them-doan');
+    Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
+    Route::post('/soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
+    Route::get('/soande/sua-mon-hoc/{id}', [MonHocController::class, 'suaMonHocForm']);
+    Route::post('/soande/sua-mon-hoc/{id}', [MonHocController::class, 'suaMonHoc']);
+    Route::delete('/soande/xoa-mon-hoc/{id}', [MonHocController::class, 'xoaMonHoc']);
+    Route::get('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuongForm'])->name('sua-chuong');
+    Route::post('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuong']);
+    Route::delete('/soande/xoa-chuong/{id}', [ChuongController::class, 'xoaChuong']);
+    Route::get('/get-chuongs/{mamh}', [ChuongController::class, 'getChuongs']);
+    Route::get('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVanForm']);
+    Route::post('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVan']);
+    Route::delete('/soande/xoa-doan-van/{id}', [DoanVanController::class, 'xoaDoanVan'])->name('doanvan.xoa');
+    Route::get('/get-doanvans/{machuong}', [DoanVanController::class, 'getDoanVans']);
+    Route::post('/soande/them-mon-hoc-excel', [MonHocController::class, 'themMonHocExcel'])->name('them-mon-hoc-excel');
     Route::get('/gv_soande/trang-chu-giao-vien-soan-de', [TrangChuGiaoVienSoanDeController::class, 'index'])->name('trang-chu-giao-vien-soan-de');
     Route::get('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'index']);
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiTracNghiemController::class, 'getChuongs']);
@@ -108,7 +106,6 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
-
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {
@@ -119,5 +116,4 @@ Route::group(['middleware' => 'checkLogin:3'], function () {
 Route::group(['middleware' => 'checkLogin:4'], function () {
 
     Route::get('/sinhvien/trang-chu-sinh-vien', [TrangChuSinhVienController::class, 'index'])->name('trang-chu-sinh-vien');
-
 });
