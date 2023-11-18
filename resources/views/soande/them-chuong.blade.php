@@ -6,6 +6,7 @@
 ['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
+<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
 <div class="container">
 
     <a href="{{ route('them-doan') }}" class="btn btn-success" style="margin: 20px">Thêm Đoạn Văn</a>
@@ -45,6 +46,7 @@
             <!-- Dữ liệu chương sẽ được thêm bởi JavaScript -->
         </tbody>
     </table>
+</div>
 </div>
 <script>
     $(document).ready(function() {
