@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers; 
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Chuong;
@@ -79,5 +79,4 @@ class DoanVanController extends Controller
         $doanVan->delete();
         return redirect('/soande/them-doan')->with('success', 'Xóa đoạn văn thành công.');
     }
-
 }

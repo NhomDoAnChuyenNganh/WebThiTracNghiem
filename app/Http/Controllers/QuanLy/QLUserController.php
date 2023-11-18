@@ -19,8 +19,8 @@ class QLUserController extends Controller
     {
         $roles = Role::all();
         $users = Users::all();
-        return view('quanly.ql-user',[
-            'title'=>'Quản Lý',
+        return view('quanly.ql-user', [
+            'title' => 'Quản Lý',
             'dsusers' => $users,
             'dsrole' => $roles,
         ]);
@@ -29,19 +29,16 @@ class QLUserController extends Controller
     {
         $roleId = $request->input('role_id');
 
-        if($roleId == null)
-        {
+        if ($roleId == null) {
             $users = Users::all();
-        }
-        else
-        {
+        } else {
             $users = Users::where('RoleID', $roleId)->get();
         }
-       
+
 
         $roles = Role::all();
         return view('quanly.ql-user', [
-            'title'=>'Quản Lý',
+            'title' => 'Quản Lý',
             'dsusers' => $users,
             'dsrole' => $roles,
         ]);
@@ -49,14 +46,13 @@ class QLUserController extends Controller
     public function indexinsert()
     {
         $roles = Role::all();
-        return view('quanly.insert-user',[
-            'title'=>'Thêm Người Dùng',
+        return view('quanly.insert-user', [
+            'title' => 'Thêm Người Dùng',
             'dsrole' => $roles,
         ]);
     }
     public function insertUser(Request $request)
-    {
-        {
+    { {
             // Xác thực dữ liệu đầu vào
             $validator = Validator::make($request->all(), [
                 'username' => 'required|min:8|unique:users,UserName',
@@ -79,8 +75,8 @@ class QLUserController extends Controller
             }
 
             // Mã hóa mật khẩu
-            $hashedPassword = Hash::make($request->input('password'));  
-        
+            $hashedPassword = Hash::make($request->input('password'));
+
             // Tạo bản ghi mới trong bảng người dùng
             $user = new Users();
 
@@ -95,7 +91,7 @@ class QLUserController extends Controller
             $user->PhuongXa = $request->input('ward');
             $user->NgaySinh = $request->input('ngaysinh');
             $user->RoleID = (int)$request->input('role_id');
-            
+
             $user->save();
 
 
@@ -110,10 +106,10 @@ class QLUserController extends Controller
         if (!$user) {
             return redirect()->route('ql-user')->with('error', 'Không tìm thấy người dùng.');
         }
-    
+
         // Bước 2: Thực hiện xóa người dùng
         $user->delete();
-    
+
         // Bước 3: Chuyển hướng người dùng đến trang danh sách người dùng
         return redirect()->route('ql-user')->with('success', 'Người dùng đã được xóa thành công.');
     }
@@ -125,25 +121,25 @@ class QLUserController extends Controller
         // Trả về view form sửa và truyền thông tin người dùng
         $roles = Role::all();
         return view('quanly.edit-user', [
-            'title'=>'Edit Người Dùng',
+            'title' => 'Edit Người Dùng',
             'user' => $user,
             'dsrole' => $roles,
         ]);
     }
     public function updateuser(Request $request, $id)
     {
-    // Lấy thông tin người dùng từ ID
+        // Lấy thông tin người dùng từ ID
         $user = Users::where('UserID', $id)->first();
         // Cập nhật thông tin người dùng dựa trên dữ liệu từ request
-        $user->HoTen=$request->hoten;
-        $user->Email=$request->email;
-        $user->NgaySinh=$request->ngaysinh;
-        $user->DiaChi=$request->diachi;
+        $user->HoTen = $request->hoten;
+        $user->Email = $request->email;
+        $user->NgaySinh = $request->ngaysinh;
+        $user->DiaChi = $request->diachi;
         $user->PhuongXa = $request->city;
         $user->QuanHuyen = $request->district;
         $user->TinhThanh = $request->ward;
-        $user->Phai=$request->phai;
-        $user->RoleID=$request->role_id_;
+        $user->Phai = $request->phai;
+        $user->RoleID = $request->role_id_;
 
 
         $user->save();
@@ -162,7 +158,7 @@ class QLUserController extends Controller
             // Kiểm tra định dạng tệp
             $extension = $file->getClientOriginalExtension();
             if ($extension == 'xlsx') {
-                
+
                 // Đọc và xử lý tệp
                 $usersData = $this->processExcelFile($file);
 
@@ -170,9 +166,7 @@ class QLUserController extends Controller
                     Users::create($userData);
                 }
                 return redirect()->route('ql-user')->with('success', 'Đã thêm danh sách thành công');
-            
-            } 
-            else {
+            } else {
                 // Định dạng không hỗ trợ
                 return redirect()->route('ql-user')->with('error', 'Định dạng tệp chỉ hỗ trợ Excel');
             }
@@ -201,7 +195,7 @@ class QLUserController extends Controller
             'Can Bo' => 3,
             'Sinh Vien' => 4,
         ];
-        
+
         $usersData = [];
 
         for ($row = 2; $row <= $highestRow; $row++) {
@@ -212,13 +206,21 @@ class QLUserController extends Controller
 
 
             $phai = $sheet->getCell('E' . $row)->getValue();
-           
+
             $quyen = $sheet->getCell('K' . $row)->getValue();
             // Kiểm tra xem giá trị 'Phái' có trong mảng ánh xạ không
             $phaiValue = array_key_exists($phai, $genderMappings) ? $genderMappings[$phai] : 0;
 
             // Kiểm tra xem giá trị 'Quyền' có trong mảng ánh xạ không
             $roleID = array_key_exists($quyen, $roleMappings) ? $roleMappings[$quyen] : 0;
+
+            if (Users::where('UserName', $sheet->getCell('A' . $row)->getValue())->exists()) {
+                continue;
+            }
+
+            if (Users::where('Email', $sheet->getCell('B' . $row)->getValue())->exists()) {
+                continue;
+            }
 
             $usersData[] = [
                 'UserName' => $sheet->getCell('A' . $row)->getValue(),
@@ -234,6 +236,8 @@ class QLUserController extends Controller
                 'RoleID' => $roleID,
             ];
         }
+
+
         return $usersData;
     }
-}    
+}
