@@ -1,7 +1,6 @@
 @extends('layouts.app', ['homeLink' => route('trang-chu-quan-ly'),
 'additionalLinks' => [['url' => route('ql-user'), 'label' => 'Quản lý người dùng'],
 ['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Phân công giáo viên'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Phân công cán bộ'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
@@ -16,7 +15,7 @@
                 <div style="margin-left: auto; margin-right: 10px;"> <!-- Giảm margin-right để giữ nút "Thêm File" sát bên -->
                     <label for="ten_mon">Tên Môn Học:</label>
                     <input type="text" id="ten_mon" name="ten_mon" required>
-                    <button type="submit" class="btn btn-primary">Thêm</button> 
+                    <button type="submit" class="btn btn-primary">Thêm</button>
                 </div>
             </div>
         </form>
@@ -51,13 +50,13 @@
     <table class="table">
         <thead>
             <tr>
-                <th  style="text-align: center;">STT</th>
+                <th style="text-align: center;">STT</th>
                 <th>Tên Môn Học</th>
             </tr>
         </thead>
         <tbody>
             @php
-                $counter = 1;
+            $counter = 1;
             @endphp
             @foreach($monhocs as $monhoc)
             <tr>
