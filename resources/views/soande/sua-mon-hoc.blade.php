@@ -5,6 +5,7 @@
 ['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
+<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
 <div class="container">
     @if(session('success'))
     <div class="alert alert-success">
@@ -20,5 +21,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Lưu Thay Đổi</button>
     </form>
+</div>
 </div>
 @endsection

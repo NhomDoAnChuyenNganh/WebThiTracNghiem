@@ -15,6 +15,8 @@ use App\Http\Controllers\GV_SoanDe\CauHoiController;
 use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
 use App\Http\Controllers\QuanLy\QLMonHocController;
+use App\Http\Controllers\QuanLy\QLPhongThiController;
+use App\Http\Controllers\QuanLy\QLThiController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Models\DoanVan;
@@ -64,6 +66,7 @@ Route::post('/user/reset-password/{token}', [ResetPasswordController::class, 're
 //Chức năng của nhóm quản lý
 Route::group(['middleware' => 'checkLogin:1'], function () {
 
+    //Quản lý người dùng
     Route::get('/quanly/trang-chu-quan-ly', [TrangChuQuanLyController::class, 'index'])->name('trang-chu-quan-ly');
     Route::get('/quanly/ql-user', [QLUserController::class, 'index'])->name('ql-user');
     Route::post('/quanly/ql-user', [QLUserController::class, 'getUsersByRole'])->name('getUsersByRole');
@@ -73,11 +76,21 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/insert-user', [QLUserController::class, 'indexinsert'])->name('insertUser');
     Route::post('/quanly/insert-user', [QLUserController::class, 'insertUser'])->name('insertUser.post');
     Route::post('/quanly/process-file', [QLUserController::class, 'processFile'])->name('processFile');
+    //Quản lý môn học
     Route::get('/quanly/ql-monhoc', [QLMonHocController::class, 'QLMonHocForm'])->name('ql-monhoc');
     Route::post('/quanly/them-mon-hoc', [QLMonHocController::class, 'themMonHoc'])->name('insertMonHoc');
     Route::get('/quanly/delete-monhoc/{id}', [QLMonHocController::class, 'xoaMonHoc'])->name('delete-monhoc');
     Route::post('/quanly/update-monhoc/{id}', [QLMonHocController::class, 'suaMonHoc'])->name('update-monhoc');
     Route::post('/quanly/process-file-monhoc', [QLMonHocController::class, 'processFile'])->name('processFileMH');
+    //Quản lý phòng thi
+    Route::get('/quanly/ql-phongthi', [QLPhongThiController::class, 'index'])->name('ql-phongthi');
+    Route::post('/quanly/them-phong-thi', [QLPhongThiController::class, 'themPhongThi'])->name('insert-phongthi');
+    Route::get('/quanly/delete-phongthi/{id}', [QLPhongThiController::class, 'xoaPhongThi'])->name('delete-phongthi');
+    Route::post('/quanly/update-phongthi/{id}', [QLPhongThiController::class, 'suaPhongThi'])->name('update-phongthi');
+    Route::post('/quanly/process-file-phongthi', [QLPhongThiController::class, 'processFile'])->name('processFilePT');
+    //Quản lý thi
+    Route::get('/quanly/ql-thi', [QLThiController::class, 'index'])->name('ql-thi');
+
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
