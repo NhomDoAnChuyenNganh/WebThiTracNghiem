@@ -12,6 +12,7 @@ class CauHoi extends Model
     protected $table = 'cauhoi';
     protected $primaryKey = 'MaCH';
     public $timestamps = false;
+    protected $fillable = ['NoiDung', 'MaDV', 'MaLoai', 'MucDo'];
 
     public function doanvan()
     {
@@ -27,5 +28,4 @@ class CauHoi extends Model
     {
         return $this->hasMany(DapAn::class, 'MaCH', 'MaCH');
     }
-
 }
