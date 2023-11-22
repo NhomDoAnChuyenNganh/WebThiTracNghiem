@@ -11,6 +11,7 @@ use App\Http\Controllers\ChuongController;
 use App\Http\Controllers\DoanVanController;
 use App\Http\Controllers\GV_SoanDe\ThemCauHoiDienKhuyetController;
 use App\Http\Controllers\GV_SoanDe\ThemCauHoiTracNghiemController;
+use App\Http\Controllers\GV_SoanDe\CauHoiController;
 use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
 use App\Http\Controllers\QuanLy\QLMonHocController;
@@ -101,11 +102,13 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::get('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'index']);
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiTracNghiemController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiTracNghiemController::class, 'getDoanVans']);
-    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'themCauHoi'])->name('them-cau-hoi-trac-nghiem');
+    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [CauHoiController::class, 'themCauHoi'])->name('them-cau-hoi-trac-nghiem');
     Route::get('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'index'])->name('them-cau-hoi-dien-khuyet');
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
+    Route::get('/gv_soande/danh-sach-cau-hoi', [CauHoiController::class, 'index'])->name('danh-sach-cau-hoi');
+    Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {

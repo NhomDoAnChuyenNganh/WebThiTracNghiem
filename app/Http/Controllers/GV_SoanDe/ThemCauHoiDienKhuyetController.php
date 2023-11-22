@@ -16,10 +16,10 @@ class ThemCauHoiDienKhuyetController extends Controller
     public function index()
     {
         $monhocs = MonHoc::all();
-        return view('gv_soande.them-cau-hoi-dien-khuyet',[
+        return view('gv_soande.them-cau-hoi-dien-khuyet', [
             'monhocs' => $monhocs,
-            'title'=>'Giáo Viên Soạn Đề',
-            'role' =>'Giáo Viên Soạn Đề' 
+            'title' => 'Giáo Viên Soạn Đề',
+            'role' => 'Giáo Viên Soạn Đề'
         ]);
     }
     public function getChuongs($mamh)
@@ -47,7 +47,7 @@ class ThemCauHoiDienKhuyetController extends Controller
         $cauhoi->NoiDung = $request->input('NoiDung');
         $cauhoi->MaDV = $request->input('DoanVan');
         $cauhoi->MucDo = $request->input('MucDo');
-        $cauhoi->MaLoai = 2;
+        $cauhoi->MaLoai = 3;
         $cauhoi->save();
 
         // Lấy ID của câu hỏi vừa thêm
@@ -58,7 +58,7 @@ class ThemCauHoiDienKhuyetController extends Controller
         $dapan->LaDapAnDung = true;
         $dapan->MaCH = $cauHoiID;
         $dapan->save();
-        
+
         return redirect('/gv_soande/them-cau-hoi-dien-khuyet')->with('success', 'Câu hỏi đã được thêm thành công.');
     }
 }
