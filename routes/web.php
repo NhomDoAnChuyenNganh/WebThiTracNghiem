@@ -15,6 +15,7 @@ use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
 use App\Http\Controllers\QuanLy\QLUserController;
 use App\Http\Controllers\QuanLy\QLMonHocController;
 use App\Http\Controllers\QuanLy\QLPhongThiController;
+use App\Http\Controllers\QuanLy\QLThiController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Models\DoanVan;
@@ -86,6 +87,9 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/delete-phongthi/{id}', [QLPhongThiController::class, 'xoaPhongThi'])->name('delete-phongthi');
     Route::post('/quanly/update-phongthi/{id}', [QLPhongThiController::class, 'suaPhongThi'])->name('update-phongthi');
     Route::post('/quanly/process-file-phongthi', [QLPhongThiController::class, 'processFile'])->name('processFilePT');
+    //Quản lý thi
+    Route::get('/quanly/ql-thi', [QLThiController::class, 'index'])->name('ql-thi');
+
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
