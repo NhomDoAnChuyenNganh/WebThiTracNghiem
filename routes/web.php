@@ -90,6 +90,7 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::post('/quanly/process-file-phongthi', [QLPhongThiController::class, 'processFile'])->name('processFilePT');
     //Quản lý thi
     Route::get('/quanly/ql-thi', [QLThiController::class, 'index'])->name('ql-thi');
+    Route::post('/quanly/taolichthi', [QLThiController::class, 'TaoLich'])->name('taolichthi');
 
 });
 //Chức năng của nhóm giáo viên soạn đề

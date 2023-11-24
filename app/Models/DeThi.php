@@ -15,6 +15,7 @@ class DeThi extends Model
     protected $fillable = [
         'TenDeThi',
         'ThoiGianLamBai',
+        'NgayThi',
         'ThoiGianBatDau',
         'ThoiGianKetThuc',
         'SoLuongCH',
@@ -26,4 +27,21 @@ class DeThi extends Model
     ];
     
     public $timestamps = false;
+
+    public function MonHoc()
+    {
+        return $this->belongsTo(MonHoc::class, 'MaMH', 'MaMH');
+    }
+    public function giaoVienSoanDe()
+    {
+        return $this->belongsTo(Users::class, 'MaGVSD', 'UserID');
+    }
+    public function canBoCoiThi()
+    {
+        return $this->belongsTo(Users::class, 'MaCBCT', 'UserID');
+    }
+    public function phongThi()
+    {
+        return $this->belongsTo(PhongThi::class, 'MaPT', 'MaPT');
+    }
 }
