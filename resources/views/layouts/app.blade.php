@@ -57,20 +57,14 @@
             text-decoration: none;
         }
 
-        .pagination .page-item.active .page-link {
-            background-color: #007bff;
-            border-color: #007bff;
-            color: #fff;
+        .pagination {
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .dropdown:hover .dropdown-menu {
             display: block;
-        }
-
-        .page-link-red {
-            color: #ffffff;
-            background-color: #ff0000;
-            border-color: #ff0000;
         }
 
         body {
@@ -123,7 +117,7 @@
     </header>
 
     <main role="main">
-        <div class="container mt-3">
+        <div class="container mt-3" style="min-height: 1000px;">
             @yield('content') <!-- Đây là nơi nội dung cụ thể của từng trang sẽ được hiển thị -->
         </div>
     </main>

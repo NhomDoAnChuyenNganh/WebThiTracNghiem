@@ -9,23 +9,23 @@
 @section('content')
 <div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
     <div>
-        <form action="{{ route('insertMonHoc') }}" method="POST" style="display: inline-block;">
+        <form action="{{ route('insert-phongthi') }}" method="POST" style="display: inline-block;">
             @csrf
             <div style="display:block; align-items: center; margin-left: 20px;">
                 <div style="margin-left: auto; margin-right: 10px;"> <!-- Giảm margin-right để giữ nút "Thêm File" sát bên -->
-                    <label for="ten_mon">Tên Môn Học:</label>
-                    <input type="text" id="ten_mon" name="ten_mon" required>
+                    <label for="ten_phong">Tên Phòng Thi:</label>
+                    <input type="text" id="ten_phong" name="ten_phong" required>
                     <button type="submit" class="btn btn-primary">Thêm</button>
                 </div>
             </div>
         </form>
 
-        <form action="{{ route('processFileMH') }}" method="POST" enctype="multipart/form-data" id="fileForm" style="display: inline-block;">
+        <form action="{{ route('processFilePT') }}" method="POST" enctype="multipart/form-data" id="fileForm" style="display: inline-block;">
             @csrf
             <div style="display: flex; align-items: center; margin-left: 20px;">
                 <div style="margin-top: 20px;"> <!-- Giảm margin-top để giữ nút "Thêm File" sát bên -->
                     <label for="fileInput" class="btn btn-primary" style="max-width: 100px; margin: 0;">Thêm File</label>
-                    <input type="file" id="fileInput" name="mh_file" accept=".xlsx, .docx" style="display: none;">
+                    <input type="file" id="fileInput" name="pt_file" accept=".xlsx, .docx" style="display: none;">
                     <input type="submit" style="display: none;">
                 </div>
             </div>
@@ -51,26 +51,26 @@
         <thead>
             <tr>
                 <th style="text-align: center;">STT</th>
-                <th>Tên Môn Học</th>
+                <th>Tên Phòng</th>
             </tr>
         </thead>
         <tbody>
             @php
             $counter = 1;
             @endphp
-            @foreach($monhocs as $monhoc)
+            @foreach($dsphong as $phong)
             <tr>
                 <td style="text-align: center;">{{ $counter++ }}</td>
-                <td>{{ $monhoc->TenMH }}</td>
+                <td>{{ $phong->TenPT }}</td>
                 <td></td>
                 <td>
-                    <a href="{{ route('delete-monhoc', ['id' => $monhoc->MaMH]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xoá</a>
+                    <a href="{{ route('delete-phongthi', ['id' => $phong->MaPT]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa phòng thi này?')">Xoá</a>
                     <button class="btn btn-primary" style="max-width: 80px;" onclick="showEditForm('{{ $counter }}')">Sửa</button>
                     <!-- Form sửa ẩn đi ban đầu -->
                     <div class="editForm" id="editForm{{ $counter }}" style="display: none;">
-                        <form action="{{ route('update-monhoc', ['id' => $monhoc->MaMH]) }}" method="POST">
+                        <form action="{{ route('update-phongthi', ['id' => $phong->MaPT]) }}" method="POST">
                             @csrf
-                            <input type="text" name="ten_mon_edit" value="{{ $monhoc->TenMH }}">
+                            <input type="text" name="ten_phong_edit" value="{{ $phong->TenPT }}">
                             <button type="submit" class="btn btn-primary">Lưu</button>
                         </form>
                     </div>
