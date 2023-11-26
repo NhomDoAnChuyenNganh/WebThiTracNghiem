@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MonHocController;
 use App\Http\Controllers\ChuongController;
 use App\Http\Controllers\DoanVanController;
+use App\Http\Controllers\GV_SoanDe\CauTaoController;
+use App\Http\Controllers\QuanLy\DeThiController;
 use App\Http\Controllers\GV_SoanDe\ThemCauHoiDienKhuyetController;
 use App\Http\Controllers\GV_SoanDe\ThemCauHoiTracNghiemController;
 use App\Http\Controllers\GV_SoanDe\TrangChuGiaoVienSoanDeController;
@@ -93,6 +95,8 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/delete-monhoc/{id}', [QLMonHocController::class, 'xoaMonHoc'])->name('delete-monhoc');
     Route::post('/quanly/update-monhoc/{id}', [QLMonHocController::class, 'suaMonHoc'])->name('update-monhoc');
     Route::post('/quanly/process-file-monhoc', [QLMonHocController::class, 'processFile'])->name('processFileMH');
+    Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de');
+    Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
 
 
 });
@@ -108,6 +112,12 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
+    Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
+    Route::post('/gv_soande/luucauhoi/{ma_de}/{ma_chuong}', [CauTaoController::class, 'luuCauHoi'])
+    ->name('cautao.luucauhoi');
+    Route::get('/gv_soande/sua-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('sua-de-thi');
+    Route::delete('/gv_soande/xoa-de-thi/{id}', [CauTaoController::class, 'deleteDeThi'])->name('xoa-de-thi');
+    Route::post('/gv_soande/sua-de-thi/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'suaDeThi'])->name('luu-so-luong-cau-hoi');
 
 });
 //Chức năng của nhóm quản cán bộ coi thi
