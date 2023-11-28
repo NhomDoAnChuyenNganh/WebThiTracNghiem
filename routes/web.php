@@ -19,7 +19,8 @@ use App\Http\Controllers\QuanLy\QLPhongThiController;
 use App\Http\Controllers\QuanLy\QLThiController;
 use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
-use App\Models\DoanVan;
+use App\Http\Controllers\GV_SoanDe\CauTaoController;
+use App\Http\Controllers\QuanLy\DeThiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -96,6 +97,10 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'PhanBoSinhVien'])->name('phan-bo-sinh-vien');
     Route::post('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'getSinhVienByLichThi'])->name('getSinhVienByLichThi');
     Route::post('/quanly/add-sinh-vien-to-lich-thi', [QLThiController::class, 'addSinhVienToLichThi'])->name('addSinhVienToLichThi');
+    //Quản lý tạo đề thi
+    Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de');
+    Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
+
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
@@ -127,6 +132,13 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
     Route::get('/gv_soande/danh-sach-cau-hoi', [CauHoiController::class, 'index'])->name('danh-sach-cau-hoi');
     Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
+    //Cau tao de thi
+    Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
+    Route::get('/gv_soande/sua-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('sua-de-thi');
+    Route::delete('/gv_soande/xoa-de-thi/{id}', [CauTaoController::class, 'deleteDeThi'])->name('xoa-de-thi');
+    Route::post('/gv_soande/sua-de-thi/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'suaDeThi'])->name('luu-so-luong-cau-hoi');
+    Route::post('/gv_soande/luu-so-luong-cau-hoi/{id}', [CauTaoController::class, 'luuSoLuongCauHoi'])->name('luu-cau-hoi-them');
+
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {
