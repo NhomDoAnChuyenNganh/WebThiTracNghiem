@@ -146,6 +146,9 @@
                 <td>{{ optional($dethi->giaoVienSoanDe)->HoTen }}</td>
                 <td>{{ optional($dethi->canBoCoiThi)->HoTen }}</td>
                 <td>{{ optional($dethi->phongThi)->TenPT }}</td>
+                <td>
+                    <a href="{{ route('delete-lichthi', ['id' => $dethi->MaDe]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa lịch thi này?')">Xoá</a>
+                </td>
             </tr>
             @endforeach
         </tbody>

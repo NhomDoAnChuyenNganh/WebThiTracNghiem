@@ -91,7 +91,11 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     //Quản lý thi
     Route::get('/quanly/ql-thi', [QLThiController::class, 'index'])->name('ql-thi');
     Route::post('/quanly/taolichthi', [QLThiController::class, 'TaoLich'])->name('taolichthi');
-
+    Route::get('/quanly/delete-lichthi/{id}', [QLThiController::class, 'XoaLich'])->name('delete-lichthi');
+    //Phân Bổ Sinh Viên
+    Route::get('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'PhanBoSinhVien'])->name('phan-bo-sinh-vien');
+    Route::post('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'getSinhVienByLichThi'])->name('getSinhVienByLichThi');
+    Route::post('/quanly/add-sinh-vien-to-lich-thi', [QLThiController::class, 'addSinhVienToLichThi'])->name('addSinhVienToLichThi');
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
