@@ -57,8 +57,8 @@
                             <label for="ho_ten" class="form-label">Họ Tên </label>
                             <input type="text" class="form-control text-left" id="hoten" name="hoten" required>
 
-                            @if ($errors->has('ho_ten'))
-                                <span class="text-danger">{{ $errors->first('ho_ten') }}</span>
+                            @if ($errors->has('hoten'))
+                                <span class="text-danger">{{ $errors->first('hoten') }}</span>
                             @endif
                         </div>  
                     </div>
@@ -76,6 +76,7 @@
                             <div class="form-group">
                                 <label for="phai" class="form-label">Giới tính</label>
                                 <select name="phai" class="form-select form-select-sm">
+                                    <option value=""></option>
                                     <option value="0">Nam</option>
                                     <option value="1">Nữ</option>
                                 </select>

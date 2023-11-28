@@ -24,15 +24,13 @@ class RegisterController extends Controller
             'username' => 'required|min:8|unique:users,UserName',
             'password' => 'required|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*])/',
             'email' => 'required|email|unique:users',
-            'hoten' => 'required|string',
+            'hoten' => 'required|string|regex:/^[^\d!@#$%^&*]+$/',
             'phai' => 'required|integer|in:0,1',
             'diachi' => 'required|string',
             'city' => 'required|string',
             'district' => 'required|string',
             'ward' => 'required|string',
-            'ngaysinh' => 'required|date',
-            // 'role_id' => 'required|integer',
-            // 'role_id' => 'required|integer|exists:roles,id|default:4',
+            'ngaysinh' => 'required|date|before_or_equal:today',
         ]);
 
         if ($validator->fails()) {
