@@ -15,15 +15,8 @@
     {{ session('success') }}
 </div>
 @endif
-<a href="{{ route('them-cau-hoi-dien-khuyet') }}" class="btn btn-primary">Thêm câu hỏi điền khuyết</a>
-<a href="{{ route('them-cau-hoi-trac-nghiem') }}" class="btn btn-primary">Thêm câu hỏi trắc nghiệm</a>
-<form action="{{ route('process-file-cauhoi') }}" method="post" enctype="multipart/form-data">
-    @csrf
-    <input type="file" name="user_file" accept=".xlsx">
-    <button type="submit">Import File</button>
-</form>
-<h1>Danh sách câu hỏi</h1>
-<div class="noidung" style="height: 2000px; width: 1350px; background-color: white;margin: auto;">
+
+<div style="background-color: white">
     <a href="{{ route('them-cau-hoi-dien-khuyet') }}" class="btn btn-primary">Thêm câu hỏi điền khuyết</a>
     <a href="{{ route('them-cau-hoi-trac-nghiem') }}" class="btn btn-primary">Thêm câu hỏi trắc nghiệm</a>
     <form action="{{ route('process-file-cauhoi') }}" method="post" enctype="multipart/form-data">
@@ -54,7 +47,7 @@
             @endforeach
         </tbody>
     </table>
-    {{ $cauhois->onEachSide(1)->links() }}
+    {{ $cauhois->onEachSide(1)->links() }}<br />
     @else
     <p>Không có câu hỏi nào.</p>
     @endif
