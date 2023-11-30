@@ -100,7 +100,7 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     //Quản lý tạo đề thi
     Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de');
     Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
-
+    Route::get('/quanly/xoa-de/{id}', [DeThiController::class, 'xoaDeThi'])->name('xoa-de');
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {

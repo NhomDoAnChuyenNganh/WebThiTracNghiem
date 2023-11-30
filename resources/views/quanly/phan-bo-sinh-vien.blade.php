@@ -2,7 +2,7 @@
 'additionalLinks' => [['url' => route('ql-user'), 'label' => 'Quản lý người dùng'],
 ['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
 ['url' => route('ql-phongthi'), 'label' => 'Quản lý phòng thi'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Phân bổ sinh viên'],
+['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
 ]])
 
@@ -176,15 +176,20 @@
                 selectedSinhVien.push($(this).val());
             });
 
-            // Thêm danh sách sinh viên đã chọn vào input ẩn trong form
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'selectedSinhVien',
-                value: selectedSinhVien.join(',')
-            }).appendTo('#addSinhVienForm');
+            if (selectedSinhVien.length === 0) {
+                // Hiển thị thông báo lỗi
+                alert('Vui lòng chọn ít nhất một sinh viên để thêm vào lịch thi.');
+            } else {
+                // Thêm danh sách sinh viên đã chọn vào input ẩn trong form
+                $('<input>').attr({
+                    type: 'hidden',
+                    name: 'selectedSinhVien',
+                    value: selectedSinhVien.join(',')
+                }).appendTo('#addSinhVienForm');
 
-            // Submit form
-            $('#addSinhVienForm').unbind('submit').submit();
+                // Submit form
+                $('#addSinhVienForm').unbind('submit').submit();
+            }
         });
 });
 </script>
