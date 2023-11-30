@@ -34,6 +34,11 @@
                     <td>{{ $dethi->TenDeThi }}</td>
                     <td>
                         <a href="{{ route('sua-de-thi', ['id' => $dethi->MaDe]) }}" class="btn btn-warning">Sửa</a>
+                        <form method="POST" action="{{ route('xoa-de-thi', ['id' => $dethi->MaDe]) }}" style="display: inline;">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa đề thi này không?')">Xóa</button>
+                        </form>
                     </td>
                 </tr>
             @endforeach

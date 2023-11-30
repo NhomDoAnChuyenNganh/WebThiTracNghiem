@@ -201,6 +201,8 @@ class CauTaoController extends Controller
 
     public function luuSoLuongCauHoi($id, Request $request)
     {
+        // Validate dữ liệu đầu vào nếu cần
+
         // Lấy danh sách mã câu hỏi từ form
         $maCauHoiArray = $request->input('cauhoi_id', []);
 
@@ -214,19 +216,6 @@ class CauTaoController extends Controller
 
         // Redirect về trang xem đề thi hoặc trang chính với thông báo thành công
         return redirect()->route('soan-de')->with('success', 'Lưu số lượng câu hỏi thành công');
-    }
-    public function xoaCauHoi(Request $request)
-    {
-        $maCauHoi = $request->input('maCauHoi');
-        $maDe = $request->input('maDe');
-
-        // Xoá chi tiết câu hỏi từ bảng ChiTietDeThi
-        ChiTietDeThi::where('MaDe', $maDe)
-            ->where('MaCH', $maCauHoi)
-            ->delete();
-
-        // Trả về thông báo thành công hoặc lỗi (nếu cần)
-        return response()->json(['success' => true]);
     }
     
 }
