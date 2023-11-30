@@ -2,7 +2,7 @@
 'additionalLinks' => [['url' => route('them-chuong'), 'label' => 'Chương'],
 ['url' => route('them-doan'), 'label' => 'Đoạn văn'],
 ['url' => route('danh-sach-cau-hoi'), 'label' => 'Soạn ngân hàng câu hỏi'],
-['url' => route('trang-chu-giao-vien-soan-de'), 'label' => 'Soạn đề']]])
+['url' => route('soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
 @if (session('error'))
@@ -15,14 +15,6 @@
     {{ session('success') }}
 </div>
 @endif
-<a href="{{ route('them-cau-hoi-dien-khuyet') }}" class="btn btn-primary">Thêm câu hỏi điền khuyết</a>
-<a href="{{ route('them-cau-hoi-trac-nghiem') }}" class="btn btn-primary">Thêm câu hỏi trắc nghiệm</a>
-<form action="{{ route('process-file-cauhoi') }}" method="post" enctype="multipart/form-data">
-    @csrf
-    <input type="file" name="user_file" accept=".xlsx">
-    <button type="submit">Import File</button>
-</form>
-<h1>Danh sách câu hỏi</h1>
 <div class="noidung" style="height: 2000px; width: 1350px; background-color: white;margin: auto;">
     <a href="{{ route('them-cau-hoi-dien-khuyet') }}" class="btn btn-primary">Thêm câu hỏi điền khuyết</a>
     <a href="{{ route('them-cau-hoi-trac-nghiem') }}" class="btn btn-primary">Thêm câu hỏi trắc nghiệm</a>

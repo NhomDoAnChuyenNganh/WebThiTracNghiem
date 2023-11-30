@@ -190,9 +190,9 @@ class QLThiController extends Controller
                 }
             }
 
-            return redirect()->back()->with('success', 'Đã thêm sinh viên vào lịch thi.');
+            return redirect()->route('phan-bo-sinh-vien')->with('success', 'Đã thêm sinh viên vào lịch thi.');
         } else {
-            return redirect()->back()->with('error', 'Vui lòng chọn ít nhất một sinh viên để thêm vào lịch thi.');
+            return redirect()->route('phan-bo-sinh-vien')->with('error', 'Vui lòng chọn ít nhất một sinh viên để thêm vào lịch thi.');
         }
     }
 }
