@@ -32,7 +32,9 @@
         <tbody id="chuongs-table">
             @foreach ($dethis as $dethi)
                 <tr>
+                    <td>{{ optional($dethi->MonHoc)->TenMH }}</td>
                     <td>{{ $dethi->TenDeThi }}</td>
+                    <td style="text-align: center;">{{ $dethi->SoLuongCH }}</td>
                     <td>
                         <a href="{{ route('sua-de-thi', ['id' => $dethi->MaDe]) }}" class="btn btn-warning">Sửa</a>              
                     </td>
