@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CB_CoiThi\CoiThiController;
 use App\Http\Controllers\CB_CoiThi\TrangChuCanBoCoiThiController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegisterController;
@@ -144,6 +145,9 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
 Route::group(['middleware' => 'checkLogin:3'], function () {
 
     Route::get('/cb_coithi/trang-chu-can-bo-coi-thi', [TrangChuCanBoCoiThiController::class, 'index'])->name('trang-chu-can-bo-coi-thi');
+    Route::get('/cb_coithi/coi-thi', [CoiThiController::class, 'index'])->name('coi-thi');
+    Route::get('/cb_coithi/coi-thi-de/{id}', [CoiThiController::class,'coiThi'])->name('coi-thi-de');
+    Route::post('/cb_coithi/update-matkhau/{id}', [CoiThiController::class, 'doiMatKhau'])->name('update-matkhau');
 });
 //Chức năng của nhóm quản sinh viên
 Route::group(['middleware' => 'checkLogin:4'], function () {
