@@ -218,6 +218,17 @@ class CauTaoController extends Controller
         return redirect()->route('soan-de')->with('success', 'Lưu số lượng câu hỏi thành công');
     }
     
+    public function xoaCauHoi(Request $request)
+    {
+        $maCauHoi = $request->input('maCauHoi');
+        $maDe = $request->input('maDe');
+        // Xoá chi tiết câu hỏi từ bảng ChiTietDeThi
+        ChiTietDeThi::where('MaDe', $maDe)
+            ->where('MaCH', $maCauHoi)
+            ->delete();
+        // Trả về thông báo thành công hoặc lỗi (nếu cần)
+        return response()->json(['success' => true]);
+    }
 }
 
 
