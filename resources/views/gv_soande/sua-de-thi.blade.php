@@ -32,6 +32,7 @@
                         <tr style="background-color: aqua">
                             <th>STT</th>
                             <th>Nội dung câu hỏi</th>
+                            <th>Xoá</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -40,6 +41,9 @@
                                     {{-- <td>{{ $chitiet->cauhoi->MaCH }}</td> --}}
                                     <td>{{ $index + 1 }}</td>
                                     <td>{{ $chitiet->cauhoi->NoiDung }}</td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="deleteCauHoi({{ $chitiet->cauhoi->MaCH }}, {{ $dethis->MaDe }})">Xoá</button>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -82,5 +86,33 @@
             $('#tableAllCauHoi input[type="checkbox"]').change(function () {
             });
         });
+    </script>
+    <script>
+        function deleteCauHoi(maCauHoi, maDe) {
+            var confirmation = confirm('Bạn có chắc chắn muốn xoá câu hỏi này khỏi đề thi không?');
+            
+            if (confirmation) {
+                // Gửi yêu cầu xoá câu hỏi
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route("xoacauhoi") }}',
+                    data: {
+                        _token: '{{ csrf_token() }}',
+                        maCauHoi: maCauHoi,
+                        maDe: maDe,
+                    },
+                    success: function (data) {
+                        // Xoá dòng câu hỏi khỏi bảng
+                        alert('Xoá câu hỏi thành công!');
+                        window.location.reload(); // Có thể sử dụng cách khác để cập nhật giao diện mà không cần load lại trang
+                    },
+                    error: function (error) {
+                        alert('Đã xảy ra lỗi khi xoá câu hỏi.');
+                        console.log(error);
+                    }
+                });
+            }
+            event.preventDefault();
+        }
     </script>
 @endsection
