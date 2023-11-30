@@ -18,5 +18,9 @@ class Thi extends Model
     {
         return $this->belongsTo(DeThi::class, 'MaDe', 'MaDe');
     }
+    public function user()
+    {
+        return $this->belongsTo(Users::class, 'MaSV', 'UserID');
+    }
 
 }
