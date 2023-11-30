@@ -1,7 +1,9 @@
-@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de')])
+@extends('layouts.app', ['homeLink' => route('trang-chu-giao-vien-soan-de'),
+'additionalLinks' => [['url' => route('them-chuong'), 'label' => 'Chương'],
+['url' => route('them-doan'), 'label' => 'Đoạn văn'],
+['url' => route('danh-sach-cau-hoi'), 'label' => 'Soạn ngân hàng câu hỏi'],
+['url' => route('soan-de'), 'label' => 'Soạn đề']]])
 
 @section('content')
-
-<h1>Nội dung trang chủ giáo viên soạn đề</h1>
 
 @endsection

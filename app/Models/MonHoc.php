@@ -14,4 +14,13 @@ class MonHoc extends Model
     public $timestamps = false;
 
     protected $fillable = ['TenMH'];
+
+    public function dsDeThi()
+    {
+        return $this->hasMany('App\Models\DeThi', 'MaMH', 'MaMH')->whereNull('MaPT');
+    }
+    public function dsLichThi()
+    {
+        return $this->hasMany('App\Models\DeThi', 'MaMH', 'MaMH') ->whereNotNull('MaPT');
+    }
 }
