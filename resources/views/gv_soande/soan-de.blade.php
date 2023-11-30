@@ -20,28 +20,28 @@
         <h1>{{ $title }}</h1>
         <h2>Danh sách đề thi</h2>
 
-        <table class="table" style="background-color: aliceblue; margin-top: 20px;">
-            <thead>
+    <table class="table" style="background-color: aliceblue; margin-top: 20px;">
+        <thead>
+            <tr>
+                <th>Môn Học</th>
+                <th>Tên Đề Thi</th>
+                <th>Số Lượng Câu Hỏi</th>
+                <th >Thao Tác</th>
+            </tr>
+        </thead>
+        <tbody id="chuongs-table">
+            @foreach ($dethis as $dethi)
                 <tr>
-                    <th>Môn Học</th>
-                    <th>Tên Đề Thi</th>
-                    <th>Số Lượng Câu Hỏi</th>
-                    <th >Thao Tác</th>
+                    <td>{{ optional($dethi->MonHoc)->TenMH }}</td>
+                    <td>{{ $dethi->TenDeThi }}</td>
+                    <td style="text-align: center;">{{ $dethi->SoLuongCH }}</td>
+                    <td>
+                        <a href="{{ route('sua-de-thi', ['id' => $dethi->MaDe]) }}" class="btn btn-warning">Sửa</a>              
+                    </td>
                 </tr>
-            </thead>
-            <tbody id="chuongs-table">
-                @foreach ($dethis as $dethi)
-                    <tr>
-                        <td>{{ optional($dethi->MonHoc)->TenMH }}</td>
-                        <td>{{ $dethi->TenDeThi }}</td>
-                        <td style="text-align: center;">{{ $dethi->SoLuongCH }}</td>
-                        <td>
-                            <a href="{{ route('sua-de-thi', ['id' => $dethi->MaDe]) }}" class="btn btn-warning">Soạn đề</a>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+            @endforeach
+        </tbody>
+    </table>
 </div>
+
 @endsection

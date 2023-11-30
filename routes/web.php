@@ -136,9 +136,9 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
     Route::get('/gv_soande/sua-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('sua-de-thi');
-    Route::delete('/gv_soande/xoa-de-thi/{id}', [CauTaoController::class, 'deleteDeThi'])->name('xoa-de-thi');
     Route::post('/gv_soande/sua-de-thi/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'suaDeThi'])->name('luu-so-luong-cau-hoi');
     Route::post('/gv_soande/luu-so-luong-cau-hoi/{id}', [CauTaoController::class, 'luuSoLuongCauHoi'])->name('luu-cau-hoi-them');
+    Route::post('/gv_soande/xoacauhoi', [CauTaoController::class, 'xoaCauHoi'])->name('xoacauhoi');
 
 });
 //Chức năng của nhóm quản cán bộ coi thi
