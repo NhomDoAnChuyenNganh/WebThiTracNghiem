@@ -16,9 +16,11 @@ class DeThiController extends Controller
         // Lấy danh sách môn học và chương từ cơ sở dữ liệu
         $gvsds = Users::where('RoleID', 2)->get(); // Lấy danh sách giáo viên soạn đề
         $monhocs = MonHoc::all(); // Lấy danh sách môn học
+        $desthies = DeThi::whereNull('MaPT')->orderBy('MaDe', 'desc')->get();
         return view('quanly.tao-de-thi',[
             'monhocs' => $monhocs,
             'gvsds' => $gvsds,
+            'desthies' => $desthies,
             'title'=>'Quản Lý',
             'role' =>'Admin' 
         ]);
@@ -34,5 +36,20 @@ class DeThiController extends Controller
         // Thêm các trường khác nếu cần
         $dethi->save();
         return redirect('quanly/tao-de-thi')->with('success', 'Đề thi đã được tạo thành công!');
+    }
+    public function xoaDeThi($id)
+    {
+        $dethi = DeThi::where('MaDe', $id)->first();
+
+        // Kiểm tra xem có tồn tại không
+        if (!$dethi) {
+            return redirect()->route('tao-de')->with('error', 'không tìm thấy đề thi.');
+        }
+
+        // Bước 2: Thực hiện xóa 
+        $dethi->delete();
+
+        // Bước 3: Chuyển hướng người dùng đến trang danh sách 
+        return redirect()->route('tao-de')->with('success', 'Đề thi đã được xóa thành công.');
     }
 }

@@ -38,4 +38,8 @@ class Users extends Model
     {
         return $this->belongsTo('App\Role', 'RoleID', 'RoleID');
     }
+    public function thi()
+    {
+        return $this->hasMany(Thi::class, 'MaSV', 'UserID');
+    }
 }
