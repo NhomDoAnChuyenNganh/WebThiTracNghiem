@@ -19,4 +19,8 @@ class MonHoc extends Model
     {
         return $this->hasMany('App\Models\DeThi', 'MaMH', 'MaMH')->whereNull('MaPT');
     }
+    public function dsLichThi()
+    {
+        return $this->hasMany('App\Models\DeThi', 'MaMH', 'MaMH') ->whereNotNull('MaPT');
+    }
 }

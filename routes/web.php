@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CB_CoiThi\CoiThiController;
 use App\Http\Controllers\CB_CoiThi\TrangChuCanBoCoiThiController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegisterController;
@@ -92,11 +93,15 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     //Quản lý thi
     Route::get('/quanly/ql-thi', [QLThiController::class, 'index'])->name('ql-thi');
     Route::post('/quanly/taolichthi', [QLThiController::class, 'TaoLich'])->name('taolichthi');
+    Route::get('/quanly/delete-lichthi/{id}', [QLThiController::class, 'XoaLich'])->name('delete-lichthi');
+    //Phân Bổ Sinh Viên
+    Route::get('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'PhanBoSinhVien'])->name('phan-bo-sinh-vien');
+    Route::post('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'getSinhVienByLichThi'])->name('getSinhVienByLichThi');
+    Route::post('/quanly/add-sinh-vien-to-lich-thi', [QLThiController::class, 'addSinhVienToLichThi'])->name('addSinhVienToLichThi');
     //Quản lý tạo đề thi
     Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de');
     Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
-
-
+    Route::get('/quanly/xoa-de/{id}', [DeThiController::class, 'xoaDeThi'])->name('xoa-de');
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
@@ -131,15 +136,18 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
     Route::get('/gv_soande/sua-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('sua-de-thi');
-    Route::delete('/gv_soande/xoa-de-thi/{id}', [CauTaoController::class, 'deleteDeThi'])->name('xoa-de-thi');
     Route::post('/gv_soande/sua-de-thi/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'suaDeThi'])->name('luu-so-luong-cau-hoi');
     Route::post('/gv_soande/luu-so-luong-cau-hoi/{id}', [CauTaoController::class, 'luuSoLuongCauHoi'])->name('luu-cau-hoi-them');
+    Route::post('/gv_soande/xoacauhoi', [CauTaoController::class, 'xoaCauHoi'])->name('xoacauhoi');
 
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {
 
     Route::get('/cb_coithi/trang-chu-can-bo-coi-thi', [TrangChuCanBoCoiThiController::class, 'index'])->name('trang-chu-can-bo-coi-thi');
+    Route::get('/cb_coithi/coi-thi', [CoiThiController::class, 'index'])->name('coi-thi');
+    Route::get('/cb_coithi/coi-thi-de/{id}', [CoiThiController::class,'coiThi'])->name('coi-thi-de');
+    Route::post('/cb_coithi/update-matkhau/{id}', [CoiThiController::class, 'doiMatKhau'])->name('update-matkhau');
 });
 //Chức năng của nhóm quản sinh viên
 Route::group(['middleware' => 'checkLogin:4'], function () {
