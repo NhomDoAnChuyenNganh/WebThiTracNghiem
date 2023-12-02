@@ -9,7 +9,7 @@
 
 @section('content')
 
-<div class="noidung" style="height: 1000px; width: 1300px; background-color: white;margin: auto;">
+<div style="width: 1300px; background-color: white;margin: auto;">
     <div class="card-body" style="margin: 20px;">
         <form action="{{ route('getSinhVienByLichThi') }}" method="POST">
             <div class="row mb-3">

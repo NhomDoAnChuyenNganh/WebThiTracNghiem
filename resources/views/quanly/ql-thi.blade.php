@@ -152,6 +152,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $dsdethi->onEachSide(1)->links() }}<br />
 </div>
 
 

@@ -8,7 +8,7 @@
 ]])
 
 @section('content')
-<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
+<div style="height: 1000px; width: 600px; background-color: white;margin: auto;">
     <div>
         <form action="{{ route('insertMonHoc') }}" method="POST" style="display: inline-block;">
             @csrf
@@ -80,7 +80,7 @@
             @endforeach
         </tbody>
     </table>
-
+    {{ $monhocs->onEachSide(1)->links() }}<br />
 </div>
 <script>
     function showEditForm(counter) {

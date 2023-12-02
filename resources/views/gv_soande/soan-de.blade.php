@@ -36,11 +36,12 @@
                     <td>{{ $dethi->TenDeThi }}</td>
                     <td style="text-align: center;">{{ $dethi->SoLuongCH }}</td>
                     <td>
-                        <a href="{{ route('cau-tao-de-thi', ['id' => $dethi->MaDe]) }}" class="btn btn-warning">Sửa</a>              
+                        <a href="{{ route('cau-tao-de-thi', ['id' => $dethi->MaDe]) }}" class="btn btn-warning">Sửa</a>
                     </td>
                 </tr>
-            @endforeach
-        </tbody>
-    </table>
-</div>
-@endsection
+                @endforeach
+            </tbody>
+        </table>
+        {{ $dethis->onEachSide(1)->links() }}<br />
+    </div>
+    @endsection

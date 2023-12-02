@@ -14,7 +14,7 @@ class CoiThiController extends Controller
     public function index()
     {
         $userId = session('user');
-        $dsdethi= DeThi::where('TrangThai', 0)->where('MaCBCT', $userId->UserID)->orderBy('MaDe', 'desc')->get();
+        $dsdethi = DeThi::where('TrangThai', 0)->where('MaCBCT', $userId->UserID)->orderBy('MaDe', 'desc')->paginate(10);
         return view('cb_coithi.coi-thi', [
             'title' => 'Cán Bộ Coi Thi',
             'dslichthi' => $dsdethi
@@ -23,8 +23,8 @@ class CoiThiController extends Controller
     public function coiThi($id)
     {
         $dssinhvien = Thi::where('MaDe', $id)
-        ->with('user') // Sử dụng mối quan hệ để lấy thông tin sinh viên
-        ->get();
+            ->with('user') // Sử dụng mối quan hệ để lấy thông tin sinh viên
+            ->get();
         return view('cb_coithi.coi-thi-de', [
             'title' => 'Cán Bộ Coi Thi',
             'dssinhvien' => $dssinhvien
@@ -36,7 +36,7 @@ class CoiThiController extends Controller
             'matkhau_edit' => 'required',
         ]);
         $sinhvien = Users::find($id);
-        $hashedPassword = Hash::make($request->input('matkhau_edit')); 
+        $hashedPassword = Hash::make($request->input('matkhau_edit'));
         $sinhvien->Password = $hashedPassword;
         $sinhvien->save();
         return redirect()->back()->with('success', 'Mật khẩu đã được thay đổi thành công.');
