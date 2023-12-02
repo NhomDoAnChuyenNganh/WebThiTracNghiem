@@ -19,21 +19,21 @@ class CauTaoController extends Controller
     //
     public function index()
     {
-        
+
         $userId = session('user');
         // Lấy danh sách đề thi đ   ang phụ trách
-        $dethis = Dethi::where('MaGVSD', $userId->UserID)->get();
-        return view('gv_soande.soan-de',[
+        $dethis = Dethi::where('MaGVSD', $userId->UserID)->paginate(10);
+        return view('gv_soande.soan-de', [
             'dethis' => $dethis,
-            'title'=>'Giáo Viên Soạn Đề',
-            'role' =>'Giáo Viên Soạn Đề' 
+            'title' => 'Giáo Viên Soạn Đề',
+            'role' => 'Giáo Viên Soạn Đề'
         ]);
     }
     public function cautaoDeThi($id)
     {
         // Kiểm tra xem đã có chi tiết đề thi hay chưa
         $chitietdethi = ChiTietDeThi::where('MaDe', $id)->first();
-        $cautaos = CauTao::where('MaDe',$id)->get();
+        $cautaos = CauTao::where('MaDe', $id)->get();
         //$cautao1 = CauTao::find('MaDe',$id);
         $dethis = DeThi::find($id);
         if ($cautaos->isEmpty()) {
@@ -44,22 +44,21 @@ class CauTaoController extends Controller
                 'title' => 'Cấu Tạo Đề Thi',
                 'role' => 'Giáo Viên Soạn Đề'
             ]);
-        } else if(!$chitietdethi){
+        } else if (!$chitietdethi) {
             return view('/gv_soande/chi-tiet-de-thi', [
                 'dethis' => $dethis,
                 'cautaos' => $cautaos,
                 'title' => 'Cấu Tạo Đề Thi',
                 'role' => 'Giáo Viên Soạn Đề'
             ]);
-        }        
-        else{
-            $chitietdethis = ChiTietDeThi::where('MaDe', $id)->get();
+        } else {
+            $chitietdethis = ChiTietDeThi::where('MaDe', $id)->paginate(10);
             // Lấy danh sách mã câu hỏi từ bảng chitietdethi
             $maCauHoiArray = $chitietdethi->pluck('MaCH')->toArray();
             // Lấy tất cả câu hỏi của môn học từ bảng cauhoi chưa có trong chitietdethi
             $cauhoisChuaCo = CauHoi::whereIn('MaDV', DoanVan::whereIn('MaChuong', Chuong::where('MaMH', $chitietdethi->deThi->MaMH)->pluck('MaChuong')->toArray())->pluck('MaDV')->toArray())
-            ->whereNotIn('MaCH', $maCauHoiArray)
-            ->get();
+                ->whereNotIn('MaCH', $maCauHoiArray)
+                ->paginate(10);
             return view('/gv_soande/sua-de-thi', [
                 'dethis' => $dethis,
                 'cauhoisChuaCo' => $cauhoisChuaCo,
@@ -93,17 +92,17 @@ class CauTaoController extends Controller
         }
         // Kiểm tra nếu tổng số lượng câu hỏi của CauTao <= SoLuongCH của DeThi
         $soLuongCHDeThi = DeThi::find($id)->SoLuongCH;
-        if($tongSoLuongCauHoi != $soLuongCHDeThi) {
+        if ($tongSoLuongCauHoi != $soLuongCHDeThi) {
             // Xóa hết chi tiết câu hỏi cũ của đề thi
             CauTao::where('MaDe', $id)->delete();
             // Xử lý khi tổng số lượng câu hỏi vượt quá SoLuongCH của DeThi
             return back()->with('error', 'Tổng số lượng câu hỏi các CHƯƠNG phải bằng số lượng câu hỏi của ĐỀ THI');
-        } 
+        }
         return redirect()->route('cau-tao-de-thi', ['id' => $id])->with('success', 'Lưu số lượng câu hỏi từng chương thành công');
     }
 
     public function cauTaoMucDoCauHoi(Request $request, $id)
-    {       
+    {
         $updateData = [];
         foreach ($request->all() as $key => $value) {
             if (strpos($key, 'gioi_') !== false) {
@@ -112,13 +111,13 @@ class CauTaoController extends Controller
                 $soLuongGioi = (int)$request->input('gioi_' . $maChuong);
                 $soLuongKha = (int)$request->input('kha_' . $maChuong);
                 $soLuongTB = (int)$request->input('trungbinh_' . $maChuong);
-                $cautao = CauTao::where('MaDe',$id)->where('MaChuong',$maChuong)->first();
+                $cautao = CauTao::where('MaDe', $id)->where('MaChuong', $maChuong)->first();
                 // Kiểm tra nếu tổng số lượng câu hỏi của CauTao <= SoLuongCH của DeThi
                 $tongCHMucDo = $soLuongGioi + $soLuongKha + $soLuongTB;
-                if($tongCHMucDo != $cautao->SoLuongCH) {
+                if ($tongCHMucDo != $cautao->SoLuongCH) {
                     // Xử lý khi tổng số lượng câu hỏi vượt quá SoLuongCH của DeThi
                     return back()->with('error', 'Tổng số lượng câu hỏi của các MỨC ĐỘ không được quá số lượng câu hỏi của CHƯƠNG');
-                } 
+                }
                 // Thêm thông tin cần cập nhật vào mảng
                 $updateData[] = [
                     'MaChuong' => $maChuong,
@@ -140,10 +139,10 @@ class CauTaoController extends Controller
 
         return redirect()->route('soan-de')->with('success', 'Thêm số lượng câu hỏi từng mức độ thành công');
     }
-    
+
     public function themCauHoiRand($id)
-    {       
-        $cautaos = CauTao::where('MaDe',$id)->get();   
+    {
+        $cautaos = CauTao::where('MaDe', $id)->get();
         foreach ($cautaos as $data) {
             $cauhoiRand = $this->layCauHoiNgauNhien($data->MaChuong, $data->SoLuongCH);
             foreach ($cauhoiRand as $cauHoi) {
@@ -157,7 +156,7 @@ class CauTaoController extends Controller
     private function themCauHoiVaoDeThi($ma_de, $ma_chuong)
     {
         $deThiInfo = CauTao::where('MaDe', $ma_de)->where('MaChuong', $ma_chuong)->first();
-    
+
         if ($deThiInfo) {
             $soLuongGioi = $deThiInfo->SoLuongGioi;
             $soLuongKha = $deThiInfo->SoLuongKha;
@@ -182,46 +181,46 @@ class CauTaoController extends Controller
     private function layCauHoiNgauNhien($maChuong, $soLuong)
     {
         $doanVanList = DoanVan::where('MaChuong', $maChuong)->get();
-    
+
         $cauHoiNgauNhien = collect();
-    
+
         foreach ($doanVanList as $doanVan) {
             $cauHoi = DB::table('cauhoi')
                 ->where('MaDV', $doanVan->MaDV)
                 ->get();
-    
+
             $cauHoiNgauNhien = $cauHoiNgauNhien->merge($cauHoi);
         }
-    
+
         // Trộn ngẫu nhiên để đảm bảo sự ngẫu nhiên giữa các đoạn văn
         $cauHoiNgauNhien = $cauHoiNgauNhien->shuffle();
-    
+
         return $cauHoiNgauNhien->take($soLuong);
     }
-    
+
 
     private function layCauHoiNgauNhienMucDo($ma_chuong, $mucdo, $soLuong)
     {
         // Lấy danh sách đoạn văn của chương
         $doanVanList = DoanVan::where('MaChuong', $ma_chuong)->get();
-    
+
         $cauHoiNgauNhien = collect();
-    
+
         foreach ($doanVanList as $doanVan) {
             $cauHoi = DB::table('cauhoi')
                 ->where('MaDV', $doanVan->MaDV)
                 ->where('MucDo', $mucdo)
                 ->get();
-    
+
             $cauHoiNgauNhien = $cauHoiNgauNhien->merge($cauHoi);
         }
-    
+
         // Trộn ngẫu nhiên để đảm bảo sự ngẫu nhiên giữa các đoạn văn
         $cauHoiNgauNhien = $cauHoiNgauNhien->shuffle();
-    
+
         return $cauHoiNgauNhien->take($soLuong);
     }
-    
+
 
     private function themCauHoiVaoChitietdethi($ma_de, $cauHoi)
     {
@@ -235,7 +234,7 @@ class CauTaoController extends Controller
             $chitietDeThi->MaDe = $ma_de;
             $chitietDeThi->MaCH = $cauHoi->MaCH;
             $chitietDeThi->save();
-        }else {
+        } else {
             $ma_dv = $cauHoi->MaDV;
             $mucdo = $cauHoi->MucDo;
             $doanvans = DoanVan::where('MaDV', $ma_dv)->first();
@@ -247,5 +246,4 @@ class CauTaoController extends Controller
             }
         }
     }
-
 }

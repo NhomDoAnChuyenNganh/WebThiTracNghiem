@@ -80,7 +80,7 @@
             @endforeach
         </tbody>
     </table>
-
+    {{ $dsphong->onEachSide(1)->links() }}<br />
 </div>
 <script>
     function showEditForm(counter) {

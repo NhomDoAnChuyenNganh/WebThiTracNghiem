@@ -53,6 +53,6 @@
             @endforeach
         </tbody>
     </table>
-
+    {{ $dslichthi->onEachSide(1)->links() }}<br />
 </div>
 @endsection

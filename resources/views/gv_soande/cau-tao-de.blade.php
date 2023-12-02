@@ -15,7 +15,7 @@
     {{ session('success') }}
 </div>
 @endif
-<div class="noidung" style="height: 1000px; width: 800px; background-color: white;margin: auto;">
+<div style="width: 800px; background-color: white;margin: auto;">
     <div class="container">
         <h2 style="text-align: center">{{ $title }}</h2>
         <h3 style="text-align: center">Môn học: {{ $dethis->MonHoc->TenMH }}</h3>
@@ -28,11 +28,11 @@
             <div style="background-color: aqua; padding: 10px; border-radius: 10px;">
                 <!-- Hiển thị thông tin chương và số lượng câu giỏi, khá, trung bình cho mỗi chương -->
                 @foreach($chuongs as $chuong)
-                    <div>
-                        <h4 >Chương: {{ $chuong->TenChuong }}</h4>
-                        <label for="tongcau_{{ $chuong->MaChuong }}">Tổng số lượng câu:</label>
-                        <input class="form-control" style="max-width: 150px;" type="text" name="tongcau_{{ $chuong->MaChuong }}" id="tongcau_{{ $chuong->MaChuong }}" value="{{ old('tongcau_' . $chuong->MaChuong) ?? 0 }}">
-                    </div>
+                <div>
+                    <h4>Chương: {{ $chuong->TenChuong }}</h4>
+                    <label for="tongcau_{{ $chuong->MaChuong }}">Tổng số lượng câu:</label>
+                    <input class="form-control" style="max-width: 150px;" type="text" name="tongcau_{{ $chuong->MaChuong }}" id="tongcau_{{ $chuong->MaChuong }}" value="{{ old('tongcau_' . $chuong->MaChuong) ?? 0 }}">
+                </div>
                 @endforeach
             </div>
 
