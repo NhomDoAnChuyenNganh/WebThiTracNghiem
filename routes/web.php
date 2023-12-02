@@ -22,6 +22,7 @@ use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Http\Controllers\GV_SoanDe\CauTaoController;
 use App\Http\Controllers\QuanLy\DeThiController;
+use App\Http\Controllers\GV_SoanDe\ChiTietDeThiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -135,10 +136,13 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
-    Route::get('/gv_soande/sua-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('sua-de-thi');
-    Route::delete('/gv_soande/xoa-de-thi/{id}', [CauTaoController::class, 'deleteDeThi'])->name('xoa-de-thi');
-    Route::post('/gv_soande/sua-de-thi/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'suaDeThi'])->name('luu-so-luong-cau-hoi');
-    Route::post('/gv_soande/luu-so-luong-cau-hoi/{id}', [CauTaoController::class, 'luuSoLuongCauHoi'])->name('luu-cau-hoi-them');
+    Route::get('/gv_soande/cau-tao-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('cau-tao-de-thi');
+    Route::post('/gv_soande/cau-tao-chuong-de-thi/{id}/so-luong-cau-hoi-chuong', [CauTaoController::class, 'cauTaoSoCauChuong'])->name('so-luong-cau-hoi-chuong');
+    Route::post('/gv_soande/them_cau_hoi_muc_do/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'cauTaoMucDoCauHoi'])->name('luu-so-luong-cau-hoi');
+    Route::post('/gv_soande/sua-chi-tiet-de-thi/{id}', [ChiTietDeThiController::class, 'suaChiTietDeThi'])->name('sua-chi-tiet-de-thi');
+    Route::post('/gv_soande/xoacauhoi', [ChiTietDeThiController::class, 'xoaCauHoi'])->name('xoacauhoi');
+    Route::get('/gv_soande/them-cau-hoi-rand/{id}', [CauTaoController::class, 'themCauHoiRand'])->name('them-cau-hoi-rand');
+
 
 });
 //Chức năng của nhóm quản cán bộ coi thi
