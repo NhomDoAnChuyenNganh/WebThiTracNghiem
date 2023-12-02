@@ -1,10 +1,6 @@
-@extends('layouts.app', ['homeLink' => route('trang-chu-quan-ly'),
-'additionalLinks' => [['url' => route('ql-user'), 'label' => 'Quản lý người dùng'],
-['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
-['url' => route('ql-phongthi'), 'label' => 'Quản lý phòng thi'],
-['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
-]])
+@extends('layouts.app', ['homeLink' => route('trang-chu-can-bo-coi-thi'),
+'additionalLinks' => [['url' => route('coi-thi'), 'label' => 'Coi thi']]])
+
 
 @section('content')
 <div class="noidung" style="height: 2000px; width: 1350px; background-color: white;margin: auto;">
@@ -34,11 +30,11 @@
             </tr>
         </thead>
         <tbody>
-        @foreach($dslichthi as $dethi)
+            @foreach($dslichthi as $dethi)
             @php
-                $thoiGianBatDau = strtotime($dethi->ThoiGianBatDau);
-                $thoiGianKetThuc = strtotime($dethi->ThoiGianKetThuc);
-                $thoiGianHienTai = strtotime(now());
+            $thoiGianBatDau = strtotime($dethi->ThoiGianBatDau);
+            $thoiGianKetThuc = strtotime($dethi->ThoiGianKetThuc);
+            $thoiGianHienTai = strtotime(now());
             @endphp
             <tr>
                 <td>{{ optional($dethi->MonHoc)->TenMH }}</td>
@@ -50,12 +46,11 @@
                 <td>{{ $dethi->SoLuongCH }}</td>
                 <td>{{ optional($dethi->phongThi)->TenPT }}</td>
                 <td>
-                    @if ($thoiGianHienTai >= $thoiGianBatDau && $thoiGianHienTai <= $thoiGianKetThuc)
-                        <a href="{{ route('coi-thi-de', ['id' => $dethi->MaDe]) }}" class="btn btn-primary">Coi Thi</a>
-                    @endif
+                    @if ($thoiGianHienTai >= $thoiGianBatDau && $thoiGianHienTai <= $thoiGianKetThuc) <a href="{{ route('coi-thi-de', ['id' => $dethi->MaDe]) }}" class="btn btn-primary">Coi Thi</a>
+                        @endif
                 </td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 
