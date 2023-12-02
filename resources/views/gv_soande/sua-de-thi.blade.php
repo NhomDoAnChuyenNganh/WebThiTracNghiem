@@ -19,7 +19,7 @@
     <div class="container">
         <h2 style="text-align: center">{{ $title }}</h2>
         <h3 style="text-align: center">Đề thi: {{ $dethis->TenDeThi }}</h3>
-        <form method="post" action="{{ route('luu-cau-hoi-them', ['id' => $dethis->MaDe]) }}">
+        <form method="post" action="{{ route('sua-chi-tiet-de-thi', ['id' => $dethis->MaDe]) }}">
             @csrf
             <div class="row">
                 <div class="col-md-6">
