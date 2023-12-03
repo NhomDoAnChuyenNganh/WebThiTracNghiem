@@ -11,11 +11,11 @@ class QLMonHocController extends Controller
 {
     public function QLMonHocForm()
     {
-        $monhocs = MonHoc::orderBy('MaMH', 'desc')->get();
-        
+        $monhocs = MonHoc::orderBy('MaMH', 'desc')->paginate(10);
+
         return view('/quanly/ql-monhoc', [
             'monhocs' => $monhocs,
-            'title'=>'Quản Lý Môn Học'
+            'title' => 'Quản Lý Môn Học'
         ]);
     }
 

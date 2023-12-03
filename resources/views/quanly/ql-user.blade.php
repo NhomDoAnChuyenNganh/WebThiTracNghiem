@@ -3,11 +3,12 @@
 ['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
 ['url' => route('ql-phongthi'), 'label' => 'Quản lý phòng thi'],
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
+['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
-<div class="noidung" style="height: 2000px; width: 1350px; background-color: white;margin: auto;">
+<div style=" width: 1350px; background-color: white;margin: auto;">
     <form action="{{ route('getUsersByRole') }}" method="POST">
         @csrf
         <div style="display: flex; align-items: center; margin-left: 20px;">
@@ -86,6 +87,6 @@
             @endforeach
         </tbody>
     </table>
-
+    {{ $dsusers->onEachSide(1)->links() }}<br />
 </div>
 @endsection
