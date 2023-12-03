@@ -1,10 +1,5 @@
-@extends('layouts.app', ['homeLink' => route('trang-chu-quan-ly'),
-'additionalLinks' => [['url' => route('ql-user'), 'label' => 'Quản lý người dùng'],
-['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
-['url' => route('ql-phongthi'), 'label' => 'Quản lý phòng thi'],
-['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
-]])
+@extends('layouts.app', ['homeLink' => route('trang-chu-can-bo-coi-thi'),
+'additionalLinks' => [['url' => route('coi-thi'), 'label' => 'Coi thi']]])
 
 @section('content')
 <div class="noidung" style="height: 2000px; width: 1300px; background-color: white;margin: auto;">
@@ -31,18 +26,18 @@
             </tr>
         </thead>
         <tbody>
-        @php
+            @php
             $counter = 1;
-        @endphp
-        @foreach($dssinhvien as $sinhvien)
+            @endphp
+            @foreach($dssinhvien as $sinhvien)
             <tr>
                 <td style="text-align: center;">{{ $counter++ }}</td>
                 <td>{{ $sinhvien->user->HoTen }}</td>
                 <td>
                     @if ($sinhvien->user->Phai == 0)
-                        Nam
+                    Nam
                     @elseif ($sinhvien->user->Phai == 1)
-                        Nữ
+                    Nữ
                     @endif
                 </td>
                 <td>{{ date('d/m/Y', strtotime($sinhvien->user->NgaySinh)) }}</td>
@@ -60,7 +55,7 @@
                     </div>
                 </td>
             </tr>
-        @endforeach
+            @endforeach
         </tbody>
     </table>
 </div>
