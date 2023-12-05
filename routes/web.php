@@ -23,6 +23,7 @@ use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Http\Controllers\GV_SoanDe\CauTaoController;
 use App\Http\Controllers\QuanLy\DeThiController;
 use App\Http\Controllers\GV_SoanDe\ChiTietDeThiController;
+use App\Http\Controllers\SinhVien\VaoThiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -150,11 +151,17 @@ Route::group(['middleware' => 'checkLogin:3'], function () {
 
     Route::get('/cb_coithi/trang-chu-can-bo-coi-thi', [TrangChuCanBoCoiThiController::class, 'index'])->name('trang-chu-can-bo-coi-thi');
     Route::get('/cb_coithi/coi-thi', [CoiThiController::class, 'index'])->name('coi-thi');
+    Route::post('/cb_coithi/coi-thi', [CoiThiController::class, 'getMonHocByRole'])->name('getMonHocByRole');
     Route::get('/cb_coithi/coi-thi-de/{id}', [CoiThiController::class,'coiThi'])->name('coi-thi-de');
     Route::post('/cb_coithi/update-matkhau/{id}', [CoiThiController::class, 'doiMatKhau'])->name('update-matkhau');
+   
 });
 //Chức năng của nhóm quản sinh viên
 Route::group(['middleware' => 'checkLogin:4'], function () {
 
     Route::get('/sinhvien/trang-chu-sinh-vien', [TrangChuSinhVienController::class, 'index'])->name('trang-chu-sinh-vien');
+    Route::get('/sinhvien/thi', [VaoThiController::class, 'index'])->name('thi');
+    Route::post('/sinhvien/thi', [VaoThiController::class, 'getMonHocBySinhVien'])->name('getMonHocBySinhVien');
+    Route::get('/sinhvien/vao-thi/{id}', [VaoThiController::class,'vaoThi'])->name('vao-thi');
+    Route::post('/sinhvien/ket-qua/{id}', [VaoThiController::class, 'ketQua'])->name('ket-qua');
 });

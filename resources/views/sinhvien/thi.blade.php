@@ -1,11 +1,11 @@
 @extends('layouts.app', ['homeLink' => route('trang-chu-can-bo-coi-thi'),
-'additionalLinks' => [['url' => route('coi-thi'), 'label' => 'Coi thi']]])
+'additionalLinks' => [['url' => route('trang-chu-can-bo-coi-thi'), 'label' => 'Coi thi']]])
 
 
 @section('content')
 <div class="noidung" style="height: 2000px; width: 1350px; background-color: white;margin: auto;">
-    <h2>Lịch Thi Được Phân Công</h2>
-    <form action="{{ route('getMonHocByRole') }}" method="POST">
+    <h2>Lịch Thi Của Bạn</h2>
+    <form action="{{ route('getMonHocBySinhVien') }}" method="POST">
         @csrf
         <div style="display: flex; align-items: center; margin-left: 20px;">
             <p style="font-size: 25px; font-weight: bold;">Lọc Lịch Theo Môn:</p>
@@ -28,45 +28,45 @@
         {{ session('success') }}
     </div>
     @endif
+    
     <table class="table">
         <thead>
             <tr>
                 <th>Môn Thi</th>
-                <th>Tên Đề</th>
-                <th>Số Phút</th>
-                <th>Ngày Thi</th>
-                <th>Bắt Đầu</th>
-                <th>Kết Thúc</th>
-                <th>Số Câu</th>
-                <th>Phòng Thi</th>
+                <th>Số Phút</th>
+                <th>Ngày Thi</th>
+                <th>Bắt Đầu</th>
+                <th>Kết Thúc</th>
+                <th>Số Câu</th>
+                <th>Phòng Thi</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            @foreach($dslichthi as $dethi)
+        @foreach($dslichthi as $thi)
             @php
-                $thoiGianBatDau = strtotime($dethi->ThoiGianBatDau);
-                $thoiGianKetThuc = strtotime($dethi->ThoiGianKetThuc);
+                $deThi = $thi->deThi;
+                $thoiGianBatDau = strtotime($deThi->ThoiGianBatDau);
+                $thoiGianKetThuc = strtotime($deThi->ThoiGianKetThuc);
                 $thoiGianHienTai = strtotime(now());
-                $ngayThi = strtotime($dethi->NgayThi);
+                $ngayThi = strtotime($deThi->NgayThi);
                 $ngayHienTai = strtotime(now()->toDateString());
             @endphp
             <tr>
-                <td>{{ optional($dethi->MonHoc)->TenMH }}</td>
-                <td>{{ $dethi->TenDeThi }}</td>
-                <td>{{ $dethi->ThoiGianLamBai }} Phút</td>
-                <td>{{ date('d/m/Y', strtotime($dethi->NgayThi)) }}</td>
-                <td>{{ $dethi->ThoiGianBatDau }}</td>
-                <td>{{ $dethi->ThoiGianKetThuc }}</td>
-                <td>{{ $dethi->SoLuongCH }}</td>
-                <td>{{ optional($dethi->phongThi)->TenPT }}</td>
+                <td>{{ optional($deThi->MonHoc)->TenMH }}</td>
+                <td>{{ $deThi->ThoiGianLamBai }} Phút</td>
+                <td>{{ date('d/m/Y', strtotime($deThi->NgayThi)) }}</td>
+                <td>{{ $deThi->ThoiGianBatDau }}</td>
+                <td>{{ $deThi->ThoiGianKetThuc }}</td>
+                <td>{{ $deThi->SoLuongCH }}</td>
+                <td>{{ optional($deThi->phongThi)->TenPT }}</td>
                 <td>
                     @if ($thoiGianHienTai >= $thoiGianBatDau && $thoiGianHienTai <= $thoiGianKetThuc && $ngayThi == $ngayHienTai) 
-                            <a href="{{ route('coi-thi-de', ['id' => $dethi->MaDe]) }}" class="btn btn-primary">Vào Thi</a>
-                        @endif
+                        <a href="{{ route('vao-thi', ['id' => $deThi->MaDe]) }}" class="btn btn-primary">Vào Thi</a>
+                    @endif
                 </td>
             </tr>
-            @endforeach
+        @endforeach
         </tbody>
     </table>
     {{ $dslichthi->onEachSide(1)->links() }}<br />
