@@ -5,6 +5,7 @@ namespace App\Http\Controllers\CB_CoiThi;
 use App\Models\DeThi;
 use App\Models\Thi;
 use App\Models\Users;
+use App\Models\MonHoc;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -15,9 +16,33 @@ class CoiThiController extends Controller
     {
         $userId = session('user');
         $dsdethi = DeThi::where('TrangThai', 0)->where('MaCBCT', $userId->UserID)->orderBy('MaDe', 'desc')->paginate(10);
+        $dsmonhoc = MonHoc::whereIn('MaMH', $dsdethi->pluck('MaMH'))->get();
         return view('cb_coithi.coi-thi', [
             'title' => 'Cán Bộ Coi Thi',
-            'dslichthi' => $dsdethi
+            'dslichthi' => $dsdethi,
+            'dsmonhoc' => $dsmonhoc
+        ]);
+    }
+    public function getMonHocByRole(Request $request)
+    {
+        $MonhocId = $request->input('monhoc_id');
+        $userId = session('user');
+
+        if ($MonhocId != null) {
+            $dsdethi = DeThi::where('TrangThai', 0)
+            ->where('MaCBCT', $userId->UserID)
+            ->where('MaMH', $MonhocId) 
+            ->orderBy('MaDe', 'desc')
+            ->paginate(10);
+        } else {
+            $dsdethi = DeThi::where('TrangThai', 0)->where('MaCBCT', $userId->UserID)->orderBy('MaDe', 'desc')->paginate(10);    
+        }
+        $dsall = DeThi::where('TrangThai', 0)->where('MaCBCT', $userId->UserID)->orderBy('MaDe', 'desc')->paginate(10);    
+        $dsmonhoc = MonHoc::whereIn('MaMH', $dsall->pluck('MaMH'))->get();
+        return view('cb_coithi.coi-thi', [
+            'title' => 'Cán Bộ Coi Thi',
+            'dslichthi' => $dsdethi,
+            'dsmonhoc' => $dsmonhoc
         ]);
     }
     public function coiThi($id)
