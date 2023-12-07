@@ -14,6 +14,16 @@ class VaoThiController extends Controller
 {
     public function index()
     {
+
+        $alldethi = DeThi::where('TrangThai', 0)->get();
+        foreach ($alldethi as $dethi) {
+            // Kiểm tra xem ngày thi đã qua chưa
+            if (strtotime($dethi->NgayThi) < strtotime(now())) {
+                // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
+                $dethi->update(['TrangThai' => 1]);
+            }
+        }
+
         $userId = session('user');
 
         // Lấy danh sách đề thi của sinh viên với trạng thái là 0
@@ -21,6 +31,10 @@ class VaoThiController extends Controller
         ->thi()
         ->whereHas('deThi', function ($query) {
             $query->where('TrangThai', 0);
+        })
+        ->where(function ($query) {
+            $query->whereNull('thi.SoCauDung')
+                  ->orWhereNull('thi.Diem');
         })
         ->with(['deThi' => function ($query) {
             $query->orderBy('MaDe', 'desc');
@@ -148,7 +162,8 @@ class VaoThiController extends Controller
             'dethi' => $dethi
         ]);
     }
-    public function ketQua(Request $request,$id)
+    
+    public function ketQua(Request $request, $id)
     {
         $dethi = DeThi::find($id);
         $dsChiTietDeThi = ChiTietDeThi::with('cauhoi.dapan')->where('MaDe', $id)->get();
@@ -176,57 +191,80 @@ class VaoThiController extends Controller
                 })->all(),
             ];
         }
+
         // Xử lý kết quả từ form gửi lên
         $dapAnDaChon = $request->input('dap_an', []);
         $dapAnDienKhuyet = $request->input('dap_an_dien_khuyet', []);
         // Tổng số câu hỏi của đề thi
         $soLuongCH = $dethi->SoLuongCH;
 
-        // Điểm mỗi câu hỏi
+        // Điểm mỗi câu
         $diemMoiCau = ($soLuongCH > 0) ? 10 / $soLuongCH : 0;
         // Tổng điểm
         $diem = 0;
+        // Số câu đúng
+        $soCauDung = 0;
 
         foreach ($dsCauHoiVaDapAn as $item) {
             $maCauHoi = $item['MaCauHoi'];
             $dapAnDung = collect($item['DanhSachDapAn'])->filter(function ($dapAn) {
                 return $dapAn['LaDapAnDung'] == true;
             })->pluck('MaDapAn')->toArray();
-            $dapAndienkhuyetdung = collect($item['DanhSachDapAn'])->filter(function ($dapAn) {
+            $dapAnDienKhuyetDung = collect($item['DanhSachDapAn'])->filter(function ($dapAn) {
                 return $dapAn['LaDapAnDung'] == true;
             })->pluck('NoiDungDapAn')->toArray();
 
-            // Kiểm tra đáp án đúng và đáp án đã chọn
-            if ($item['LoaiCauHoi'] == "Điền khuyết") 
-            {
+            // Kiểm tra loại câu hỏi
+            if ($item['LoaiCauHoi'] == "Điền khuyết") {
                 $dapAnChon = isset($dapAnDienKhuyet[$maCauHoi]) ? $dapAnDienKhuyet[$maCauHoi] : '';
-                if( $dapAnChon==[])
-                {
-                    $diem +=0;
+                if ($dapAnChon == $dapAnDienKhuyetDung[0]) {
+                    $diem += $diemMoiCau; // Cộng điểm nếu đúng
+                    $soCauDung++;
                 }
-                else
-                {
-                    $diem += ($dapAnChon ==  $dapAndienkhuyetdung[0]) ? $diemMoiCau : 0; // Cộng điểm nếu đúng
-                }
-            } 
-            else 
-            {
+            } else {
                 $dapAnChon = isset($dapAnDaChon[$maCauHoi]) ? $dapAnDaChon[$maCauHoi] : [];
                 sort($dapAnChon);
                 sort($dapAnDung);
-                if( $dapAnChon==[])
-                {
-                    $diem +=0;
+                if ($dapAnChon == $dapAnDung) {
+                    $diem += $diemMoiCau;
+                    $soCauDung++;
                 }
-                else
-                {
-                    $diem += ($dapAnChon == $dapAnDung) ? $diemMoiCau : 0;
-                }
-               
             }
         }
 
-        // Tính điểm cuối cùng
-        dd($diem);
+        // Lưu kết quả vào cơ sở dữ liệu
+        $userId = session('user')->UserID;
+        Thi::where('MaDe', $id)->where('MaSV', $userId)->update([
+            'SoCauDung' => $soCauDung,
+            'Diem' => $diem,
+        ]);
+
+        // Chuyển hướng đến trang hiển thị kết quả
+        return view('sinhvien.ket-qua', [
+            'title' => 'Kết Quả Thi',
+            'diem' => $diem,
+            'soCauDung' => $soCauDung,
+        ]);
+    }
+    public function indexXemKetQua()
+    {
+        $userId = session('user');
+        $query = Users::find($userId->UserID)
+        ->thi()
+        ->where(function ($query) {
+            $query->whereNotNull('thi.SoCauDung')
+                  ->WhereNotNull('thi.Diem');
+        })
+        ->with(['deThi' => function ($query) {
+            $query->orderBy('MaDe', 'desc');
+        }]);
+            // Áp dụng phân trang
+        $dsDethi = $query->paginate(10);
+
+        
+        return view('sinhvien.xem-ket-qua', [
+            'title' => 'Sinh Viên',
+            'dslichthi' => $dsDethi
+        ]);
     }
 }
