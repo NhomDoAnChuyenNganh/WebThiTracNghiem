@@ -164,4 +164,5 @@ Route::group(['middleware' => 'checkLogin:4'], function () {
     Route::post('/sinhvien/thi', [VaoThiController::class, 'getMonHocBySinhVien'])->name('getMonHocBySinhVien');
     Route::get('/sinhvien/vao-thi/{id}', [VaoThiController::class,'vaoThi'])->name('vao-thi');
     Route::post('/sinhvien/ket-qua/{id}', [VaoThiController::class, 'ketQua'])->name('ket-qua');
+    Route::get('/sinhvien/xem-ket-qua', [VaoThiController::class, 'indexXemKetQua'])->name('xem-ket-qua');
 });
