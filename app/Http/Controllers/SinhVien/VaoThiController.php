@@ -14,6 +14,16 @@ class VaoThiController extends Controller
 {
     public function index()
     {
+
+        $alldethi = DeThi::where('TrangThai', 0)->get();
+        foreach ($alldethi as $dethi) {
+            // Kiểm tra xem ngày thi đã qua chưa
+            if (strtotime($dethi->NgayThi) < strtotime(now())) {
+                // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
+                $dethi->update(['TrangThai' => 1]);
+            }
+        }
+
         $userId = session('user');
 
         // Lấy danh sách đề thi của sinh viên với trạng thái là 0
@@ -21,6 +31,10 @@ class VaoThiController extends Controller
         ->thi()
         ->whereHas('deThi', function ($query) {
             $query->where('TrangThai', 0);
+        })
+        ->where(function ($query) {
+            $query->whereNull('thi.SoCauDung')
+                  ->orWhereNull('thi.Diem');
         })
         ->with(['deThi' => function ($query) {
             $query->orderBy('MaDe', 'desc');
@@ -232,5 +246,25 @@ class VaoThiController extends Controller
             'soCauDung' => $soCauDung,
         ]);
     }
-    
+    public function indexXemKetQua()
+    {
+        $userId = session('user');
+        $query = Users::find($userId->UserID)
+        ->thi()
+        ->where(function ($query) {
+            $query->whereNotNull('thi.SoCauDung')
+                  ->WhereNotNull('thi.Diem');
+        })
+        ->with(['deThi' => function ($query) {
+            $query->orderBy('MaDe', 'desc');
+        }]);
+            // Áp dụng phân trang
+        $dsDethi = $query->paginate(10);
+
+        
+        return view('sinhvien.xem-ket-qua', [
+            'title' => 'Sinh Viên',
+            'dslichthi' => $dsDethi
+        ]);
+    }
 }
