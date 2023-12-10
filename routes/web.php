@@ -128,13 +128,18 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::get('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'index']);
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiTracNghiemController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiTracNghiemController::class, 'getDoanVans']);
+    Route::get('/get-cauhois/{madv}', [ThemCauHoiTracNghiemController::class, 'getCauHois']);
     Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [CauHoiController::class, 'themCauHoi'])->name('them-cau-hoi-trac-nghiem');
     Route::get('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'index'])->name('them-cau-hoi-dien-khuyet');
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
+    Route::get('/get-cauhois/{madv}', [ThemCauHoiDienKhuyetController::class, 'getCauHois']);
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
     Route::get('/gv_soande/danh-sach-cau-hoi', [CauHoiController::class, 'index'])->name('danh-sach-cau-hoi');
     Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
+    Route::get('/gv_soande/sua-cau-hoi/{id}', [CauHoiController::class, 'suaCauHoi'])->name('sua-cau-hoi');
+    Route::put('/gv_soande/cap-nhat-cau-hoi/{id}', [CauHoiController::class, 'capNhatCauHoi'])->name('cap-nhat-cau-hoi');
+    Route::delete('/gv_soande/xoa-cau-hoi/{id}', [CauHoiController::class, 'xoaCauHoi'])->name('xoa-cau-hoi');
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
     Route::get('/gv_soande/cau-tao-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('cau-tao-de-thi');
