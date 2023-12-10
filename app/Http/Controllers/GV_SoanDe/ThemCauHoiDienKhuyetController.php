@@ -33,6 +33,12 @@ class ThemCauHoiDienKhuyetController extends Controller
         $doanvans = DoanVan::where('MaChuong', $machuong)->get();
         return response()->json($doanvans);
     }
+    
+    public function getCauHois($madv)
+    {
+        $cauhois = CauHoi::where('MaDV', $madv)->get();
+        return response()->json($cauhois);
+    }
 
     public function themCauHoi(Request $request)
     {
