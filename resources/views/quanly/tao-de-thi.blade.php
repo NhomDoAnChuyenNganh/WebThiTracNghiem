@@ -3,6 +3,7 @@
 ['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
 ['url' => route('ql-phongthi'), 'label' => 'Quản lý phòng thi'],
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
+['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
 ['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
 ]])
@@ -15,13 +16,17 @@
             <form action="{{ route('luu_de_thi') }}" method="post">
                 @csrf
                 <div class="row mb-3">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label style="font-size: 25px; font-weight: bold;" for="ten_de_thi">Tên Đề Thi:</label>
                         <input type="text" class="form-control text-left" name="ten_de_thi" required>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label style="font-size: 25px; font-weight: bold;" for="so_luong_cau_hoi">Số Lượng Câu Hỏi:</label>
                         <input type="number" class="form-control text-left" name="so_luong_cau_hoi" required>
+                    </div>
+                    <div class="col-md-4">
+                        <label style="font-size: 25px; font-weight: bold;" for="thoi-gian-lam-bai">Thời gian làm bài</label>
+                        <input type="number" class="form-control text-left" name="thoi-gian-lam-bai" required>
                     </div>
                 </div>
 
