@@ -16,10 +16,10 @@ class ThemCauHoiTracNghiemController extends Controller
     public function index()
     {
         $monhocs = MonHoc::all();
-        return view('gv_soande.them-cau-hoi-trac-nghiem',[
+        return view('gv_soande.them-cau-hoi-trac-nghiem', [
             'monhocs' => $monhocs,
-            'title'=>'Giáo Viên Soạn Đề',
-            'role' =>'Giáo Viên Soạn Đề' 
+            'title' => 'Giáo Viên Soạn Đề',
+            'role' => 'Giáo Viên Soạn Đề'
         ]);
     }
     public function getChuongs($mamh)
