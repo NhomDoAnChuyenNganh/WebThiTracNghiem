@@ -17,8 +17,11 @@ class VaoThiController extends Controller
 
         $alldethi = DeThi::where('TrangThai', 0)->get();
         foreach ($alldethi as $dethi) {
+            // Lấy ngày hiện tại (không bao gồm giờ phút giây)
+            $ngayHienTai = date('Y-m-d');
+        
             // Kiểm tra xem ngày thi đã qua chưa
-            if (strtotime($dethi->NgayThi) < strtotime(now())) {
+            if ($dethi->NgayThi < $ngayHienTai) {
                 // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
                 $dethi->update(['TrangThai' => 1]);
             }
@@ -119,7 +122,7 @@ class VaoThiController extends Controller
        $thoiGianBatDau = strtotime($dethi->ThoiGianBatDau); // Đổi thời gian bắt đầu từ chuỗi sang timestamp
        $thoiGianHienTai = time(); // Thời gian hiện tại
 
-        if ($thoiGianHienTai > ($thoiGianBatDau + 200 * 60)) {
+        if ($thoiGianHienTai > ($thoiGianBatDau + 20 * 60)) {
             // Nếu thời gian hiện tại lớn hơn thời gian bắt đầu 20 phút, hiển thị thông báo
             Thi::where('MaDe', $id)->where('MaSV', $user->UserID)->update([
                 'SoCauDung' => 0,
