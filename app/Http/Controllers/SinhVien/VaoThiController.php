@@ -14,15 +14,17 @@ class VaoThiController extends Controller
 {
     public function index()
     {
-
-        // $alldethi = DeThi::where('TrangThai', 0)->get();
-        // foreach ($alldethi as $dethi) {
-        //     // Kiểm tra xem ngày thi đã qua chưa
-        //     if (strtotime($dethi->NgayThi) < strtotime(now())) {
-        //         // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
-        //         $dethi->update(['TrangThai' => 1]);
-        //     }
-        // }
+        $alldethi = DeThi::where('TrangThai', 0)->get();
+        foreach ($alldethi as $dethi) {
+            // Lấy ngày hiện tại (không bao gồm giờ phút giây)
+            $ngayHienTai = date('Y-m-d');
+        
+            // Kiểm tra xem ngày thi đã qua chưa
+            if ($dethi->NgayThi < $ngayHienTai) {
+                // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
+                $dethi->update(['TrangThai' => 1]);
+            }
+        }
 
         $userId = session('user');
 
