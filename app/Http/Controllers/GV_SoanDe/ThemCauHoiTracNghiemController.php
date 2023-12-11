@@ -34,6 +34,12 @@ class ThemCauHoiTracNghiemController extends Controller
         return response()->json($doanvans);
     }
 
+    public function getCauHois($madv)
+    {
+        $cauhois = CauHoi::where('MaDV', $madv)->get();
+        return response()->json($cauhois);
+    }
+
     public function themCauHoi(Request $request)
     {
         $request->validate([
@@ -71,4 +77,5 @@ class ThemCauHoiTracNghiemController extends Controller
 
         return redirect('/gv_soande/them-cau-hoi-trac-nghiem')->with('success', 'Câu hỏi đã được thêm thành công.');
     }
+    
 }
