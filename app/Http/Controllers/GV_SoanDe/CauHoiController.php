@@ -185,4 +185,62 @@ class CauHoiController extends Controller
 
         return false;
     }
+
+    public function suaCauHoi($id)
+    {
+        // Lấy thông tin câu hỏi từ CSDL dựa trên $id
+        $cauhoi = CauHoi::with('dapan')->find($id);
+    
+        // Trả về view để sửa câu hỏi, truyền thông tin câu hỏi
+        return view('/gv_soande/sua-cau-hoi', [
+            'cauhoi' => $cauhoi,
+            'title' => 'Sửa Câu Hỏi'
+        ]);
+    }
+    public function capNhatCauHoi(Request $request, $id)
+    {
+        // Validation nếu cần thiết
+        $request->validate([
+            'NoiDung' => 'required',
+            'MucDo' => 'required',
+        ]);
+
+        // Lấy câu hỏi từ CSDL
+        $cauhoi = CauHoi::with('dapan')->find($id);
+        $cauhoi->NoiDung = $request->input('NoiDung');
+        $cauhoi->MucDo = $request->input('MucDo');
+        $cauhoi->MaLoai = $request->input('MaLoai');
+        $cauhoi->save();
+        if( $cauhoi->MaLoai == 3)
+        {
+            $cauhoi->dapan->NoiDungDapAn = $request->input('DapAn');
+            foreach ($cauhoi->dapan as $dapAn) {
+                $dapAn->NoiDungDapAn = $request->input('DapAn');
+                $dapAn->save();
+            }        
+        }
+        else
+        {
+            // Cập nhật đáp án
+            $dapAnDung = $request->input('DapAnDung', []);
+            foreach ($cauhoi->dapan as $index => $dapAn) {
+                $dapAn->NoiDungDapAn = $request->input('DapAn' . ($index + 1));
+                $dapAn->LaDapAnDung = in_array($index + 1, $dapAnDung);
+                $dapAn->save();
+            }
+        }
+
+
+        return back()->with('success', 'Sửa câu hỏi thành công.');
+    }
+    public function xoaCauHoi(Request $request, $id)
+    {
+        // Xóa dữ liệu liên quan trong bảng dapan trước
+        Dapan::where('MaCH', $id)->delete();
+        
+        CauHoi::destroy($id);
+
+        return back()->with('success', 'Xoá câu hỏi thành công.');
+    }
+
 }
