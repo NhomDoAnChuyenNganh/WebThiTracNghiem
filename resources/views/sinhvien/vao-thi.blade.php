@@ -33,6 +33,8 @@
 
                         @foreach($dsCauHoiVaDapAn as $index => $item)
                             @php
+                                // Kiểm tra xem khóa 'DaLam' có tồn tại trong $item hay không
+                                $daLam = isset($item['DaLam']) ? $item['DaLam'] : false;
                                 // Kiểm tra nếu là câu hỏi điền khuyết
                                 $isCauHoiDienKhuyet = ($item['LoaiCauHoi'] == "Điền khuyết");
                                 $soLuongDapAnDung = count(array_filter($item['DanhSachDapAn'], function($dapAn) {
@@ -42,6 +44,7 @@
                                 // Thay thế dấu "..." bằng ô nhập liệu
                                 $noiDungCauHoi = $isCauHoiDienKhuyet ? str_replace('...', '<input type="text" name="dap_an_dien_khuyet['.$item['MaCauHoi'].']">', $item['NoiDungCauHoi']) : $item['NoiDungCauHoi'];
                             @endphp
+                            <div class="question-row {{ $daLam ? 'da-lam' : 'chua-lam' }}">
                             @if ($soLuongDapAnDung > 1)
                                 <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!} (Câu chọn  {{ $soLuongDapAnDung }} đáp án)</p>
                             @else
@@ -71,6 +74,7 @@
                                     @endif
                                 </ul>
                             @endif
+                            </div>
                         @endforeach
                     @else
                         <p>Không có dữ liệu câu hỏi và đáp án.</p>
@@ -79,10 +83,18 @@
                 </div>
                 <div class="col-md-5">
                     <div style="margin-left: 60px;">
+                        <p><strong>Sinh viên đang làm bài:</strong> {{ $sinhvien->HoTen }}</p>
                         <p><strong>Môn học:</strong> {{ optional($dethi->MonHoc)->TenMH}}</p>
                         <p><strong>Thời gian làm bài:</strong> {{ $dethi->ThoiGianLamBai }} Phút</p>
                         <p><strong>Ngày thi:</strong> {{ date('d/m/Y', strtotime($dethi->NgayThi)) }}</p>
                         <p><strong>Thời gian còn lại:</strong> <span id="thoiGianConLai"></span></p>
+                        <!-- Dropdown để lọc câu hỏi -->
+                        <p style="font-size: 25px; font-weight: bold;">Lọc câu hỏi:</p>
+                        <select name="loaiCauHoi" id="loaiCauHoi" class="form-select form-select-sm">
+                            <option value="tatCa">Tất cả</option>
+                            <option value="chuaLam">Câu chưa làm</option>
+                            <option value="daLam">Câu đã làm</option>
+                        </select>
                     </div>
                 </div>
             </div>
@@ -117,5 +129,29 @@
 
     // Gọi hàm cập nhật mỗi giây
     setInterval(capNhatThoiGian, 1000);
+
+      // Hàm để hiển thị/ẩn câu hỏi dựa trên tùy chọn đã chọn
+      function filterQuestions() {
+        var selectedOption = document.getElementById('loaiCauHoi').value;
+        var questions = document.querySelectorAll('.question-row');
+
+        questions.forEach(function(question) {
+            var isChuaLam = question.classList.contains('chua-lam');
+            var isDaLam = question.classList.contains('da-lam');
+
+            if (selectedOption === 'tatCa' || (selectedOption === 'chuaLam' && isChuaLam) || (selectedOption === 'daLam' && isDaLam)) {
+                question.style.display = ''; // Hiển thị
+            } else {
+                question.style.display = 'none'; // Ẩn đi
+            }
+        });
+    }
+
+    document.getElementById('loaiCauHoi').addEventListener('change', function() {
+    filterQuestions();
+});
+
+// Gọi hàm lần đầu để ẩn/hiển thị câu hỏi dựa trên giá trị mặc định
+filterQuestions();
 </script>
 @endsection
