@@ -18,7 +18,7 @@ class QLUserController extends Controller
     public function index()
     {
         $roles = Role::all();
-        $users = Users::orderBy('UserID', 'desc')->get();
+        $users = Users::orderBy('UserID', 'desc')->paginate(10);
         return view('quanly.ql-user', [
             'title' => 'Quản Lý',
             'dsusers' => $users,
@@ -30,9 +30,9 @@ class QLUserController extends Controller
         $roleId = $request->input('role_id');
 
         if ($roleId == null) {
-            $users = Users::all();
+            $users = Users::paginate(10);
         } else {
-            $users = Users::where('RoleID', $roleId)->get();
+            $users = Users::where('RoleID', $roleId)->paginate(10);
         }
 
 
@@ -201,8 +201,7 @@ class QLUserController extends Controller
         for ($row = 2; $row <= $highestRow; $row++) {
 
             $ngaySinh = $sheet->getCell('J' . $row)->getValue();
-            $ngaySinhTimestamp = is_numeric($ngaySinh) ? (int)$ngaySinh : strtotime($ngaySinh);
-            $ngaySinhFormatted = date('Y-m-d', $ngaySinhTimestamp);
+            $ngaySinhFormatted = Carbon::createFromFormat('Y-d-m', $ngaySinh)->format('Y-m-d');
 
 
             $phai = $sheet->getCell('E' . $row)->getValue();

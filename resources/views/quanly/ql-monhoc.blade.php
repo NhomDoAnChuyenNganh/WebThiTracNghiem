@@ -3,11 +3,13 @@
 ['url' => route('ql-monhoc'), 'label' => 'Quản lý môn học'],
 ['url' => route('ql-phongthi'), 'label' => 'Quản lý phòng thi'],
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
+['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
+['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
 ['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
-<div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
+<div style="height: 1000px; width: 600px; background-color: white;margin: auto;">
     <div>
         <form action="{{ route('insertMonHoc') }}" method="POST" style="display: inline-block;">
             @csrf
@@ -79,7 +81,7 @@
             @endforeach
         </tbody>
     </table>
-
+    {{ $monhocs->onEachSide(1)->links() }}<br />
 </div>
 <script>
     function showEditForm(counter) {

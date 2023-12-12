@@ -11,7 +11,7 @@ class QLPhongThiController extends Controller
 {
     public function index()
     {
-        $dsphong = PhongThi::orderBy('MaPT', 'desc')->get();
+        $dsphong = PhongThi::orderBy('MaPT', 'desc')->paginate(10);
         return view('quanly.ql-phongthi', [
             'title' => 'Quản Lý Phòng Thi',
             'dsphong' => $dsphong,
@@ -119,5 +119,4 @@ class QLPhongThiController extends Controller
         }
         return $ptsData;
     }
-    
 }

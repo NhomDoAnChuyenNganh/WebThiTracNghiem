@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CB_CoiThi\CoiThiController;
 use App\Http\Controllers\CB_CoiThi\TrangChuCanBoCoiThiController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\RegisterController;
@@ -21,6 +22,8 @@ use App\Http\Controllers\QuanLy\TrangChuQuanLyController;
 use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Http\Controllers\GV_SoanDe\CauTaoController;
 use App\Http\Controllers\QuanLy\DeThiController;
+use App\Http\Controllers\GV_SoanDe\ChiTietDeThiController;
+use App\Http\Controllers\SinhVien\VaoThiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,7 +101,7 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::post('/quanly/phan-bo-sinh-vien', [QLThiController::class, 'getSinhVienByLichThi'])->name('getSinhVienByLichThi');
     Route::post('/quanly/add-sinh-vien-to-lich-thi', [QLThiController::class, 'addSinhVienToLichThi'])->name('addSinhVienToLichThi');
     //Quản lý tạo đề thi
-    Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de');
+    Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de-thi');
     Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
     Route::get('/quanly/xoa-de/{id}', [DeThiController::class, 'xoaDeThi'])->name('xoa-de');
 });
@@ -109,9 +112,9 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::get('/soande/them-doan', [DoanVanController::class, 'themDoanVanForm'])->name('them-doan');
     Route::get('/get-chuongs/{mamh}', [DoanVanController::class, 'getChuongs']);
     Route::post('/soande/them-doan', [DoanVanController::class, 'themDoanVan'])->name('doanvan.them');
-    Route::get('/soande/sua-mon-hoc/{id}', [MonHocController::class, 'suaMonHocForm']);
-    Route::post('/soande/sua-mon-hoc/{id}', [MonHocController::class, 'suaMonHoc']);
-    Route::delete('/soande/xoa-mon-hoc/{id}', [MonHocController::class, 'xoaMonHoc']);
+    Route::get('/soande/sua-mon-hoc/{id}', [QLMonHocController::class, 'suaMonHocForm']);
+    Route::post('/soande/sua-mon-hoc/{id}', [QLMonHocController::class, 'suaMonHoc']);
+    Route::delete('/soande/xoa-mon-hoc/{id}', [QLMonHocController::class, 'xoaMonHoc']);
     Route::get('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuongForm'])->name('sua-chuong');
     Route::post('/soande/sua-chuong/{id}', [ChuongController::class, 'suaChuong']);
     Route::delete('/soande/xoa-chuong/{id}', [ChuongController::class, 'xoaChuong']);
@@ -120,33 +123,48 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::post('/soande/sua-doan-van/{id}', [DoanVanController::class, 'suaDoanVan']);
     Route::delete('/soande/xoa-doan-van/{id}', [DoanVanController::class, 'xoaDoanVan'])->name('doanvan.xoa');
     Route::get('/get-doanvans/{machuong}', [DoanVanController::class, 'getDoanVans']);
-    Route::post('/soande/them-mon-hoc-excel', [MonHocController::class, 'themMonHocExcel'])->name('them-mon-hoc-excel');
+    Route::post('/soande/them-mon-hoc-excel', [QLMonHocController::class, 'themMonHocExcel'])->name('them-mon-hoc-excel');
     Route::get('/gv_soande/trang-chu-giao-vien-soan-de', [TrangChuGiaoVienSoanDeController::class, 'index'])->name('trang-chu-giao-vien-soan-de');
     Route::get('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'index']);
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiTracNghiemController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiTracNghiemController::class, 'getDoanVans']);
-    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [CauHoiController::class, 'themCauHoi'])->name('them-cau-hoi-trac-nghiem');
+    Route::post('/gv_soande/them-cau-hoi-trac-nghiem', [ThemCauHoiTracNghiemController::class, 'themCauHoi'])->name('them-cau-hoi-trac-nghiem');
+    Route::get('/get-cauhois/{madv}', [ThemCauHoiTracNghiemController::class, 'getCauHois']);
     Route::get('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'index'])->name('them-cau-hoi-dien-khuyet');
     Route::get('/get-chuongs/{mamh}', [ThemCauHoiDienKhuyetController::class, 'getChuongs']);
     Route::get('/get-doanvans/{machuong}', [ThemCauHoiDienKhuyetController::class, 'getDoanVans']);
+    Route::get('/get-cauhois/{madv}', [ThemCauHoiDienKhuyetController::class, 'getCauHois']);
     Route::post('/gv_soande/them-cau-hoi-dien-khuyet', [ThemCauHoiDienKhuyetController::class, 'themCauHoi']);
     Route::get('/gv_soande/danh-sach-cau-hoi', [CauHoiController::class, 'index'])->name('danh-sach-cau-hoi');
     Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
+    Route::get('/gv_soande/sua-cau-hoi/{id}', [CauHoiController::class, 'suaCauHoi'])->name('sua-cau-hoi');
+    Route::put('/gv_soande/cap-nhat-cau-hoi/{id}', [CauHoiController::class, 'capNhatCauHoi'])->name('cap-nhat-cau-hoi');
+    Route::delete('/gv_soande/xoa-cau-hoi/{id}', [CauHoiController::class, 'xoaCauHoi'])->name('xoa-cau-hoi');
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
-    Route::get('/gv_soande/sua-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('sua-de-thi');
-    Route::delete('/gv_soande/xoa-de-thi/{id}', [CauTaoController::class, 'deleteDeThi'])->name('xoa-de-thi');
-    Route::post('/gv_soande/sua-de-thi/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'suaDeThi'])->name('luu-so-luong-cau-hoi');
-    Route::post('/gv_soande/luu-so-luong-cau-hoi/{id}', [CauTaoController::class, 'luuSoLuongCauHoi'])->name('luu-cau-hoi-them');
-
+    Route::get('/gv_soande/cau-tao-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('cau-tao-de-thi');
+    Route::post('/gv_soande/cau-tao-chuong-de-thi/{id}/so-luong-cau-hoi-chuong', [CauTaoController::class, 'cauTaoSoCauChuong'])->name('so-luong-cau-hoi-chuong');
+    Route::post('/gv_soande/them_cau_hoi_muc_do/{id}/luu-so-luong-cau-hoi', [CauTaoController::class, 'cauTaoMucDoCauHoi'])->name('luu-so-luong-cau-hoi');
+    Route::post('/gv_soande/sua-chi-tiet-de-thi/{id}', [ChiTietDeThiController::class, 'suaChiTietDeThi'])->name('sua-chi-tiet-de-thi');
+    Route::post('/gv_soande/xoacauhoi', [ChiTietDeThiController::class, 'xoaCauHoi'])->name('xoacauhoi');
+    Route::get('/gv_soande/them-cau-hoi-rand/{id}', [CauTaoController::class, 'themCauHoiRand'])->name('them-cau-hoi-rand');
 });
 //Chức năng của nhóm quản cán bộ coi thi
 Route::group(['middleware' => 'checkLogin:3'], function () {
 
     Route::get('/cb_coithi/trang-chu-can-bo-coi-thi', [TrangChuCanBoCoiThiController::class, 'index'])->name('trang-chu-can-bo-coi-thi');
+    Route::get('/cb_coithi/coi-thi', [CoiThiController::class, 'index'])->name('coi-thi');
+    Route::post('/cb_coithi/coi-thi', [CoiThiController::class, 'getMonHocByRole'])->name('getMonHocByRole');
+    Route::get('/cb_coithi/coi-thi-de/{id}', [CoiThiController::class, 'coiThi'])->name('coi-thi-de');
+    Route::post('/cb_coithi/update-matkhau/{id}', [CoiThiController::class, 'doiMatKhau'])->name('update-matkhau');
 });
 //Chức năng của nhóm quản sinh viên
 Route::group(['middleware' => 'checkLogin:4'], function () {
 
     Route::get('/sinhvien/trang-chu-sinh-vien', [TrangChuSinhVienController::class, 'index'])->name('trang-chu-sinh-vien');
+    Route::get('/sinhvien/thi', [VaoThiController::class, 'index'])->name('thi');
+    Route::post('/sinhvien/thi', [VaoThiController::class, 'getMonHocBySinhVien'])->name('getMonHocBySinhVien');
+    Route::get('/sinhvien/vao-thi/{id}', [VaoThiController::class, 'vaoThi'])->name('vao-thi');
+    Route::post('/sinhvien/ket-qua/{id}', [VaoThiController::class, 'ketQua'])->name('ket-qua');
+    Route::get('/sinhvien/xem-ket-qua', [VaoThiController::class, 'indexXemKetQua'])->name('xem-ket-qua');
 });

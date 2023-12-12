@@ -44,4 +44,5 @@ class DeThi extends Model
     {
         return $this->belongsTo(PhongThi::class, 'MaPT', 'MaPT');
     }
+    
 }

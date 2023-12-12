@@ -55,7 +55,8 @@ class ChuongController extends Controller
         $chuong->TenChuong = $request->input('TenChuong');
         $chuong->save();
 
-        return redirect('/soande/them-chuong')->with('success', 'Sửa chương thành công.');
+        return back()->with('success', 'Sửa chương thành công.');
+        // return redirect('/soande/them-chuong')->with('success', 'Sửa chương thành công.');
     }
 
     public function xoaChuong($id)

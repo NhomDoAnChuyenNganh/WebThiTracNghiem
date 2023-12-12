@@ -16,10 +16,10 @@ class ThemCauHoiTracNghiemController extends Controller
     public function index()
     {
         $monhocs = MonHoc::all();
-        return view('gv_soande.them-cau-hoi-trac-nghiem',[
+        return view('gv_soande.them-cau-hoi-trac-nghiem', [
             'monhocs' => $monhocs,
-            'title'=>'Giáo Viên Soạn Đề',
-            'role' =>'Giáo Viên Soạn Đề' 
+            'title' => 'Giáo Viên Soạn Đề',
+            'role' => 'Giáo Viên Soạn Đề'
         ]);
     }
     public function getChuongs($mamh)
@@ -32,6 +32,12 @@ class ThemCauHoiTracNghiemController extends Controller
     {
         $doanvans = DoanVan::where('MaChuong', $machuong)->get();
         return response()->json($doanvans);
+    }
+
+    public function getCauHois($madv)
+    {
+        $cauhois = CauHoi::where('MaDV', $madv)->get();
+        return response()->json($cauhois);
     }
 
     public function themCauHoi(Request $request)
@@ -71,4 +77,5 @@ class ThemCauHoiTracNghiemController extends Controller
 
         return redirect('/gv_soande/them-cau-hoi-trac-nghiem')->with('success', 'Câu hỏi đã được thêm thành công.');
     }
+    
 }
