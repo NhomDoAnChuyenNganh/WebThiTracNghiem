@@ -146,6 +146,7 @@ class VaoThiController extends Controller
                 'MaCauHoi' => $cauHoi->MaCH,
                 'NoiDungCauHoi' => $cauHoi->NoiDung,
                 'LoaiCauHoi' => $loaiCauHoi->TenLoai, // Thêm thông tin loại câu hỏi vào mảng
+                'TrangThai' => false,
                 'DanhSachDapAn' => $dapAn->map(function ($item) {
                     return [
                         'MaDapAn' => $item->MaDA,
@@ -156,7 +157,6 @@ class VaoThiController extends Controller
             ];
         }
         // Thực hiện các thao tác khác cần thiết với danh sách câu hỏi và đáp án
-
 
         return view('sinhvien.vao-thi', [
             'title' => 'Sinh Viên',
