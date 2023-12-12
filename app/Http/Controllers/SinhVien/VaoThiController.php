@@ -14,15 +14,17 @@ class VaoThiController extends Controller
 {
     public function index()
     {
-
-        // $alldethi = DeThi::where('TrangThai', 0)->get();
-        // foreach ($alldethi as $dethi) {
-        //     // Kiểm tra xem ngày thi đã qua chưa
-        //     if (strtotime($dethi->NgayThi) < strtotime(now())) {
-        //         // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
-        //         $dethi->update(['TrangThai' => 1]);
-        //     }
-        // }
+        $alldethi = DeThi::where('TrangThai', 0)->get();
+        foreach ($alldethi as $dethi) {
+            // Lấy ngày hiện tại (không bao gồm giờ phút giây)
+            $ngayHienTai = date('Y-m-d');
+        
+            // Kiểm tra xem ngày thi đã qua chưa
+            if ($dethi->NgayThi < $ngayHienTai) {
+                // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
+                $dethi->update(['TrangThai' => 1]);
+            }
+        }
 
         $userId = session('user');
 
@@ -159,7 +161,8 @@ class VaoThiController extends Controller
         return view('sinhvien.vao-thi', [
             'title' => 'Sinh Viên',
             'dsCauHoiVaDapAn' => $dsCauHoiVaDapAn,
-            'dethi' => $dethi
+            'dethi' => $dethi,
+            'sinhvien' =>$user
         ]);
     }
 
@@ -193,8 +196,10 @@ class VaoThiController extends Controller
         }
 
         // Xử lý kết quả từ form gửi lên
-        $dapAnDaChon = $request->input('dap_an', []);
-        $dapAnDienKhuyet = $request->input('dap_an_dien_khuyet', []);
+        $dapAnDaChon = $request->input('dap_an',[]);
+        $dapAnDienKhuyet = $request->input('dap_an_dien_khuyet',[]);
+
+
         // Tổng số câu hỏi của đề thi
         $soLuongCH = $dethi->SoLuongCH;
 
@@ -217,6 +222,7 @@ class VaoThiController extends Controller
             // Kiểm tra loại câu hỏi
             if ($item['LoaiCauHoi'] == "Điền khuyết") {
                 $dapAnChon = isset($dapAnDienKhuyet[$maCauHoi]) ? $dapAnDienKhuyet[$maCauHoi] : '';
+                
                 if ($dapAnChon == $dapAnDienKhuyetDung[0]) {
                     $diem += $diemMoiCau; // Cộng điểm nếu đúng
                     $soCauDung++;
@@ -231,7 +237,7 @@ class VaoThiController extends Controller
                 }
             }
         }
-
+        dd($diem);
         // Lưu kết quả vào cơ sở dữ liệu
         $userId = session('user')->UserID;
         Thi::where('MaDe', $id)->where('MaSV', $userId)->update([
