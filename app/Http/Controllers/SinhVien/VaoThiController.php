@@ -161,7 +161,8 @@ class VaoThiController extends Controller
         return view('sinhvien.vao-thi', [
             'title' => 'Sinh Viên',
             'dsCauHoiVaDapAn' => $dsCauHoiVaDapAn,
-            'dethi' => $dethi
+            'dethi' => $dethi,
+            'sinhvien' =>$user
         ]);
     }
 
@@ -195,8 +196,10 @@ class VaoThiController extends Controller
         }
 
         // Xử lý kết quả từ form gửi lên
-        $dapAnDaChon = $request->input('dap_an', []);
-        $dapAnDienKhuyet = $request->input('dap_an_dien_khuyet', []);
+        $dapAnDaChon = $request->input('dap_an',[]);
+        $dapAnDienKhuyet = $request->input('dap_an_dien_khuyet',[]);
+
+
         // Tổng số câu hỏi của đề thi
         $soLuongCH = $dethi->SoLuongCH;
 
@@ -219,6 +222,7 @@ class VaoThiController extends Controller
             // Kiểm tra loại câu hỏi
             if ($item['LoaiCauHoi'] == "Điền khuyết") {
                 $dapAnChon = isset($dapAnDienKhuyet[$maCauHoi]) ? $dapAnDienKhuyet[$maCauHoi] : '';
+                
                 if ($dapAnChon == $dapAnDienKhuyetDung[0]) {
                     $diem += $diemMoiCau; // Cộng điểm nếu đúng
                     $soCauDung++;
@@ -233,7 +237,7 @@ class VaoThiController extends Controller
                 }
             }
         }
-
+        dd($diem);
         // Lưu kết quả vào cơ sở dữ liệu
         $userId = session('user')->UserID;
         Thi::where('MaDe', $id)->where('MaSV', $userId)->update([
