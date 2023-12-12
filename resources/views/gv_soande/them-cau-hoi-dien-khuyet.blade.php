@@ -82,53 +82,6 @@
     </table>
 </div>
 
-{{-- <script>
-    $(document).ready(function() {
-        // Lắng nghe sự kiện khi thay đổi môn học và nạp dữ liệu vào dropdown chương tương ứng.
-        $('#MonHoc').on('change', function() {
-            var mamh = $(this).val();
-            if (mamh) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-chuongs/' + mamh,
-                    success: function(data) {
-                        console.log(data); // Kiểm tra dữ liệu trả về
-                        $('#Chuong').empty();
-                        $('#Chuong').append('<option value="">Chọn chương</option>');
-                        $.each(data, function(index, chuong) { // sửa ở đây
-                            $('#Chuong').append('<option value="' + chuong.MaChuong + '">' + chuong.TenChuong + '</option>'); // sửa ở đây
-                        });
-                    }
-                });
-            } else {
-                $('#Chuong').empty();
-                $('#DoanVan').empty();
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#Chuong').on('change', function() {
-            var machuong = $(this).val();
-            if (machuong) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-doanvans/' + machuong,
-                    success: function(data) {
-                        $('#DoanVan').empty();
-                        $('#DoanVan').append('<option value="">Chọn đoạn văn</option>');
-                        $.each(data, function(index, doanvan) {
-                            $('#DoanVan').append('<option value="' + doanvan.MaDV + '">' + doanvan.TenDV + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#DoanVan').empty();
-            }
-        });
-    });
-</script> --}}
 <script>
     $(document).ready(function() {
         // Lắng nghe sự kiện khi thay đổi môn học và nạp dữ liệu vào dropdown chương tương ứng.
