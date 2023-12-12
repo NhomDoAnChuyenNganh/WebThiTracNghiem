@@ -153,5 +153,25 @@
 
 // Gọi hàm lần đầu để ẩn/hiển thị câu hỏi dựa trên giá trị mặc định
 filterQuestions();
+document.querySelectorAll('.question-row input').forEach(function(input) {
+        input.addEventListener('change', function() {
+            // Tìm phần tử cha (div.question-row) của input
+            var questionRow = input.closest('.question-row');
+            
+            // Kiểm tra xem input có được chọn hay không
+            if (input.checked) {
+                // Nếu được chọn, thay đổi class thành 'da-lam'
+                questionRow.classList.remove('chua-lam');
+                questionRow.classList.add('da-lam');
+            } else {
+                // Nếu không được chọn, thay đổi class thành 'chua-lam'
+                questionRow.classList.remove('da-lam');
+                questionRow.classList.add('chua-lam');
+            }
+
+            // Cập nhật lại trạng thái của câu hỏi
+            filterQuestions();
+        });
+    });
 </script>
 @endsection
