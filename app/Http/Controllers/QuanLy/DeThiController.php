@@ -17,12 +17,12 @@ class DeThiController extends Controller
         $gvsds = Users::where('RoleID', 2)->get(); // Lấy danh sách giáo viên soạn đề
         $monhocs = MonHoc::all(); // Lấy danh sách môn học
         $desthies = DeThi::whereNull('MaPT')->orderBy('MaDe', 'desc')->get();
-        return view('quanly.tao-de-thi',[
+        return view('quanly.tao-de-thi', [
             'monhocs' => $monhocs,
             'gvsds' => $gvsds,
             'desthies' => $desthies,
-            'title'=>'Quản Lý',
-            'role' =>'Admin' 
+            'title' => 'Quản Lý',
+            'role' => 'Admin'
         ]);
     }
     public function luuDeThi(Request $request)
@@ -33,6 +33,7 @@ class DeThiController extends Controller
         $dethi->SoLuongCH = $request->input('so_luong_cau_hoi');
         $dethi->MaGVSD = $request->input('ma_gvsd');
         $dethi->MaMH = $request->input('ma_mon_hoc');
+        $dethi->ThoiGianLamBai = $request->input('thoi-gian-lam-bai');
         // Thêm các trường khác nếu cần
         $dethi->save();
         return redirect('quanly/tao-de-thi')->with('success', 'Đề thi đã được tạo thành công!');

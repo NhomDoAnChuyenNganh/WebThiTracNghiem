@@ -14,35 +14,51 @@ class VaoThiController extends Controller
 {
     public function index()
     {
+        $alldethi = DeThi::where('TrangThai', 0)->get();
+        foreach ($alldethi as $dethi) {
+            // Lấy ngày hiện tại (không bao gồm giờ phút giây)
+            $ngayHienTai = date('Y-m-d');
+        
+            // Kiểm tra xem ngày thi đã qua chưa
+            if ($dethi->NgayThi < $ngayHienTai) {
+                // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
+                $dethi->update(['TrangThai' => 1]);
+            }
+        }
+
         $userId = session('user');
 
         // Lấy danh sách đề thi của sinh viên với trạng thái là 0
         $query = Users::find($userId->UserID)
-        ->thi()
-        ->whereHas('deThi', function ($query) {
-            $query->where('TrangThai', 0);
-        })
-        ->with(['deThi' => function ($query) {
-            $query->orderBy('MaDe', 'desc');
-        }]);
-            // Áp dụng phân trang
+            ->thi()
+            ->whereHas('deThi', function ($query) {
+                $query->where('TrangThai', 0);
+            })
+            ->where(function ($query) {
+                $query->whereNull('thi.SoCauDung')
+                    ->orWhereNull('thi.Diem');
+            })
+            ->with(['deThi' => function ($query) {
+                $query->orderBy('MaDe', 'desc');
+            }]);
+        // Áp dụng phân trang
         $dsDethi = $query->paginate(10);
 
         // Lấy danh sách mã môn học
         $dsMaMonHoc = [];
         foreach ($dsDethi as $dt) {
-        $dsMaMonHoc[] = $dt->deThi->MaMH;
+            $dsMaMonHoc[] = $dt->deThi->MaMH;
         }
 
         // Lấy danh sách môn học
         $dsMonHoc = MonHoc::whereIn('MaMH', $dsMaMonHoc)
-        ->get();
-        
+            ->get();
+
 
         return view('sinhvien.thi', [
             'title' => 'Sinh Viên',
             'dslichthi' => $dsDethi,
-            'dsmonhoc'=>$dsMonHoc
+            'dsmonhoc' => $dsMonHoc
         ]);
     }
     public function getMonHocBySinhVien(Request $request)
@@ -63,23 +79,23 @@ class VaoThiController extends Controller
             $dsDethi = $query->paginate(10);
         } else {
             $query = Users::find($userId->UserID)
-            ->thi()
-            ->whereHas('deThi', function ($query) {
-                $query->where('TrangThai', 0);
-            })
-            ->with(['deThi' => function ($query) {
-                $query->orderBy('MaDe', 'desc');
-            }]);
+                ->thi()
+                ->whereHas('deThi', function ($query) {
+                    $query->where('TrangThai', 0);
+                })
+                ->with(['deThi' => function ($query) {
+                    $query->orderBy('MaDe', 'desc');
+                }]);
             $dsDethi = $query->paginate(10);
         }
 
         $query = Users::find($userId->UserID)
-        ->thi()
-        ->whereHas('deThi', function ($query) {
-            $query->where('TrangThai', 0);
-        })
-        ->with('deThi');
-            // Áp dụng phân trang
+            ->thi()
+            ->whereHas('deThi', function ($query) {
+                $query->where('TrangThai', 0);
+            })
+            ->with('deThi');
+        // Áp dụng phân trang
         $ds = $query->paginate(10);
 
         $dsMaMonHoc = [];
@@ -94,18 +110,18 @@ class VaoThiController extends Controller
         return view('sinhvien.thi', [
             'title' => 'Sinh Viên',
             'dslichthi' => $dsDethi,
-            'dsmonhoc'=>$dsMonHoc
+            'dsmonhoc' => $dsMonHoc
         ]);
     }
     public function vaoThi($id)
     {
         $user = session('user');
         $dethi = DeThi::find($id);
-       // Kiểm tra nếu thời gian hiện tại lớn hơn thời gian bắt đầu 20 phút
-       $thoiGianBatDau = strtotime($dethi->ThoiGianBatDau); // Đổi thời gian bắt đầu từ chuỗi sang timestamp
-       $thoiGianHienTai = time(); // Thời gian hiện tại
+        // Kiểm tra nếu thời gian hiện tại lớn hơn thời gian bắt đầu 20 phút
+        $thoiGianBatDau = strtotime($dethi->ThoiGianBatDau); // Đổi thời gian bắt đầu từ chuỗi sang timestamp
+        $thoiGianHienTai = time(); // Thời gian hiện tại
 
-        if ($thoiGianHienTai > ($thoiGianBatDau + 200 * 60)) {
+        if ($thoiGianHienTai > ($thoiGianBatDau + 20 * 60)) {
             // Nếu thời gian hiện tại lớn hơn thời gian bắt đầu 20 phút, hiển thị thông báo
             Thi::where('MaDe', $id)->where('MaSV', $user->UserID)->update([
                 'SoCauDung' => 0,
@@ -140,15 +156,15 @@ class VaoThiController extends Controller
             ];
         }
         // Thực hiện các thao tác khác cần thiết với danh sách câu hỏi và đáp án
-        
-        
+
+
         return view('sinhvien.vao-thi', [
             'title' => 'Sinh Viên',
             'dsCauHoiVaDapAn' => $dsCauHoiVaDapAn,
             'dethi' => $dethi
         ]);
     }
-    
+
     public function ketQua(Request $request, $id)
     {
         $dethi = DeThi::find($id);
@@ -232,5 +248,25 @@ class VaoThiController extends Controller
             'soCauDung' => $soCauDung,
         ]);
     }
-    
+    public function indexXemKetQua()
+    {
+        $userId = session('user');
+        $query = Users::find($userId->UserID)
+            ->thi()
+            ->where(function ($query) {
+                $query->whereNotNull('thi.SoCauDung')
+                    ->WhereNotNull('thi.Diem');
+            })
+            ->with(['deThi' => function ($query) {
+                $query->orderBy('MaDe', 'desc');
+            }]);
+        // Áp dụng phân trang
+        $dsDethi = $query->paginate(10);
+
+
+        return view('sinhvien.xem-ket-qua', [
+            'title' => 'Sinh Viên',
+            'dslichthi' => $dsDethi
+        ]);
+    }
 }
