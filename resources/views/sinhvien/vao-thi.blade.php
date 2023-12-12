@@ -96,13 +96,14 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary">Nộp bài</button>
+            <button style="margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn nộp bài không?')">Nộp bài</button>
         </div>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-    // Lấy thời gian còn lại từ PHP và chuyển đổi thành giây
-    var thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }}; // Thời gian làm bài theo phút
+    // Lấy thời gian còn lại từ localStorage hoặc PHP và chuyển đổi thành giây
+    var thoiGianConLai = localStorage.getItem('thoiGianConLai') || {{ $dethi->ThoiGianLamBai * 60 }}; // Thời gian làm bài theo phút
 
     // Hàm cập nhật thời gian còn lại và hiển thị
     function capNhatThoiGian() {
@@ -117,13 +118,22 @@
 
         // Kiểm tra nếu thời gian còn lại hết, có thể thêm xử lý ở đây
         if (thoiGianConLai < 0) {
+
             alert('Hết thời gian làm bài!');
             // Tự động nộp form
             document.forms["FormThi"].submit();
+            // Reset thời gian
+            thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }};
         }
     }
 
     // Gọi hàm cập nhật mỗi giây
-    setInterval(capNhatThoiGian, 1000);
+    setInterval(function() {
+        capNhatThoiGian();
+
+        // Lưu thời gian còn lại vào localStorage
+        localStorage.setItem('thoiGianConLai', thoiGianConLai);
+    }, 1000);
 </script>
+
 @endsection
