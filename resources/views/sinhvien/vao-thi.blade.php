@@ -33,6 +33,8 @@
 
                         @foreach($dsCauHoiVaDapAn as $index => $item)
                             @php
+                                // Kiểm tra xem khóa 'DaLam' có tồn tại trong $item hay không
+                                $daLam = isset($item['DaLam']) ? $item['DaLam'] : false;
                                 // Kiểm tra nếu là câu hỏi điền khuyết
                                 $isCauHoiDienKhuyet = ($item['LoaiCauHoi'] == "Điền khuyết");
                                 $soLuongDapAnDung = count(array_filter($item['DanhSachDapAn'], function($dapAn) {
@@ -42,6 +44,7 @@
                                 // Thay thế dấu "..." bằng ô nhập liệu
                                 $noiDungCauHoi = $isCauHoiDienKhuyet ? str_replace('...', '<input type="text" name="dap_an_dien_khuyet['.$item['MaCauHoi'].']">', $item['NoiDungCauHoi']) : $item['NoiDungCauHoi'];
                             @endphp
+                            <div class="question-row {{ $daLam ? 'da-lam' : 'chua-lam' }}">
                             @if ($soLuongDapAnDung > 1)
                                 <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!} (Câu chọn  {{ $soLuongDapAnDung }} đáp án)</p>
                             @else
@@ -71,6 +74,7 @@
                                     @endif
                                 </ul>
                             @endif
+                            </div>
                         @endforeach
                     @else
                         <p>Không có dữ liệu câu hỏi và đáp án.</p>
@@ -86,7 +90,7 @@
                         <p><strong>Thời gian còn lại:</strong> <span id="thoiGianConLai"></span></p>
                         <!-- Dropdown để lọc câu hỏi -->
                         <p style="font-size: 25px; font-weight: bold;">Lọc câu hỏi:</p>
-                        <select name="TrangThaiCauHoi" id="loaiCauHoi" class="form-select form-select-sm">
+                        <select name="loaiCauHoi" id="loaiCauHoi" class="form-select form-select-sm">
                             <option value="tatCa">Tất cả</option>
                             <option value="chuaLam">Câu chưa làm</option>
                             <option value="daLam">Câu đã làm</option>
@@ -96,7 +100,7 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button style="margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn nộp bài không?')">Nộp bài</button>
+            <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn nộp bài không?')">Nộp bài</button>
         </div>
     </form>
 </div>
@@ -134,6 +138,79 @@
         // Lưu thời gian còn lại vào localStorage
         localStorage.setItem('thoiGianConLai', thoiGianConLai);
     }, 1000);
+
+
+    // Hàm để hiển thị/ẩn câu hỏi dựa trên tùy chọn đã chọn
+    function filterQuestions() {
+        var selectedOption = document.getElementById('loaiCauHoi').value;
+        var questions = document.querySelectorAll('.question-row');
+
+        questions.forEach(function(question) {
+            var isChuaLam = question.classList.contains('chua-lam');
+            var isDaLam = question.classList.contains('da-lam');
+
+            if (selectedOption === 'tatCa' || (selectedOption === 'chuaLam' && isChuaLam) || (selectedOption === 'daLam' && isDaLam)) {
+                question.style.display = ''; // Hiển thị
+            } else {
+                question.style.display = 'none'; // Ẩn đi
+            }
+        });
+    }
+
+    document.getElementById('loaiCauHoi').addEventListener('change', function() {
+        filterQuestions();
+    });
+
+    // Gọi hàm lần đầu để ẩn/hiển thị câu hỏi dựa trên giá trị mặc định
+    filterQuestions();
+    document.querySelectorAll('.question-row input[type="checkbox"], .question-row input[type="radio"], .question-row input[type="text"]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            // Tìm phần tử cha (div.question-row) của input
+            var questionRow = input.closest('.question-row');
+            
+            // Kiểm tra xem input có được chọn hay không
+            // Kiểm tra xem input có được chọn hay không
+            if (input.type === 'text') {
+                // Nếu là trường input text, kiểm tra nếu có giá trị để xác định đã làm hay chưa
+                var daLamText = input.value.trim() !== '';
+                if (daLamText) {
+                    // Nếu có giá trị, thay đổi class thành 'da-lam'
+                    questionRow.classList.remove('chua-lam');
+                    questionRow.classList.add('da-lam');
+                } else {
+                    // Nếu không có giá trị, thay đổi class thành 'chua-lam'
+                    questionRow.classList.remove('da-lam');
+                    questionRow.classList.add('chua-lam');
+                }
+                
+            } else if (input.type === 'radio') {
+                // Nếu là radio, kiểm tra số lượng radio đã được chọn
+                var selectedRadios = questionRow.querySelectorAll('input[type="radio"]:checked');
+                if (selectedRadios.length >= 2) {
+                    // Nếu đã chọn ít nhất 2 radio, thay đổi class thành 'da-lam'
+                    questionRow.classList.remove('chua-lam');
+                    questionRow.classList.add('da-lam');
+                } else {
+                    // Nếu chưa chọn đủ 2 radio, thay đổi class thành 'chua-lam'
+                    questionRow.classList.remove('da-lam');
+                    questionRow.classList.add('chua-lam');
+                }
+            }
+            else if (input.checked) {
+                // Nếu được chọn, thay đổi class thành 'da-lam'
+                questionRow.classList.remove('chua-lam');
+                questionRow.classList.add('da-lam');
+            } else {
+                // Nếu không được chọn, thay đổi class thành 'chua-lam'
+                questionRow.classList.remove('da-lam');
+                questionRow.classList.add('chua-lam');
+            }
+
+            // Cập nhật lại trạng thái của câu hỏi
+            filterQuestions();
+        });
+    });
+    
 </script>
 
 @endsection
