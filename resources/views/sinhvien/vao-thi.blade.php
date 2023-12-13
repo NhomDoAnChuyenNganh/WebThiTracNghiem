@@ -100,13 +100,14 @@
             </div>
         </div>
         <div style="text-align: center; margin-top: 20px;">
-            <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary">Nộp bài</button>
+            <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary" onclick="return confirm('Bạn có chắc chắn muốn nộp bài không?')">Nộp bài</button>
         </div>
     </form>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-    // Lấy thời gian còn lại từ PHP và chuyển đổi thành giây
-    var thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }}; // Thời gian làm bài theo phút
+    // Lấy thời gian còn lại từ localStorage hoặc PHP và chuyển đổi thành giây
+    var thoiGianConLai = localStorage.getItem('thoiGianConLai') || {{ $dethi->ThoiGianLamBai * 60 }}; // Thời gian làm bài theo phút
 
     // Hàm cập nhật thời gian còn lại và hiển thị
     function capNhatThoiGian() {
@@ -121,17 +122,26 @@
 
         // Kiểm tra nếu thời gian còn lại hết, có thể thêm xử lý ở đây
         if (thoiGianConLai < 0) {
+
             alert('Hết thời gian làm bài!');
             // Tự động nộp form
             document.forms["FormThi"].submit();
+            // Reset thời gian
+            thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }};
         }
     }
 
     // Gọi hàm cập nhật mỗi giây
-    setInterval(capNhatThoiGian, 1000);
+    setInterval(function() {
+        capNhatThoiGian();
 
-      // Hàm để hiển thị/ẩn câu hỏi dựa trên tùy chọn đã chọn
-      function filterQuestions() {
+        // Lưu thời gian còn lại vào localStorage
+        localStorage.setItem('thoiGianConLai', thoiGianConLai);
+    }, 1000);
+
+
+    // Hàm để hiển thị/ẩn câu hỏi dựa trên tùy chọn đã chọn
+    function filterQuestions() {
         var selectedOption = document.getElementById('loaiCauHoi').value;
         var questions = document.querySelectorAll('.question-row');
 
@@ -148,10 +158,59 @@
     }
 
     document.getElementById('loaiCauHoi').addEventListener('change', function() {
-    filterQuestions();
-});
+        filterQuestions();
+    });
 
-// Gọi hàm lần đầu để ẩn/hiển thị câu hỏi dựa trên giá trị mặc định
-filterQuestions();
+    // Gọi hàm lần đầu để ẩn/hiển thị câu hỏi dựa trên giá trị mặc định
+    filterQuestions();
+    document.querySelectorAll('.question-row input[type="checkbox"], .question-row input[type="radio"], .question-row input[type="text"]').forEach(function(input) {
+        input.addEventListener('change', function() {
+            // Tìm phần tử cha (div.question-row) của input
+            var questionRow = input.closest('.question-row');
+            
+            // Kiểm tra xem input có được chọn hay không
+            // Kiểm tra xem input có được chọn hay không
+            if (input.type === 'text') {
+                // Nếu là trường input text, kiểm tra nếu có giá trị để xác định đã làm hay chưa
+                var daLamText = input.value.trim() !== '';
+                if (daLamText) {
+                    // Nếu có giá trị, thay đổi class thành 'da-lam'
+                    questionRow.classList.remove('chua-lam');
+                    questionRow.classList.add('da-lam');
+                } else {
+                    // Nếu không có giá trị, thay đổi class thành 'chua-lam'
+                    questionRow.classList.remove('da-lam');
+                    questionRow.classList.add('chua-lam');
+                }
+                
+            } else if (input.type === 'radio') {
+                // Nếu là radio, kiểm tra số lượng radio đã được chọn
+                var selectedRadios = questionRow.querySelectorAll('input[type="radio"]:checked');
+                if (selectedRadios.length >= 2) {
+                    // Nếu đã chọn ít nhất 2 radio, thay đổi class thành 'da-lam'
+                    questionRow.classList.remove('chua-lam');
+                    questionRow.classList.add('da-lam');
+                } else {
+                    // Nếu chưa chọn đủ 2 radio, thay đổi class thành 'chua-lam'
+                    questionRow.classList.remove('da-lam');
+                    questionRow.classList.add('chua-lam');
+                }
+            }
+            else if (input.checked) {
+                // Nếu được chọn, thay đổi class thành 'da-lam'
+                questionRow.classList.remove('chua-lam');
+                questionRow.classList.add('da-lam');
+            } else {
+                // Nếu không được chọn, thay đổi class thành 'chua-lam'
+                questionRow.classList.remove('da-lam');
+                questionRow.classList.add('chua-lam');
+            }
+
+            // Cập nhật lại trạng thái của câu hỏi
+            filterQuestions();
+        });
+    });
+    
 </script>
+
 @endsection
