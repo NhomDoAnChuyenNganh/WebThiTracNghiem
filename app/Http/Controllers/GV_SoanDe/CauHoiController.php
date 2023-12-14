@@ -190,7 +190,7 @@ class CauHoiController extends Controller
     {
         // Lấy thông tin câu hỏi từ CSDL dựa trên $id
         $cauhoi = CauHoi::with('dapan')->find($id);
-    
+
         // Trả về view để sửa câu hỏi, truyền thông tin câu hỏi
         return view('/gv_soande/sua-cau-hoi', [
             'cauhoi' => $cauhoi,
@@ -211,18 +211,18 @@ class CauHoiController extends Controller
         $cauhoi->MucDo = $request->input('MucDo');
         $cauhoi->MaLoai = $request->input('MaLoai');
         $cauhoi->save();
-        if( $cauhoi->MaLoai == 3)
-        {
+        if ($cauhoi->MaLoai == 3) {
             $cauhoi->dapan->NoiDungDapAn = $request->input('DapAn');
             foreach ($cauhoi->dapan as $dapAn) {
                 $dapAn->NoiDungDapAn = $request->input('DapAn');
                 $dapAn->save();
-            }        
-        }
-        else
-        {
+            }
+        } else {
             // Cập nhật đáp án
             $dapAnDung = $request->input('DapAnDung', []);
+            $soLuongDapAnDung = count($dapAnDung);
+            $cauhoi->MaLoai = ($soLuongDapAnDung > 1) ? 2 : 1;
+            $cauhoi->save();
             foreach ($cauhoi->dapan as $index => $dapAn) {
                 $dapAn->NoiDungDapAn = $request->input('DapAn' . ($index + 1));
                 $dapAn->LaDapAnDung = in_array($index + 1, $dapAnDung);
@@ -231,16 +231,24 @@ class CauHoiController extends Controller
         }
 
 
-        return back()->with('success', 'Sửa câu hỏi thành công.');
+        return redirect()->back()->with('success', 'Sửa câu hỏi thành công.');
     }
-    public function xoaCauHoi(Request $request, $id)
+    public function xoaCauHoi($id)
     {
-        // Xóa dữ liệu liên quan trong bảng dapan trước
-        Dapan::where('MaCH', $id)->delete();
-        
-        CauHoi::destroy($id);
+        $cauhoi = CauHoi::where('MaCH', $id)->first();
 
-        return back()->with('success', 'Xoá câu hỏi thành công.');
+        if (!$cauhoi) {
+            return redirect()->back()->with('error', 'Không tìm thấy câu hỏi này.');
+        }
+
+        try {
+            $cauhoi->delete();
+
+            return redirect()->back()->with('success', 'Xoá câu hỏi thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa câu hỏi này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
-
 }

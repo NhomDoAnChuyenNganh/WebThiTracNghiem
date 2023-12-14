@@ -139,7 +139,7 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
     Route::get('/gv_soande/sua-cau-hoi/{id}', [CauHoiController::class, 'suaCauHoi'])->name('sua-cau-hoi');
     Route::put('/gv_soande/cap-nhat-cau-hoi/{id}', [CauHoiController::class, 'capNhatCauHoi'])->name('cap-nhat-cau-hoi');
-    Route::delete('/gv_soande/xoa-cau-hoi/{id}', [CauHoiController::class, 'xoaCauHoi'])->name('xoa-cau-hoi');
+    Route::get('/gv_soande/xoa-cau-hoi/{id}', [CauHoiController::class, 'xoaCauHoi'])->name('xoa-cau-hoi');
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
     Route::get('/gv_soande/cau-tao-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('cau-tao-de-thi');

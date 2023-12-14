@@ -66,7 +66,7 @@
                 <td>{{ $monhoc->TenMH }}</td>
                 <td></td>
                 <td>
-                    <a href="{{ route('delete-monhoc', ['id' => $monhoc->MaMH]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xoá</a>
+                    <a href="{{ route('delete-monhoc', ['id' => $monhoc->MaMH]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa môn học này?')">Xoá</a>
                     <button class="btn btn-primary" style="max-width: 80px;" onclick="showEditForm('{{ $counter }}')">Sửa</button>
                     <!-- Form sửa ẩn đi ban đầu -->
                     <div class="editForm" id="editForm{{ $counter }}" style="display: none;">
