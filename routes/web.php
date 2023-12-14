@@ -23,6 +23,7 @@ use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Http\Controllers\GV_SoanDe\CauTaoController;
 use App\Http\Controllers\QuanLy\DeThiController;
 use App\Http\Controllers\GV_SoanDe\ChiTietDeThiController;
+use App\Http\Controllers\QuanLy\ThongKeController;
 use App\Http\Controllers\SinhVien\VaoThiController;
 
 /*
@@ -104,6 +105,8 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de-thi');
     Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
     Route::get('/quanly/xoa-de/{id}', [DeThiController::class, 'xoaDeThi'])->name('xoa-de');
+    //Quản lý thống kê
+    Route::get('/quanly/thong-ke', [ThongKeController::class, 'index'])->name('thong-ke');
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {

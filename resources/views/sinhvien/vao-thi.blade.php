@@ -194,7 +194,7 @@
             } else if (input.type === 'radio') {
                 // Nếu là radio, kiểm tra số lượng radio đã được chọn
                 var selectedRadios = questionRow.querySelectorAll('input[type="radio"]:checked');
-                if (selectedRadios.length >= 2) {
+                if (selectedRadios.length >= 1) {
                     // Nếu đã chọn ít nhất 2 radio, thay đổi class thành 'da-lam'
                     questionRow.classList.remove('chua-lam');
                     questionRow.classList.add('da-lam');
@@ -203,14 +203,19 @@
                     questionRow.classList.remove('da-lam');
                     questionRow.classList.add('chua-lam');
                 }
-            } else if (input.checked) {
-                // Nếu được chọn, thay đổi class thành 'da-lam'
-                questionRow.classList.remove('chua-lam');
-                questionRow.classList.add('da-lam');
-            } else {
-                // Nếu không được chọn, thay đổi class thành 'chua-lam'
-                questionRow.classList.remove('da-lam');
-                questionRow.classList.add('chua-lam');
+            }
+            else 
+            {
+                var selectedCheckbox = questionRow.querySelectorAll('input[type="checkbox"]:checked');
+                if (selectedCheckbox.length >= 1) {
+                    // Nếu được chọn, thay đổi class thành 'da-lam'
+                    questionRow.classList.remove('chua-lam');
+                    questionRow.classList.add('da-lam');
+                } else {
+                    // Nếu không được chọn, thay đổi class thành 'chua-lam'
+                    questionRow.classList.remove('da-lam');
+                    questionRow.classList.add('chua-lam');
+                }
             }
 
             // Cập nhật lại trạng thái của câu hỏi
