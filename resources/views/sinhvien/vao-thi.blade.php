@@ -14,7 +14,7 @@
         {{ session('success') }}
     </div>
     @endif
-
+   
     <div style="text-align: center; margin-bottom: 30px;">
         <h1 style="margin: auto;">Bài Làm</h1>
         {{-- Nội dung khác của trang --}}
@@ -25,60 +25,60 @@
             <div class="row">
                 <div class="col-md-7">
                     <div style="margin-left: 60px;">
-                        @if(isset($dsCauHoiVaDapAn) && !empty($dsCauHoiVaDapAn))
+                    @if(isset($dsCauHoiVaDapAn) && !empty($dsCauHoiVaDapAn))
                         @php
-                        // Xáo trộn mảng câu hỏi và đáp án
-                        shuffle($dsCauHoiVaDapAn);
+                            // Xáo trộn mảng câu hỏi và đáp án
+                            shuffle($dsCauHoiVaDapAn);
                         @endphp
 
                         @foreach($dsCauHoiVaDapAn as $index => $item)
-                        @php
-                        // Kiểm tra xem khóa 'DaLam' có tồn tại trong $item hay không
-                        $daLam = isset($item['DaLam']) ? $item['DaLam'] : false;
-                        // Kiểm tra nếu là câu hỏi điền khuyết
-                        $isCauHoiDienKhuyet = ($item['LoaiCauHoi'] == "Điền khuyết");
-                        $soLuongDapAnDung = count(array_filter($item['DanhSachDapAn'], function($dapAn) {
-                        return $dapAn['LaDapAnDung'] == true;
-                        }));
-
-                        // Thay thế dấu "..." bằng ô nhập liệu
-                        $noiDungCauHoi = $isCauHoiDienKhuyet ? str_replace('...', '<input type="text" name="dap_an_dien_khuyet['.$item['MaCauHoi'].']">', $item['NoiDungCauHoi']) : $item['NoiDungCauHoi'];
-                        @endphp
-                        <div class="question-row {{ $daLam ? 'da-lam' : 'chua-lam' }}">
+                            @php
+                                // Kiểm tra xem khóa 'DaLam' có tồn tại trong $item hay không
+                                $daLam = isset($item['DaLam']) ? $item['DaLam'] : false;
+                                // Kiểm tra nếu là câu hỏi điền khuyết
+                                $isCauHoiDienKhuyet = ($item['LoaiCauHoi'] == "Điền khuyết");
+                                $soLuongDapAnDung = count(array_filter($item['DanhSachDapAn'], function($dapAn) {
+                                    return $dapAn['LaDapAnDung'] == true;
+                                }));
+                                
+                                // Thay thế dấu "..." bằng ô nhập liệu
+                                $noiDungCauHoi = $isCauHoiDienKhuyet ? str_replace('...', '<input type="text" name="dap_an_dien_khuyet['.$item['MaCauHoi'].']">', $item['NoiDungCauHoi']) : $item['NoiDungCauHoi'];
+                            @endphp
+                            <div class="question-row {{ $daLam ? 'da-lam' : 'chua-lam' }}">
                             @if ($soLuongDapAnDung > 1)
-                            <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!} (Câu chọn {{ $soLuongDapAnDung }} đáp án)</p>
+                                <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!} (Câu chọn  {{ $soLuongDapAnDung }} đáp án)</p>
                             @else
-                            <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!}</p>
+                                <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!}</p>
                             @endif
 
                             @if (!$isCauHoiDienKhuyet)
-                            <ul style="list-style-type: none; padding-left: 0;">
-                                @php
-                                // Xáo trộn mảng đáp án
-                                shuffle($item['DanhSachDapAn']);
-                                @endphp
-                                @if ($soLuongDapAnDung > 1)
-                                @foreach($item['DanhSachDapAn'] as $dapAn)
-                                <li style="margin-left: 30px;">
-                                    <input type="checkbox" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
-                                    {{ $dapAn['NoiDungDapAn'] }}
-                                </li>
-                                @endforeach
-                                @else
-                                @foreach($item['DanhSachDapAn'] as $dapAn)
-                                <li style="margin-left: 30px;">
-                                    <input type="radio" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
-                                    {{ $dapAn['NoiDungDapAn'] }}
-                                </li>
-                                @endforeach
-                                @endif
-                            </ul>
+                                <ul style="list-style-type: none; padding-left: 0;">
+                                    @php
+                                        // Xáo trộn mảng đáp án
+                                        shuffle($item['DanhSachDapAn']);
+                                    @endphp
+                                    @if ($soLuongDapAnDung > 1)
+                                        @foreach($item['DanhSachDapAn'] as $dapAn)
+                                            <li style="margin-left: 30px;">
+                                                <input type="checkbox" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
+                                                {{ $dapAn['NoiDungDapAn'] }}
+                                            </li>
+                                        @endforeach  
+                                    @else
+                                        @foreach($item['DanhSachDapAn'] as $dapAn)
+                                            <li style="margin-left: 30px;">
+                                                <input type="radio" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
+                                                {{ $dapAn['NoiDungDapAn'] }}
+                                            </li>
+                                        @endforeach
+                                    @endif
+                                </ul>
                             @endif
-                        </div>
+                            </div>
                         @endforeach
-                        @else
+                    @else
                         <p>Không có dữ liệu câu hỏi và đáp án.</p>
-                        @endif
+                    @endif
                     </div>
                 </div>
                 <div class="col-md-5">
@@ -107,11 +107,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     // Lấy thời gian còn lại từ localStorage hoặc PHP và chuyển đổi thành giây
-    var thoiGianConLai = localStorage.getItem('thoiGianConLai') || {
-        {
-            $dethi - > ThoiGianLamBai * 60
-        }
-    }; // Thời gian làm bài theo phút
+    var thoiGianConLai = localStorage.getItem('thoiGianConLai') || {{ $dethi->ThoiGianLamBai * 60 }}; // Thời gian làm bài theo phút
 
     // Hàm cập nhật thời gian còn lại và hiển thị
     function capNhatThoiGian() {
@@ -131,11 +127,7 @@
             // Tự động nộp form
             document.forms["FormThi"].submit();
             // Reset thời gian
-            thoiGianConLai = {
-                {
-                    $dethi - > ThoiGianLamBai * 60
-                }
-            };
+            thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }};
         }
     }
 
@@ -175,7 +167,7 @@
         input.addEventListener('change', function() {
             // Tìm phần tử cha (div.question-row) của input
             var questionRow = input.closest('.question-row');
-
+            
             // Kiểm tra xem input có được chọn hay không
             // Kiểm tra xem input có được chọn hay không
             if (input.type === 'text') {
@@ -190,7 +182,7 @@
                     questionRow.classList.remove('da-lam');
                     questionRow.classList.add('chua-lam');
                 }
-
+                
             } else if (input.type === 'radio') {
                 // Nếu là radio, kiểm tra số lượng radio đã được chọn
                 var selectedRadios = questionRow.querySelectorAll('input[type="radio"]:checked');
@@ -222,6 +214,7 @@
             filterQuestions();
         });
     });
+    
 </script>
 
 @endsection

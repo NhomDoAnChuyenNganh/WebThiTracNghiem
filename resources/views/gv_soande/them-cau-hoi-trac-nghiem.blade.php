@@ -16,97 +16,101 @@
     {{ session('success') }}
 </div>
 @endif
-<div class="container">
+<div class="row justify-content-center bg-white">
     <h2>Thêm Câu Hỏi</h2>
 
-    <form method="POST" action="/gv_soande/them-cau-hoi-trac-nghiem">
-        @csrf
+    <div class="col-md-6">
+        <form method="POST" action="/gv_soande/them-cau-hoi-trac-nghiem">
+            @csrf
 
-        <div class="form-group">
-            <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
-            <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
-                <option value="">Chọn môn học</option>
-                @foreach($monhocs as $monhoc)
-                <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
-                @endforeach
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="Chuong"><strong>Chọn Chương</strong></label>
-            <select style="max-width: 350px;" class="form-control" id="Chuong" name="MaChuong" required>
-                <option value="">Chọn chương</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="DoanVan">Chọn Đoạn Văn</label>
-            <select style="max-width: 350px;" class="form-control" id="DoanVan" name="DoanVan" required>
-                <option value="">Chọn đoạn văn</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="NoiDung">Nội Dung Câu Hỏi</label>
-            <textarea style="max-width: 500px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
-        </div>
-
-        <div class="form-group">
-            <label for="MucDo">Chọn Loại Câu Hỏi</label>
-            <select style="max-width: 350px;" class="form-control" id="MucDo" name="MucDo" required>
-                <option value="">Chọn mức độ</option>
-                <!-- Thêm các option cho loại câu hỏi -->
-                <option value="Giỏi">Giỏi</option>
-                <option value="Khá">Khá</option>
-                <option value="Trung Bình">Trung Bình</option>
-            </select>
-        </div>
-
-        <div class="form-group">
-            <label for="SoLuongDapAn">Số Lượng Đáp Án</label>
-            <select style="max-width: 350px;" id="SoLuongDapAn" name="SoLuongDapAn" class="form-control" required>
-                <option value="4">4 Đáp Án</option>
-                <option value="5">5 Đáp Án</option>
-                <option value="6">6 Đáp Án</option>
-            </select>
-        </div>
-
-        <!-- Container để chứa các đáp án -->
-        <div id="dapAnContainer">
             <div class="form-group">
-                <label for="DapAn1">Đáp Án 1</label>
-                <input style="max-width: 500px;" type="text" class="form-control" id="DapAn1" name="DapAn1">
-                <input type="checkbox" id="DapAn1Checkbox" name="DapAnDung[]" value="1"> Đáp án đúng
+                <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
+                <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
+                    <option value="">Chọn môn học</option>
+                    @foreach($monhocs as $monhoc)
+                    <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
+                    @endforeach
+                </select>
             </div>
-            <div class="form-group">
-                <label for="DapAn1">Đáp Án 2</label>
-                <input style="max-width: 500px;" type="text" class="form-control" id="DapAn2" name="DapAn2">
-                <input type="checkbox" id="DapAn2Checkbox" name="DapAnDung[]" value="2"> Đáp án đúng
-            </div>
-            <div class="form-group">
-                <label for="DapAn3">Đáp Án 1</label>
-                <input style="max-width: 500px;" type="text" class="form-control" id="DapAn3" name="DapAn3">
-                <input type="checkbox" id="DapAn3Checkbox" name="DapAnDung[]" value="3"> Đáp án đúng
-            </div>
-            <div class="form-group">
-                <label for="DapAn4">Đáp Án 4</label>
-                <input style="max-width: 500px;" type="text" class="form-control" id="DapAn4" name="DapAn4">
-                <input type="checkbox" id="DapAn4Checkbox" name="DapAnDung[]" value="4"> Đáp án đúng
-            </div>
-        </div>
 
-        <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+            <div class="form-group">
+                <label for="Chuong"><strong>Chọn Chương</strong></label>
+                <select style="max-width: 350px;" class="form-control" id="Chuong" name="MaChuong" required>
+                    <option value="">Chọn chương</option>
+                </select>
+            </div>
 
-    </form>
-    <table class="table" style="background-color: aliceblue; margin-top: 20px;">
-        <thead id='name-table'>
-            <tr>
-            </tr>
-        </thead>
-        <tbody id="value-table">
-            <!-- Dữ liệu chương sẽ được thêm bởi JavaScript -->
-        </tbody>
-    </table>
+            <div class="form-group">
+                <label for="DoanVan">Chọn Đoạn Văn</label>
+                <select style="max-width: 350px;" class="form-control" id="DoanVan" name="DoanVan" required>
+                    <option value="">Chọn đoạn văn</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="NoiDung">Nội Dung Câu Hỏi</label>
+                <textarea style="max-width: 500px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
+            </div>
+
+            <div class="form-group">
+                <label for="MucDo">Chọn Loại Câu Hỏi</label>
+                <select style="max-width: 350px;" class="form-control" id="MucDo" name="MucDo" required>
+                    <option value="">Chọn mức độ</option>
+                    <!-- Thêm các option cho loại câu hỏi -->
+                    <option value="Giỏi">Giỏi</option>
+                    <option value="Khá">Khá</option>
+                    <option value="Trung Bình">Trung Bình</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="SoLuongDapAn">Số Lượng Đáp Án</label>
+                <select style="max-width: 350px;" id="SoLuongDapAn" name="SoLuongDapAn" class="form-control" required>
+                    <option value="4">4 Đáp Án</option>
+                    <option value="5">5 Đáp Án</option>
+                    <option value="6">6 Đáp Án</option>
+                </select>
+            </div>
+
+            <!-- Container để chứa các đáp án -->
+            <div id="dapAnContainer">
+                <div class="form-group">
+                    <label for="DapAn1">Đáp Án 1</label>
+                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn1" name="DapAn1">
+                    <input type="checkbox" id="DapAn1Checkbox" name="DapAnDung[]" value="1"> Đáp án đúng
+                </div>
+                <div class="form-group">
+                    <label for="DapAn1">Đáp Án 2</label>
+                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn2" name="DapAn2">
+                    <input type="checkbox" id="DapAn2Checkbox" name="DapAnDung[]" value="2"> Đáp án đúng
+                </div>
+                <div class="form-group">
+                    <label for="DapAn3">Đáp Án 1</label>
+                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn3" name="DapAn3">
+                    <input type="checkbox" id="DapAn3Checkbox" name="DapAnDung[]" value="3"> Đáp án đúng
+                </div>
+                <div class="form-group">
+                    <label for="DapAn4">Đáp Án 4</label>
+                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn4" name="DapAn4">
+                    <input type="checkbox" id="DapAn4Checkbox" name="DapAnDung[]" value="4"> Đáp án đúng
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+
+        </form>
+    </div>
+    <div class="col-md-6">
+        <table class="table" style="background-color: aliceblue; margin-top: 20px;">
+            <thead id='name-table'>
+                <tr>
+                </tr>
+            </thead>
+            <tbody id="value-table">
+                <!-- Dữ liệu chương sẽ được thêm bởi JavaScript -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <script>
@@ -127,23 +131,23 @@
                         $('#DoanVan').empty();
                         $('#Chuong').append('<option value="">Chọn chương</option>');
                         $('#name-table').append('<tr>' +
-                                '<td>Tên Chương</td>' +
-                                '<td>Thao tác</td>' +
-                                '</tr>');
+                            '<td>Tên Chương</td>' +
+                            '<td>Thao tác</td>' +
+                            '</tr>');
                         $.each(data, function(index, chuong) { // sửa ở đây
                             $('#Chuong').append('<option value="' + chuong.MaChuong + '">' + chuong.TenChuong + '</option>'); // sửa ở đây
 
                             $('#value-table').append('<tr>' +
-                                    '<td>' + chuong.TenChuong + '</td>' +
-                                    '<td>' +
-                                    '<a class="btn btn-warning" href="/soande/sua-chuong/' + chuong.MaChuong + '">Sửa</a>' +
-                                    '<form method="POST" action="/soande/xoa-chuong/' + chuong.MaChuong + '" style="display: inline;">' +
-                                    '@csrf' +
-                                    '@method("DELETE")' +
-                                    '<button type="submit" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa chương này không?\')">Xóa</button>' +
-                                    '</form>' +
-                                    '</td>' +
-                                    '</tr>');
+                                '<td>' + chuong.TenChuong + '</td>' +
+                                '<td>' +
+                                '<a class="btn btn-warning" href="/soande/sua-chuong/' + chuong.MaChuong + '">Sửa</a>' +
+                                '<form method="POST" action="/soande/xoa-chuong/' + chuong.MaChuong + '" style="display: inline;">' +
+                                '@csrf' +
+                                '@method("DELETE")' +
+                                '<button type="submit" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa chương này không?\')">Xóa</button>' +
+                                '</form>' +
+                                '</td>' +
+                                '</tr>');
                         });
                     }
                 });
@@ -168,9 +172,9 @@
                         $('#DoanVan').empty();
                         $('#DoanVan').append('<option value="">Chọn đoạn văn</option>');
                         $('#name-table').append('<tr>' +
-                                '<td>Tên Đoạn Văn</td>' +
-                                '<td>Thao tác</td>' +
-                                '</tr>');
+                            '<td>Tên Đoạn Văn</td>' +
+                            '<td>Thao tác</td>' +
+                            '</tr>');
                         $.each(data, function(index, doanvan) {
                             $('#DoanVan').append('<option value="' + doanvan.MaDV + '">' + doanvan.TenDV + '</option>');
 
@@ -206,10 +210,10 @@
                     url: '/get-cauhois/' + madv,
                     success: function(data) {
                         $('#name-table').append('<tr>' +
-                                '<td>Nội dung câu hỏi</td>' +
-                                '<td>Mức độ</td>' +
-                                '<td>Thao tác</td>' +
-                                '</tr>');
+                            '<td>Nội dung câu hỏi</td>' +
+                            '<td>Mức độ</td>' +
+                            '<td>Thao tác</td>' +
+                            '</tr>');
                         $.each(data, function(index, cauhoi) {
                             $('#value-table').append('<tr>' +
                                 '<td>' + cauhoi.NoiDung + '</td>' +
@@ -226,8 +230,7 @@
                         });
                     }
                 });
-            } else {
-            }
+            } else {}
         });
     });
 </script>
