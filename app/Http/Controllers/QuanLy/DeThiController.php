@@ -42,15 +42,10 @@ class DeThiController extends Controller
     {
         $dethi = DeThi::where('MaDe', $id)->first();
 
-        // Kiểm tra xem có tồn tại không
-        if (!$dethi) {
-            return redirect()->route('tao-de')->with('error', 'không tìm thấy đề thi.');
-        }
-
         // Bước 2: Thực hiện xóa 
         $dethi->delete();
 
         // Bước 3: Chuyển hướng người dùng đến trang danh sách 
-        return redirect()->route('tao-de')->with('success', 'Đề thi đã được xóa thành công.');
+        return redirect()->route('tao-de-thi')->with('success', 'Đề thi đã được xóa thành công.');
     }
 }
