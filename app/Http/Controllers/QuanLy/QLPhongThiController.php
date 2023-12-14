@@ -65,11 +65,18 @@ class QLPhongThiController extends Controller
             return redirect()->route('ql-phongthi')->with('error', 'không tìm thấy phòng thi.');
         }
 
-        // Bước 2: Thực hiện xóa 
-        $phongthi->delete();
+        
+        try {
+            // Bước 2: Thực hiện xóa 
+            $phongthi->delete();
 
-        // Bước 3: Chuyển hướng người dùng đến trang danh sách 
-        return redirect()->route('ql-phongthi')->with('success', 'Phòng thi đã được xóa thành công.');
+            // Bước 3: Chuyển hướng người dùng đến trang danh sách 
+            return redirect()->route('ql-phongthi')->with('success', 'Phòng thi đã được xóa thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa phòng thi này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
     public function processFile(Request $request)
     {

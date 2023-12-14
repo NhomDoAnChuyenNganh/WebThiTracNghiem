@@ -7,6 +7,16 @@
 
 @section('content')
 <div class="noidung" style="height: 1000px; width: 600px; background-color: white;margin: auto;">
+@if (session('error'))
+    <div class="alert alert-danger">
+        {{ session('error') }}
+    </div>
+    @endif
+    @if (session('success'))
+    <div class="alert alert-success">
+        {{ session('success') }}
+    </div>
+    @endif
     <div class="container">
 
         <a href="{{ route('them-doan') }}" class="btn btn-success" style="margin: 20px">Thêm Đoạn Văn</a>

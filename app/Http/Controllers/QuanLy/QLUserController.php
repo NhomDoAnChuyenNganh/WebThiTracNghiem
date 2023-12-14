@@ -107,11 +107,18 @@ class QLUserController extends Controller
             return redirect()->route('ql-user')->with('error', 'Không tìm thấy người dùng.');
         }
 
-        // Bước 2: Thực hiện xóa người dùng
-        $user->delete();
+        
+        try {
+            // Bước 2: Thực hiện xóa người dùng
+            $user->delete();
 
-        // Bước 3: Chuyển hướng người dùng đến trang danh sách người dùng
-        return redirect()->route('ql-user')->with('success', 'Người dùng đã được xóa thành công.');
+            // Bước 3: Chuyển hướng người dùng đến trang danh sách người dùng
+            return redirect()->route('ql-user')->with('success', 'Người dùng đã được xóa thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa user này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
     public function edituser($id)
     {
