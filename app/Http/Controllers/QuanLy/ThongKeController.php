@@ -16,17 +16,24 @@ class ThongKeController extends Controller
     {
         $userCount = Users::count();
         // Lấy danh sách môn học và số sinh viên thi trên 5 điểm cho mỗi môn
-        $thongKeData = DB::table('dethi')
+        $thongKeDataTrenNamDiem = DB::table('dethi')
             ->join('thi', 'dethi.MaDe', '=', 'thi.MaDe')
             ->join('monhoc', 'dethi.MaMH', '=', 'monhoc.MaMH')
             ->where('thi.Diem', '>=', 5)
             ->select('monhoc.TenMH', DB::raw('COUNT(thi.MaSV) as so_luong_sinh_vien'))
             ->groupBy('monhoc.TenMH')
             ->get();
-        dd($thongKeData);
+        $thongKeDataDuoiNamDiem = DB::table('dethi')
+            ->join('thi', 'dethi.MaDe', '=', 'thi.MaDe')
+            ->join('monhoc', 'dethi.MaMH', '=', 'monhoc.MaMH')
+            ->where('thi.Diem', '<', 5)
+            ->select('monhoc.TenMH', DB::raw('COUNT(thi.MaSV) as so_luong_sinh_vien'))
+            ->groupBy('monhoc.TenMH')
+            ->get();
         return view('quanly.thong-ke', [
             'title' => 'Thống Kê',
-            'thongKeData' => $thongKeData,
+            'thongKeDataTrenNamDiem' => $thongKeDataTrenNamDiem,
+            'thongKeDataDuoiNamDiem' => $thongKeDataDuoiNamDiem,
             'soluongthisinh'=>$userCount
         ]);
     }
