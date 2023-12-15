@@ -65,7 +65,7 @@
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: soluongthisinh, // Đặt giá trị cao nhất cho trục y
+                    // max: soluongthisinh, // Đặt giá trị cao nhất cho trục y
                     title: {
                         display: true,
                         text: 'Số lượng sinh viên',
