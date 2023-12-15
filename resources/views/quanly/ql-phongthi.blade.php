@@ -5,7 +5,7 @@
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
 ['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
+['url' => route('thong-ke'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
