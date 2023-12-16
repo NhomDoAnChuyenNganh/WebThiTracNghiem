@@ -76,7 +76,13 @@ class DoanVanController extends Controller
             return redirect('/soande/them-doan')->with('error', 'Không tìm thấy đoạn văn.');
         }
 
-        $doanVan->delete();
-        return redirect('/soande/them-doan')->with('success', 'Xóa đoạn văn thành công.');
+        try {
+            $doanVan->delete();
+            return redirect('/soande/them-doan')->with('success', 'Xóa đoạn văn thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa đoạn văn này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
 }

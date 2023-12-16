@@ -5,7 +5,7 @@
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
 ['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
+['url' => route('thong-ke'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
@@ -66,7 +66,7 @@
                 <td>{{ $monhoc->TenMH }}</td>
                 <td></td>
                 <td>
-                    <a href="{{ route('delete-monhoc', ['id' => $monhoc->MaMH]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa người dùng này?')">Xoá</a>
+                    <a href="{{ route('delete-monhoc', ['id' => $monhoc->MaMH]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa môn học này?')">Xoá</a>
                     <button class="btn btn-primary" style="max-width: 80px;" onclick="showEditForm('{{ $counter }}')">Sửa</button>
                     <!-- Form sửa ẩn đi ban đầu -->
                     <div class="editForm" id="editForm{{ $counter }}" style="display: none;">

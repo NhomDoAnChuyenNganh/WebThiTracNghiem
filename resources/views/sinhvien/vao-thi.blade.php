@@ -199,7 +199,7 @@
             else 
             {
                 var selectedCheckbox = questionRow.querySelectorAll('input[type="checkbox"]:checked');
-                if (selectedCheckbox.length >= 1) {
+                if (selectedCheckbox.length > 1) {
                     // Nếu được chọn, thay đổi class thành 'da-lam'
                     questionRow.classList.remove('chua-lam');
                     questionRow.classList.add('da-lam');

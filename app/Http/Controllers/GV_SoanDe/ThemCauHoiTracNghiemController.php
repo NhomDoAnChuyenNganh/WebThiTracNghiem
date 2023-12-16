@@ -54,13 +54,18 @@ class ThemCauHoiTracNghiemController extends Controller
         $cauhoi->NoiDung = $request->input('NoiDung');
         $cauhoi->MaDV = $request->input('DoanVan');
         $cauhoi->MucDo = $request->input('MucDo');
-        $cauhoi->MaLoai = 1;
+        // Kiểm tra số lượng checkbox được chọn
+        $dapAnDung = $request->input('DapAnDung');
+        if (count($dapAnDung) > 1) {
+            $cauhoi->MaLoai = 2; // Nhiều hơn 1 checkbox được chọn
+        } else {
+            $cauhoi->MaLoai = 1; // Chỉ có 1 checkbox được chọn
+        }
         $cauhoi->save();
 
         // Lấy ID của câu hỏi vừa thêm
         $cauHoiID = $cauhoi->MaCH;
 
-        $dapAnDung = $request->input('DapAnDung');
         $soDapAn = $request->input('SoLuongDapAn');
 
         for ($i = 1; $i <= $soDapAn; $i++) {
@@ -77,5 +82,4 @@ class ThemCauHoiTracNghiemController extends Controller
 
         return redirect('/gv_soande/them-cau-hoi-trac-nghiem')->with('success', 'Câu hỏi đã được thêm thành công.');
     }
-    
 }

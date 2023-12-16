@@ -237,7 +237,6 @@ class VaoThiController extends Controller
                 }
             }
         }
-        dd($diem);
         // Lưu kết quả vào cơ sở dữ liệu
         $userId = session('user')->UserID;
         Thi::where('MaDe', $id)->where('MaSV', $userId)->update([
