@@ -52,7 +52,7 @@ class QLUserController extends Controller
         ]);
     }
     public function insertUser(Request $request)
-    { {
+    { 
             // Xác thực dữ liệu đầu vào
             $validator = Validator::make($request->all(), [
                 'username' => 'required|min:8|unique:users,UserName',
@@ -64,7 +64,7 @@ class QLUserController extends Controller
                 'city' => 'required|string',
                 'district' => 'required|string',
                 'ward' => 'required|string',
-                'ngaysinh' => 'required|date',
+                'ngaysinh' => 'required|date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
                 'role_id' => 'required|integer',
             ]);
             if ($validator->fails()) {
@@ -96,7 +96,7 @@ class QLUserController extends Controller
 
 
             return redirect()->route('ql-user')->with('success', 'Người dùng đã được thêm thành công.');
-        }
+        
     }
     public function deleteUser($id)
     {
@@ -135,6 +135,21 @@ class QLUserController extends Controller
     }
     public function updateuser(Request $request, $id)
     {
+        // Xác thực dữ liệu đầu vào
+        $validator = Validator::make($request->all(), [
+            'email' => 'required|email',
+            'hoten' => 'required|string',
+            'phai' => 'required|integer|in:0,1',
+            'diachi' => 'required|string',
+            'ngaysinh' => 'required|date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
+            'role_id' => 'required|integer',
+        ]);
+        if ($validator->fails()) {
+            // Nếu có lỗi xác thực, hiển thị chúng
+            return redirect()->back()
+                ->withErrors($validator)
+                ->withInput();
+        }
         // Lấy thông tin người dùng từ ID
         $user = Users::where('UserID', $id)->first();
         // Cập nhật thông tin người dùng dựa trên dữ liệu từ request
@@ -142,11 +157,11 @@ class QLUserController extends Controller
         $user->Email = $request->email;
         $user->NgaySinh = $request->ngaysinh;
         $user->DiaChi = $request->diachi;
-        $user->PhuongXa = $request->city;
+        $user->PhuongXa = $request->ward;
         $user->QuanHuyen = $request->district;
-        $user->TinhThanh = $request->ward;
+        $user->TinhThanh = $request->city;
         $user->Phai = $request->phai;
-        $user->RoleID = $request->role_id_;
+        $user->RoleID = $request->role_id;
 
 
         $user->save();

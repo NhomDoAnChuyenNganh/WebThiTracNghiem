@@ -19,66 +19,77 @@
         <h1 style="margin: auto;">Bài Làm</h1>
         {{-- Nội dung khác của trang --}}
     </div>
+    @php
+        $doanVanGrouped = collect($dsCauHoiVaDapAn)->groupBy('MaDV'); // Nhóm theo MaDV
+    @endphp
     <form name="FormThi" method="post" action="{{ route('ket-qua', ['id' => $dethi->MaDe])}}">
         @csrf
         <div class="container">
             <div class="row">
                 <div class="col-md-7">
-                    <div style="margin-left: 60px;">
-                    @if(isset($dsCauHoiVaDapAn) && !empty($dsCauHoiVaDapAn))
-                        @php
-                            // Xáo trộn mảng câu hỏi và đáp án
-                            shuffle($dsCauHoiVaDapAn);
-                        @endphp
+                    <div style="margin-left: 50px;">
+                    @foreach($doanVanGrouped as $DV => $dsCauHoiVaDapAnDoanVan)
+                    @php
+                        $doanVan = $dsCauHoiVaDapAnDoanVan->first()['NoiDungDoanVan'];
+                    @endphp
 
-                        @foreach($dsCauHoiVaDapAn as $index => $item)
+                    <p><strong>Đoạn văn {{ $DV }}:</strong> {{ $doanVan }}</p>
+                        @if(isset($dsCauHoiVaDapAnDoanVan) && !empty($dsCauHoiVaDapAnDoanVan))
                             @php
-                                // Kiểm tra xem khóa 'DaLam' có tồn tại trong $item hay không
-                                $daLam = isset($item['DaLam']) ? $item['DaLam'] : false;
-                                // Kiểm tra nếu là câu hỏi điền khuyết
-                                $isCauHoiDienKhuyet = ($item['LoaiCauHoi'] == "Điền khuyết");
-                                $soLuongDapAnDung = count(array_filter($item['DanhSachDapAn'], function($dapAn) {
-                                    return $dapAn['LaDapAnDung'] == true;
-                                }));
-                                
-                                // Thay thế dấu "..." bằng ô nhập liệu
-                                $noiDungCauHoi = $isCauHoiDienKhuyet ? str_replace('...', '<input type="text" name="dap_an_dien_khuyet['.$item['MaCauHoi'].']">', $item['NoiDungCauHoi']) : $item['NoiDungCauHoi'];
+                                // Xáo trộn mảng câu hỏi và đáp án
+                                $dsArray = $dsCauHoiVaDapAnDoanVan->toArray();
+                                shuffle($dsArray);
                             @endphp
-                            <div class="question-row {{ $daLam ? 'da-lam' : 'chua-lam' }}">
-                            @if ($soLuongDapAnDung > 1)
-                                <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!} (Câu chọn  {{ $soLuongDapAnDung }} đáp án)</p>
-                            @else
-                                <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!}</p>
-                            @endif
 
-                            @if (!$isCauHoiDienKhuyet)
-                                <ul style="list-style-type: none; padding-left: 0;">
-                                    @php
-                                        // Xáo trộn mảng đáp án
-                                        shuffle($item['DanhSachDapAn']);
-                                    @endphp
-                                    @if ($soLuongDapAnDung > 1)
-                                        @foreach($item['DanhSachDapAn'] as $dapAn)
-                                            <li style="margin-left: 30px;">
-                                                <input type="checkbox" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
-                                                {{ $dapAn['NoiDungDapAn'] }}
-                                            </li>
-                                        @endforeach  
-                                    @else
-                                        @foreach($item['DanhSachDapAn'] as $dapAn)
-                                            <li style="margin-left: 30px;">
-                                                <input type="radio" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
-                                                {{ $dapAn['NoiDungDapAn'] }}
-                                            </li>
-                                        @endforeach
-                                    @endif
-                                </ul>
-                            @endif
-                            </div>
-                        @endforeach
-                    @else
-                        <p>Không có dữ liệu câu hỏi và đáp án.</p>
-                    @endif
+                            @foreach($dsArray as $index => $item)
+                                @php
+                                    // Kiểm tra xem khóa 'DaLam' có tồn tại trong $item hay không
+                                    $daLam = isset($item['DaLam']) ? $item['DaLam'] : false;
+                                    // Kiểm tra nếu là câu hỏi điền khuyết
+                                    $isCauHoiDienKhuyet = ($item['LoaiCauHoi'] == "Điền khuyết");
+                                    $soLuongDapAnDung = count(array_filter($item['DanhSachDapAn'], function($dapAn) {
+                                        return $dapAn['LaDapAnDung'] == true;
+                                    }));
+                                    
+                                    // Thay thế dấu "..." bằng ô nhập liệu
+                                    $noiDungCauHoi = $isCauHoiDienKhuyet ? str_replace('...', '<input type="text" name="dap_an_dien_khuyet['.$item['MaCauHoi'].']">', $item['NoiDungCauHoi']) : $item['NoiDungCauHoi'];
+                                @endphp
+                                <div style="margin-left: 20px;" class="question-row {{ $daLam ? 'da-lam' : 'chua-lam' }}">
+                                @if ($soLuongDapAnDung > 1)
+                                    <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!} (Câu chọn  {{ $soLuongDapAnDung }} đáp án)</p>
+                                @else
+                                    <p>Câu hỏi {{ $index + 1 }}: {!! $noiDungCauHoi !!}</p>
+                                @endif
+
+                                @if (!$isCauHoiDienKhuyet)
+                                    <ul style="list-style-type: none; padding-left: 0;">
+                                        @php
+                                            // Xáo trộn mảng đáp án
+                                            shuffle($item['DanhSachDapAn']);
+                                        @endphp
+                                        @if ($soLuongDapAnDung > 1)
+                                            @foreach($item['DanhSachDapAn'] as $dapAn)
+                                                <li style="margin-left: 30px;">
+                                                    <input type="checkbox" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
+                                                    {{ $dapAn['NoiDungDapAn'] }}
+                                                </li>
+                                            @endforeach  
+                                        @else
+                                            @foreach($item['DanhSachDapAn'] as $dapAn)
+                                                <li style="margin-left: 30px;">
+                                                    <input type="radio" name="dap_an[{{ $item['MaCauHoi'] }}][]" value="{{ $dapAn['MaDapAn'] }}">
+                                                    {{ $dapAn['NoiDungDapAn'] }}
+                                                </li>
+                                            @endforeach
+                                        @endif
+                                    </ul>
+                                @endif
+                                </div>
+                            @endforeach
+                        @else
+                            <p>Không có dữ liệu câu hỏi và đáp án.</p>
+                        @endif
+                    @endforeach
                     </div>
                 </div>
                 <div class="col-md-5">

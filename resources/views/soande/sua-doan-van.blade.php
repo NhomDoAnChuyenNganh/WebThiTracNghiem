@@ -18,15 +18,15 @@
         @csrf
         <div class="form-group">
             <label for="MonHoc"><strong>Môn Học</strong></label>
-            <span style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc">{{ $doanVan->chuong->monhoc->TenMH }}</span>
+            <span style="max-width: 800px;" class="form-control" id="MonHoc" name="MonHoc">{{ $doanVan->chuong->monhoc->TenMH }}</span>
         </div>
         <div class="form-group">
             <label for="Chuong"><strong>Chương</strong></label>
-            <span style="max-width: 350px;" class="form-control" id="Chuong" name="Chuong">{{ $doanVan->chuong->TenChuong }}</span>
+            <span style="max-width: 800px;" class="form-control" id="Chuong" name="Chuong">{{ $doanVan->chuong->TenChuong }}</span>
         </div>
         <div class="form-group">
-            <label for="TenDV"><strong>Tên Đoạn Văn</strong></label>
-            <input style="max-width: 350px;" type="text" class="form-control" id="TenDV" name="TenDV" value="{{ $doanVan->TenDV }}" required>
+            <label for="TenDV"><strong>Đoạn Văn</strong></label>
+            <textarea style="max-width: 800px;" class="form-control" id="TenDV" name="TenDV" rows="5" required>{{ $doanVan->TenDV }}</textarea>
         </div>
 
         <button style="margin-top: 20px" type="submit" class="btn btn-primary">Lưu Thay Đổi</button>

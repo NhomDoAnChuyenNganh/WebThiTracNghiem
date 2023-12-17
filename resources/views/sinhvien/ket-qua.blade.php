@@ -9,6 +9,6 @@
         <p>Điểm của bạn: {{ $diem }}</p>
         <p>Số câu đúng: {{ $soCauDung }}</p>
 
-        <a href="{{ route('trang-chu-can-bo-coi-thi') }}" class="btn btn-primary">Quay lại trang chủ</a>
+        <a href="{{ route('xem-ket-qua') }}" class="btn btn-primary">Quay lại trang chủ</a>
     </div>
 @endsection
