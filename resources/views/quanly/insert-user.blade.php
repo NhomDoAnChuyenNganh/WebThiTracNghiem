@@ -56,7 +56,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="role_id" class="form-label">Quyền</label>
-                            <select name="role_id" id="role_id  " class="form-select">
+                            <select name="role_id" id="role_id" class="form-select">
                                 <option value="">Chọn Quyền</option>
                                 @foreach($dsrole as $role)
                                 <option value="{{ $role->RoleID }}">{{ $role->RoleName }}</option>
@@ -71,8 +71,8 @@
                         <label for="ngay_sinh" class="form-label">Ngày sinh</label>
                         <input type="date" class="form-control text-left" id="ngaysinh" name="ngaysinh" required>
 
-                        @if ($errors->has('ngay_sinh'))
-                        <span class="text-danger">{{ $errors->first('ngay_sinh')}}</span>
+                        @if ($errors->has('ngaysinh'))
+                        <span class="text-danger">{{ $errors->first('ngaysinh')}}</span>
                         @endif
                     </div>
                     <div class="col-md-4">
