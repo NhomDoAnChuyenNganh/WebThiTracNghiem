@@ -67,8 +67,14 @@ class ChuongController extends Controller
             return redirect('/soande/them-chuong')->with('error', 'Không tìm thấy chương.');
         }
 
-        $chuong->delete();
-        return redirect('/soande/them-chuong')->with('success', 'Xóa chương thành công.');
+        try {
+            $chuong->delete();
+            return redirect('/soande/them-chuong')->with('success', 'Xóa chương thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa chương này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
     public function getChuongs($mamh)
     {
