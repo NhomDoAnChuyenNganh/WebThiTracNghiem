@@ -25,7 +25,7 @@
 
             <div class="form-group">
                 <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
-                <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
+                <select style="max-width: 600px;" class="form-control" id="MonHoc" name="MonHoc" required>
                     <option value="">Chọn môn học</option>
                     @foreach($monhocs as $monhoc)
                     <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
@@ -35,26 +35,26 @@
 
             <div class="form-group">
                 <label for="Chuong"><strong>Chọn Chương</strong></label>
-                <select style="max-width: 350px;" class="form-control" id="Chuong" name="MaChuong" required>
+                <select style="max-width: 600px;" class="form-control" id="Chuong" name="MaChuong" required>
                     <option value="">Chọn chương</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="DoanVan">Chọn Đoạn Văn</label>
-                <select style="max-width: 350px;" class="form-control" id="DoanVan" name="DoanVan" required>
+                <label for="DoanVan"><strong>Chọn Đoạn Văn</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="DoanVan" name="DoanVan" required>
                     <option value="">Chọn đoạn văn</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="NoiDung">Nội Dung Câu Hỏi</label>
-                <textarea style="max-width: 500px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
+                <label for="NoiDung"><strong>Nội Dung Câu Hỏi</strong></label>
+                <textarea style="max-width: 600px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="MucDo">Chọn Loại Câu Hỏi</label>
-                <select style="max-width: 350px;" class="form-control" id="MucDo" name="MucDo" required>
+                <label for="MucDo"><strong>Chọn Loại Câu Hỏi</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="MucDo" name="MucDo" required>
                     <option value="">Chọn mức độ</option>
                     <!-- Thêm các option cho loại câu hỏi -->
                     <option value="Giỏi">Giỏi</option>
@@ -64,11 +64,13 @@
             </div>
 
             <div class="form-group">
-                <label for="DapAn">Đáp Án</label>
-                <input style="max-width: 500px;" type="text" class="form-control" id="DapAn" name="DapAn">
+                <label for="DapAn"><strong>Đáp Án</strong></label>
+                <input style="max-width: 600px;" type="text" class="form-control" id="DapAn" name="DapAn">
             </div>
 
-            <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+            <div style="text-align: center; margin-top: 20px;">
+                <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary">Thêm</button>
+            </div>
 
         </form>
     </div>

@@ -54,7 +54,7 @@
                         </div>
 
                         <div class="col-md-6">
-                            <label for="ho_ten" class="form-label">Họ Tên </label>
+                            <label for="hoten" class="form-label">Họ Tên </label>
                             <input type="text" class="form-control text-left" id="hoten" name="hoten" required>
 
                             @if ($errors->has('hoten'))
@@ -65,11 +65,11 @@
 
                     <div class="row mb-3">
                         <div class="col-md-4">
-                                <label for="ngay_sinh" class="form-label">Ngày sinh</label>
+                                <label for="ngaysinh" class="form-label">Ngày sinh</label>
                                 <input type="date" class="form-control text-left" id="ngaysinh" name="ngaysinh" required>
 
-                                @if ($errors->has('ngay_sinh'))
-                                    <span class="text-danger">{{ $errors->first('ngay_sinh')}}</span>
+                                @if ($errors->has('ngaysinh'))
+                                    <span class="text-danger">{{ $errors->first('ngaysinh')}}</span>
                                 @endif
                         </div>
                         <div  class="col-md-4">
@@ -86,11 +86,11 @@
                                 @endif
                         </div>
                         <div class="col-md-4">
-                            <label for="dia_chi" class="form-label">Địa chỉ</label>
+                            <label for="diachi" class="form-label">Địa chỉ</label>
                             <input type="text" class="form-control text-left" id="diachi" name="diachi" required>
 
-                            @if ($errors->has('dia_chi'))
-                                <span class="text-danger">{{ $errors->first('dia_chi') }}</span>
+                            @if ($errors->has('diachi'))
+                                <span class="text-danger">{{ $errors->first('diachi') }}</span>
                             @endif
                         </div>                
                     </div>
@@ -120,8 +120,6 @@
                         </div>
                                 
                     </div>
-        
-
                     <div  style="text-align: center;" class="mb-3">
                         <button  type="submit" class="btn btn-primary">Đăng Ký</button>
                     </div>
@@ -132,3 +130,49 @@
     </div>
 </body>
 </html>
+<!-- Bổ sung các tài liệu JavaScript ở đây -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script>
+        var citis = document.getElementById("city");
+        var districts = document.getElementById("district");
+        var wards = document.getElementById("ward");
+
+        var Parameter = {
+            url: "https://raw.githubusercontent.com/kenzouno1/DiaGioiHanhChinhVN/master/data.json",
+            method: "GET",
+            responseType: "application/json",
+        };
+
+        var promise = axios(Parameter);
+        promise.then(function (result) {
+            renderCity(result.data);
+        });
+
+        function renderCity(data) {
+            for (const x of data) {
+                citis.options[citis.options.length] = new Option(x.Name, x.Name);
+            }
+            citis.onchange = function () {
+                district.length = 1;
+                ward.length = 1;
+                if (this.value !== "") {
+                    const result = data.filter(n => n.Name === this.value);
+
+                    for (const k of result[0].Districts) {
+                        district.options[district.options.length] = new Option(k.Name, k.Name);
+                    }
+                }
+            };
+            district.onchange = function () {
+                ward.length = 1;
+                const dataCity = data.filter((n) => n.Name === citis.value);
+                if (this.value !== "") {
+                    const dataWards = dataCity[0].Districts.filter(n => n.Name === this.value)[0].Wards;
+
+                    for (const w of dataWards) {
+                        wards.options[wards.options.length] = new Option(w.Name, w.Name);
+                    }
+                }
+            };
+        }
+    </script>

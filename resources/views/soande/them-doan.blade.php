@@ -18,20 +18,13 @@
     </div>
     @endif
     <div class="container">
-
         <a href="{{ route('them-chuong') }}" class="btn btn-success" style="margin: 20px">Thêm Chương</a>
-
-
         <h2>Thêm Đoạn Văn</h2>
-        @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
-        @endif
-
         <form method="POST" action="{{ route('doanvan.them') }}">
             @csrf
             <div class="form-group">
                 <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
-                <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
+                <select style="max-width: 800px;" class="form-control" id="MonHoc" name="MonHoc" required>
                     <option value="">Chọn môn học</option>
                     @foreach($monhocs as $monhoc)
                     <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
@@ -41,14 +34,14 @@
 
             <div class="form-group">
                 <label for="Chuong"><strong>Chọn Chương</strong></label>
-                <select style="max-width: 350px;" class="form-control" id="Chuong" name="MaChuong" required>
+                <select style="max-width: 800px;" class="form-control" id="Chuong" name="MaChuong" required>
                     <option value="">Chọn chương</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="TenDV"><strong>Tên Đoạn Văn</strong></label>
-                <input style="max-width: 350px;" type="text" class="form-control" id="TenDV" name="TenDV" placeholder="Nhập tên đoạn văn" required>
+                <label for="TenDV"><strong>Đoạn Văn</strong></label>
+                <textarea style="max-width: 800px;" class="form-control" id="TenDV" name="TenDV" rows="5" placeholder="Nhập đoạn văn" required></textarea>
             </div>
             <button style="margin-top: 20px" type="submit" class="btn btn-primary">Thêm Đoạn Văn</button>
         </form>
@@ -57,7 +50,7 @@
         <table class="table" style="background-color: aliceblue; margin-top: 20px;">
             <thead>
                 <tr>
-                    <th>Tên Đoạn Văn</th>
+                    <th>Đoạn Văn</th>
                     <th>Thao Tác</th>
                 </tr>
             </thead>
