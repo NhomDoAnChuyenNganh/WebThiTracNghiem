@@ -25,7 +25,7 @@
 
             <div class="form-group">
                 <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
-                <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
+                <select style="max-width: 600px;" class="form-control" id="MonHoc" name="MonHoc" required>
                     <option value="">Chọn môn học</option>
                     @foreach($monhocs as $monhoc)
                     <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
@@ -35,26 +35,26 @@
 
             <div class="form-group">
                 <label for="Chuong"><strong>Chọn Chương</strong></label>
-                <select style="max-width: 350px;" class="form-control" id="Chuong" name="MaChuong" required>
+                <select style="max-width: 600px;" class="form-control" id="Chuong" name="MaChuong" required>
                     <option value="">Chọn chương</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="DoanVan">Chọn Đoạn Văn</label>
-                <select style="max-width: 350px;" class="form-control" id="DoanVan" name="DoanVan" required>
+                <label for="DoanVan"><strong>Chọn Đoạn Văn</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="DoanVan" name="DoanVan" required>
                     <option value="">Chọn đoạn văn</option>
                 </select>
             </div>
 
             <div class="form-group">
-                <label for="NoiDung">Nội Dung Câu Hỏi</label>
-                <textarea style="max-width: 500px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
+                <label for="NoiDung"><strong>Nội Dung Câu Hỏi</strong></label>
+                <textarea style="max-width: 600px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
             </div>
 
             <div class="form-group">
-                <label for="MucDo">Chọn Loại Câu Hỏi</label>
-                <select style="max-width: 350px;" class="form-control" id="MucDo" name="MucDo" required>
+                <label for="MucDo"><strong>Chọn Loại Câu Hỏi</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="MucDo" name="MucDo" required>
                     <option value="">Chọn mức độ</option>
                     <!-- Thêm các option cho loại câu hỏi -->
                     <option value="Giỏi">Giỏi</option>
@@ -64,8 +64,8 @@
             </div>
 
             <div class="form-group">
-                <label for="SoLuongDapAn">Số Lượng Đáp Án</label>
-                <select style="max-width: 350px;" id="SoLuongDapAn" name="SoLuongDapAn" class="form-control" required>
+                <label for="SoLuongDapAn"><strong>Số Lượng Đáp Án</strong></label>
+                <select style="max-width: 600px;" id="SoLuongDapAn" name="SoLuongDapAn" class="form-control" required>
                     <option value="4">4 Đáp Án</option>
                     <option value="5">5 Đáp Án</option>
                     <option value="6">6 Đáp Án</option>
@@ -75,28 +75,30 @@
             <!-- Container để chứa các đáp án -->
             <div id="dapAnContainer">
                 <div class="form-group">
-                    <label for="DapAn1">Đáp Án 1</label>
-                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn1" name="DapAn1">
+                    <label for="DapAn1"><strong>Đáp Án 1</strong></label>
+                    <input style="max-width: 600px;" type="text" class="form-control" id="DapAn1" name="DapAn1">
                     <input type="checkbox" id="DapAn1Checkbox" name="DapAnDung[]" value="1"> Đáp án đúng
                 </div>
                 <div class="form-group">
-                    <label for="DapAn1">Đáp Án 2</label>
-                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn2" name="DapAn2">
+                    <label for="DapAn1"><strong>Đáp Án 2</strong></label>
+                    <input style="max-width: 600px;" type="text" class="form-control" id="DapAn2" name="DapAn2">
                     <input type="checkbox" id="DapAn2Checkbox" name="DapAnDung[]" value="2"> Đáp án đúng
                 </div>
                 <div class="form-group">
-                    <label for="DapAn3">Đáp Án 1</label>
-                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn3" name="DapAn3">
+                    <label for="DapAn3"><strong>Đáp Án 3</strong></label>
+                    <input style="max-width: 600px;" type="text" class="form-control" id="DapAn3" name="DapAn3">
                     <input type="checkbox" id="DapAn3Checkbox" name="DapAnDung[]" value="3"> Đáp án đúng
                 </div>
                 <div class="form-group">
-                    <label for="DapAn4">Đáp Án 4</label>
-                    <input style="max-width: 500px;" type="text" class="form-control" id="DapAn4" name="DapAn4">
+                    <label for="DapAn4"><strong>Đáp Án 4</strong></label>
+                    <input style="max-width: 600px;" type="text" class="form-control" id="DapAn4" name="DapAn4">
                     <input type="checkbox" id="DapAn4Checkbox" name="DapAnDung[]" value="4"> Đáp án đúng
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+            <div style="text-align: center; margin-top: 20px;">
+                <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary">Thêm</button>
+            </div>
 
         </form>
     </div>

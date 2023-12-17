@@ -157,7 +157,7 @@
             var checkboxes = $('.checkbox-sinhvien');
 
             // Đảm bảo chỉ kiểm tra 30 checkbox đầu tiên
-            checkboxes.slice(0, 10).prop('checked', true);
+            checkboxes.slice(0, 30).prop('checked', true);
         });
 
         // Sự kiện khi nhấn từng checkbox sinh viên

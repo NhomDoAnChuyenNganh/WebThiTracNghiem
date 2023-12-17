@@ -126,12 +126,12 @@ class QLThiController extends Controller
     {
         $dsmon = MonHoc::with('dsDeThi')->orderBy('MaMH', 'desc')->get();
         $dssinhvien = Users::where('RoleID', '=', '4')->orderBy('UserID', 'desc')->get();
-        $dsdethi = DeThi::whereNotNull('MaPT')->orderBy('MaDe', 'desc')->get();
+        
         return view('quanly.phan-bo-sinh-vien', [
             'title' => 'Phân Bổ Sinh Viên',
             'dsmon' => $dsmon,
             'dssinhvien' => $dssinhvien,
-            'dsdethi' => $dsdethi,
+            
             'monhoc_id' => null,
             'dethi_id' => null,
         ]);
