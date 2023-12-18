@@ -227,5 +227,42 @@
     });
     
 </script>
+<script>
+    document.forms["FormThi"].addEventListener('submit', function(event) {
+    // Hủy sự kiện submit mặc định
+    event.preventDefault();
 
+    // Kiểm tra từng câu hỏi
+    var questions = document.querySelectorAll('.question-row');
+    var hasUnansweredQuestion = false;
+
+    questions.forEach(function(question) {
+        var isChuaLam = question.classList.contains('chua-lam');
+        var isDaLam = question.classList.contains('da-lam');
+
+        // Kiểm tra xem câu hỏi chưa làm có checkbox hoặc radio được chọn không
+        if (isChuaLam) {
+            var selectedCheckboxes = question.querySelectorAll('input[type="checkbox"]:checked');
+            var selectedRadios = question.querySelectorAll('input[type="radio"]:checked');
+            var inputText = question.querySelector('input[type="text"]');
+
+            if (selectedCheckboxes.length === 0 || selectedRadios.length === 0 && inputText || inputText.value.trim() === '') {
+                hasUnansweredQuestion = true;
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Cảnh báo',
+                    text: 'Vui lòng chọn đáp án cho câu hỏi chưa làm',
+                });
+                return;
+            }
+        }
+    });
+
+    // Nếu không có câu hỏi nào chưa được trả lời, thực hiện submit form
+    if (!hasUnansweredQuestion) {
+        this.submit();
+    }
+});
+
+</script>
 @endsection

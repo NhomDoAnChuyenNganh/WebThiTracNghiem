@@ -74,7 +74,7 @@
 
         </form>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6" style="max-height: 550px; overflow: auto">
         <table class="table" style="background-color: aliceblue; margin-top: 20px;">
             <thead id='name-table'>
                 <tr>

@@ -24,32 +24,33 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4>Câu hỏi đã có trong đề thi</h4>
-                    <table style="background-color: blanchedalmond" class="table table-bordered">
-                        <thead>
-                            <tr style="background-color: aqua">
-                                <th>STT</th>
-                                <th>Nội dung câu hỏi</th>
-                                <th>Mức độ</th>
-                                <th>Loại câu hỏi</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($chitietdethis as $index => $chitiet)
-                            <tr>
-                                {{-- <td>{{ $chitiet->cauhoi->MaCH }}</td> --}}
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $chitiet->cauhoi->NoiDung }}</td>
-                                <td>{{ $chitiet->cauhoi->MucDo }}</td>
-                                <td>{{ $chitiet->cauhoi->loaicauhoi->TenLoai }}</td>
-                                <td>
-                                    <button class="btn btn-danger" onclick="deleteCauHoi({{ $chitiet->cauhoi->MaCH }}, {{ $dethis->MaDe }})">Xoá</button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $chitietdethis->onEachSide(1)->links() }}<br />
+                    <div style="max-height: 800px; overflow-y: auto">
+                        <table style="background-color: blanchedalmond" class="table table-bordered">
+                            <thead>
+                                <tr style="background-color: aqua">
+                                    <th>STT</th>
+                                    <th>Nội dung câu hỏi</th>
+                                    <th>Mức độ</th>
+                                    <th>Loại câu hỏi</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($chitietdethis as $index => $chitiet)
+                                <tr>
+                                    {{-- <td>{{ $chitiet->cauhoi->MaCH }}</td> --}}
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $chitiet->cauhoi->NoiDung }}</td>
+                                    <td>{{ $chitiet->cauhoi->MucDo }}</td>
+                                    <td>{{ $chitiet->cauhoi->loaicauhoi->TenLoai }}</td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="deleteCauHoi({{ $chitiet->cauhoi->MaCH }}, {{ $dethis->MaDe }})">Xoá</button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -83,7 +84,7 @@
                 </div>
             </div>
 
-            <div style="text-align: right; padding:20px">
+            <div style="text-align: right; padding-right:20px; padding-bottom: 20px">
                 <button type="submit" class="btn btn-primary">Lưu</button>
             </div>
         </form>
