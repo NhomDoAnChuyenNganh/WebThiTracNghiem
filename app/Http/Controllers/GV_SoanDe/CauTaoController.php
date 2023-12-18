@@ -52,7 +52,7 @@ class CauTaoController extends Controller
                 'role' => 'Giáo Viên Soạn Đề'
             ]);
         } else {
-            $chitietdethis = ChiTietDeThi::where('MaDe', $id)->paginate(10);
+            $chitietdethis = ChiTietDeThi::where('MaDe', $id)->get();
             // Lấy danh sách mã câu hỏi từ bảng chitietdethi
             $maCauHoiArray = $chitietdethi->pluck('MaCH')->toArray();
             // Lấy tất cả câu hỏi của môn học từ bảng cauhoi chưa có trong chitietdethi
