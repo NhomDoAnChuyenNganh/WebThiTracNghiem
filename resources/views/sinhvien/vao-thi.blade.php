@@ -246,7 +246,7 @@
             var selectedRadios = question.querySelectorAll('input[type="radio"]:checked');
             var inputText = question.querySelector('input[type="text"]');
 
-            if (selectedCheckboxes.length === 0 && selectedRadios.length === 0 && inputText && inputText.value.trim() === '') {
+            if (selectedCheckboxes.length === 0 || selectedRadios.length === 0 && inputText || inputText.value.trim() === '') {
                 hasUnansweredQuestion = true;
                 Swal.fire({
                     icon: 'warning',
