@@ -137,8 +137,8 @@
             alert('Hết thời gian làm bài!');
             // Tự động nộp form
             document.forms["FormThi"].submit();
-            // Reset thời gian
-            thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }};
+            // // Reset thời gian
+            // thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }};
         }
     }
 

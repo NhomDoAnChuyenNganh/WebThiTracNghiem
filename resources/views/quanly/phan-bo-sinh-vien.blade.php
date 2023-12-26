@@ -123,6 +123,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $dssinhvien->onEachSide(1)->links() }}<br />
 </div>
 
 
