@@ -5,7 +5,7 @@
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
 ['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
+['url' => route('thong-ke'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
@@ -20,7 +20,7 @@
                     @method('PUT')
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="ho_ten" class="form-label">Họ Tên </label>
+                            <label for="hoten" class="form-label">Họ Tên </label>
                             <input type="text" class="form-control text-left" id="hoten" name="hoten" value="{{ $user->HoTen }}" required>
                             @if ($errors->has('ho_ten'))
                             <span class="text-danger">{{ $errors->first('ho_ten') }}</span>
@@ -36,11 +36,11 @@
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">
-                            <label for="ngay_sinh" class="form-label">Ngày sinh</label>
+                            <label for="ngaysinh" class="form-label">Ngày sinh</label>
                             <input type="date" class="form-control text-left" id="ngaysinh" name="ngaysinh" value="{{ $user->NgaySinh}}" required>
 
-                            @if ($errors->has('ngay_sinh'))
-                            <span class="text-danger">{{ $errors->first('ngay_sinh')}}</span>
+                            @if ($errors->has('ngaysinh'))
+                            <span class="text-danger">{{ $errors->first('ngaysinh')}}</span>
                             @endif
                         </div>
                         <div class="col-md-6">
@@ -61,7 +61,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label for="role_id" class="form-label">Quyền</label>
-                                <select name="role_id " class="form-select">
+                                <select name="role_id" id="role_id" class="form-select">
                                     @foreach($dsrole as $role)
                                     <option value="{{ $role->RoleID }}" {{ $user->RoleID == $role->RoleID ? 'selected' : '' }}>{{ $role->RoleName }}</option>
                                     @endforeach
@@ -69,11 +69,11 @@
                             </div>
                         </div>
                         <div class="col-md-6">
-                            <label for="dia_chi" class="form-label">Địa chỉ</label>
+                            <label for="diachi" class="form-label">Địa chỉ</label>
                             <input type="text" class="form-control text-left" id="diachi" name="diachi" value="{{ $user->DiaChi}}" required>
 
-                            @if ($errors->has('dia_chi'))
-                            <span class="text-danger">{{ $errors->first('dia_chi') }}</span>
+                            @if ($errors->has('diachi'))
+                            <span class="text-danger">{{ $errors->first('diachi') }}</span>
                             @endif
                         </div>
                     </div>

@@ -40,8 +40,8 @@
                 <td>{{ $key + 1 }}</td>
                 <td>{{ $cauhoi->NoiDung }}</td>
                 <td>
-                    <a href="#" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')">Xoá</a>
-                    <a href="#" class="btn btn-primary" style="max-width: 80px;">Sửa</a>
+                    <a href="{{ route('xoa-cau-hoi', ['id' => $cauhoi->MaCH]) }}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa câu hỏi này?')">Xoá</a>
+                    <a href="{{ route('sua-cau-hoi', ['id' => $cauhoi->MaCH]) }}" class="btn btn-primary" style="max-width: 80px;">Sửa</a>
                 </td>
             </tr>
             @endforeach

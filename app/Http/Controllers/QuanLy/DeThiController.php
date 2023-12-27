@@ -44,13 +44,19 @@ class DeThiController extends Controller
 
         // Kiểm tra xem có tồn tại không
         if (!$dethi) {
-            return redirect()->route('tao-de')->with('error', 'không tìm thấy đề thi.');
+            return redirect()->route('tao-de-thi')->with('error', 'không tìm thấy đề thi.');
         }
 
-        // Bước 2: Thực hiện xóa 
-        $dethi->delete();
+        try {
+            // Bước 2: Thực hiện xóa 
+            $dethi->delete();
 
-        // Bước 3: Chuyển hướng người dùng đến trang danh sách 
-        return redirect()->route('tao-de')->with('success', 'Đề thi đã được xóa thành công.');
+            // Bước 3: Chuyển hướng người dùng đến trang danh sách 
+            return redirect()->route('tao-de-thi')->with('success', 'Đề thi đã được xóa thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa đề thi này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
 }

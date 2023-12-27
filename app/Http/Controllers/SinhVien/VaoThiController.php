@@ -5,6 +5,7 @@ namespace App\Http\Controllers\SinhVien;
 use App\Models\DeThi;
 use App\Models\Thi;
 use App\Models\MonHoc;
+use App\Models\DoanVan;
 use App\Models\ChiTietDeThi;
 use App\Models\Users;
 use App\Http\Controllers\Controller;
@@ -23,6 +24,16 @@ class VaoThiController extends Controller
             if ($dethi->NgayThi < $ngayHienTai) {
                 // Nếu ngày thi đã qua, cập nhật trạng thái thành 1
                 $dethi->update(['TrangThai' => 1]);
+
+                // Cập nhật số câu đúng và điểm bằng 0 cho tất cả sinh viên thi đề này
+                $maDe = $dethi->MaDe;
+                Thi::where('MaDe', $maDe)
+                ->whereNull('SoCauDung')
+                ->whereNull('Diem')
+                ->update([
+                    'SoCauDung' => 0,
+                    'Diem' => 0,
+                ]);
             }
         }
 
@@ -140,13 +151,16 @@ class VaoThiController extends Controller
             $cauHoi = $chiTiet->cauhoi;
             $dapAn = $cauHoi->dapan;
             $loaiCauHoi = $cauHoi->loaicauhoi; // Thêm dòng này để lấy thông tin loại câu hỏi
+            // Lấy đoạn văn từ bảng DoanVan với mã đoạn văn là $cauHoi->MaDV
+            $doanVan = DoanVan::where('MaDV', $cauHoi->MaDV)->first();
 
             // Thêm thông tin câu hỏi và đáp án vào mảng
             $dsCauHoiVaDapAn[] = [
                 'MaCauHoi' => $cauHoi->MaCH,
                 'NoiDungCauHoi' => $cauHoi->NoiDung,
                 'LoaiCauHoi' => $loaiCauHoi->TenLoai, // Thêm thông tin loại câu hỏi vào mảng
-                'TrangThai' => false,
+                'MaDV'=>$cauHoi->MaDV,
+                'NoiDungDoanVan' =>  $doanVan ? $doanVan->TenDV : null, // Lấy nội dung đoạn văn hoặc để null nếu không có
                 'DanhSachDapAn' => $dapAn->map(function ($item) {
                     return [
                         'MaDapAn' => $item->MaDA,
@@ -237,7 +251,6 @@ class VaoThiController extends Controller
                 }
             }
         }
-        dd($diem);
         // Lưu kết quả vào cơ sở dữ liệu
         $userId = session('user')->UserID;
         Thi::where('MaDe', $id)->where('MaSV', $userId)->update([

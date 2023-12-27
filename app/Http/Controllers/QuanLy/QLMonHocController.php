@@ -67,11 +67,18 @@ class QLMonHocController extends Controller
             return redirect()->route('ql-monhoc')->with('error', 'không tìm thấy môn học.');
         }
 
-        // Bước 2: Thực hiện xóa 
-        $monHoc->delete();
 
-        // Bước 3: Chuyển hướng người dùng đến trang danh sách 
-        return redirect()->route('ql-monhoc')->with('success', 'Môn học đã được xóa thành công.');
+        try {
+            // Bước 2: Thực hiện xóa 
+            $monHoc->delete();
+
+            // Bước 3: Chuyển hướng người dùng đến trang danh sách 
+            return redirect()->route('ql-monhoc')->with('success', 'Môn học đã được xóa thành công.');
+        } catch (\Illuminate\Database\QueryException $e) {
+            if ($e->getCode() == "23000") {
+                return redirect()->back()->with('error', 'Không thể xóa môn học này do tồn tại các mối quan hệ liên quan.');
+            }
+        }
     }
     public function processFile(Request $request)
     {

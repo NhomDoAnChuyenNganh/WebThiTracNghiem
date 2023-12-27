@@ -15,7 +15,7 @@
     {{ session('success') }}
 </div>
 @endif
-<div style="width: 800px; background-color: white;margin: auto;">
+<div style="width: 1200px; background-color: white;margin: auto;">
     <div class="container">
         <h2 style="text-align: center">{{ $title }}</h2>
         <h3 style="text-align: center">Đề thi: {{ $dethis->TenDeThi }}</h3>
@@ -24,28 +24,33 @@
             <div class="row">
                 <div class="col-md-6">
                     <h4>Câu hỏi đã có trong đề thi</h4>
-                    <table style="background-color: blanchedalmond" class="table table-bordered">
-                        <thead>
-                            <tr style="background-color: aqua">
-                                <th>STT</th>
-                                <th>Nội dung câu hỏi</th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($chitietdethis as $index => $chitiet)
-                            <tr>
-                                {{-- <td>{{ $chitiet->cauhoi->MaCH }}</td> --}}
-                                <td>{{ $index + 1 }}</td>
-                                <td>{{ $chitiet->cauhoi->NoiDung }}</td>
-                                <td>
-                                    <button class="btn btn-danger" onclick="deleteCauHoi({{ $chitiet->cauhoi->MaCH }}, {{ $dethis->MaDe }})">Xoá</button>
-                                </td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                    {{ $chitietdethis->onEachSide(1)->links() }}<br />
+                    <div style="max-height: 800px; overflow-y: auto">
+                        <table style="background-color: blanchedalmond" class="table table-bordered">
+                            <thead>
+                                <tr style="background-color: aqua">
+                                    <th>STT</th>
+                                    <th>Nội dung câu hỏi</th>
+                                    <th>Mức độ</th>
+                                    <th>Loại câu hỏi</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($chitietdethis as $index => $chitiet)
+                                <tr>
+                                    {{-- <td>{{ $chitiet->cauhoi->MaCH }}</td> --}}
+                                    <td>{{ $index + 1 }}</td>
+                                    <td>{{ $chitiet->cauhoi->NoiDung }}</td>
+                                    <td>{{ $chitiet->cauhoi->MucDo }}</td>
+                                    <td>{{ $chitiet->cauhoi->loaicauhoi->TenLoai }}</td>
+                                    <td>
+                                        <button class="btn btn-danger" onclick="deleteCauHoi({{ $chitiet->cauhoi->MaCH }}, {{ $dethis->MaDe }})">Xoá</button>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
 
                 <div class="col-md-6">
@@ -56,6 +61,7 @@
                                 <th>STT</th>
                                 <th>Nội dung câu hỏi</th>
                                 <th>Mức độ</th>
+                                <th>Loại câu hỏi</th>
                                 <th>Chọn</th>
                             </tr>
                         </thead>
@@ -65,6 +71,8 @@
                                 <td>{{ $index + 1 }}</td>
                                 <td>{{ $cauhoi->NoiDung }}</td>
                                 <td>{{ $cauhoi->MucDo }}
+                                <td>{{ $cauhoi->loaicauhoi->TenLoai }}</td>
+
                                 <td>
                                     <input type="checkbox" name="cauhoi_id[]" value="{{ $cauhoi->MaCH }}">
                                 </td>
@@ -76,7 +84,9 @@
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-primary">Lưu</button>
+            <div style="text-align: right; padding-right:20px; padding-bottom: 20px">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </div>
         </form>
     </div>
 </div>

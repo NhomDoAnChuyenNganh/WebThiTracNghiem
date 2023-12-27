@@ -5,7 +5,7 @@
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
 ['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
+['url' => route('thong-ke'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
@@ -123,6 +123,7 @@
             @endforeach
         </tbody>
     </table>
+    {{ $dssinhvien->onEachSide(1)->links() }}<br />
 </div>
 
 
@@ -157,7 +158,7 @@
             var checkboxes = $('.checkbox-sinhvien');
 
             // Đảm bảo chỉ kiểm tra 30 checkbox đầu tiên
-            checkboxes.slice(0, 10).prop('checked', true);
+            checkboxes.slice(0, 30).prop('checked', true);
         });
 
         // Sự kiện khi nhấn từng checkbox sinh viên

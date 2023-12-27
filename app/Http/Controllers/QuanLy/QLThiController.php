@@ -125,13 +125,12 @@ class QLThiController extends Controller
     public function PhanBoSinhVien()
     {
         $dsmon = MonHoc::with('dsDeThi')->orderBy('MaMH', 'desc')->get();
-        $dssinhvien = Users::where('RoleID', '=', '4')->orderBy('UserID', 'desc')->get();
-        $dsdethi = DeThi::whereNotNull('MaPT')->orderBy('MaDe', 'desc')->get();
+        $dssinhvien = Users::where('RoleID', '=', '4')->orderBy('UserID', 'desc')->paginate(10);
+        
         return view('quanly.phan-bo-sinh-vien', [
             'title' => 'Phân Bổ Sinh Viên',
             'dsmon' => $dsmon,
             'dssinhvien' => $dssinhvien,
-            'dsdethi' => $dsdethi,
             'monhoc_id' => null,
             'dethi_id' => null,
         ]);
@@ -142,7 +141,7 @@ class QLThiController extends Controller
         $dethi_id = $request->input('dethi_id');
 
         if ($monhoc_id == null) {
-            $dssinhvien = Users::where('RoleID', '=', '4')->orderBy('UserID', 'desc')->get();
+            $dssinhvien = Users::where('RoleID', '=', '4')->orderBy('UserID', 'desc')->paginate(10);
         } else {
             // Nếu có môn học được chọn, lấy danh sách sinh viên chưa thi môn học đó
             $dssinhvien = Users::where('RoleID', '=', '4')
@@ -150,7 +149,7 @@ class QLThiController extends Controller
                     $query->where('MaMH', $monhoc_id);
                 })
                 ->orderBy('UserID', 'desc')
-                ->get();
+                ->paginate(10);
         }
         $dsmon = MonHoc::with('dsDeThi')->orderBy('MaMH', 'desc')->get();
         $dsdethi = DeThi::whereNotNull('MaPT')->orderBy('MaDe', 'desc')->get();

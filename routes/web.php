@@ -23,6 +23,7 @@ use App\Http\Controllers\SinhVien\TrangChuSinhVienController;
 use App\Http\Controllers\GV_SoanDe\CauTaoController;
 use App\Http\Controllers\QuanLy\DeThiController;
 use App\Http\Controllers\GV_SoanDe\ChiTietDeThiController;
+use App\Http\Controllers\QuanLy\ThongKeController;
 use App\Http\Controllers\SinhVien\VaoThiController;
 
 /*
@@ -104,6 +105,8 @@ Route::group(['middleware' => 'checkLogin:1'], function () {
     Route::get('/quanly/tao-de-thi', [DeThiController::class, 'getTaoDeThi'])->name('tao-de-thi');
     Route::post('/quanly/luu-de-thi', [DeThiController::class, 'luuDeThi'])->name('luu_de_thi');
     Route::get('/quanly/xoa-de/{id}', [DeThiController::class, 'xoaDeThi'])->name('xoa-de');
+    //Quản lý thống kê
+    Route::get('/quanly/thong-ke', [ThongKeController::class, 'index'])->name('thong-ke');
 });
 //Chức năng của nhóm giáo viên soạn đề
 Route::group(['middleware' => 'checkLogin:2'], function () {
@@ -139,7 +142,7 @@ Route::group(['middleware' => 'checkLogin:2'], function () {
     Route::post('/process-file-cauhoi', [CauHoiController::class, 'processFile'])->name('process-file-cauhoi');
     Route::get('/gv_soande/sua-cau-hoi/{id}', [CauHoiController::class, 'suaCauHoi'])->name('sua-cau-hoi');
     Route::put('/gv_soande/cap-nhat-cau-hoi/{id}', [CauHoiController::class, 'capNhatCauHoi'])->name('cap-nhat-cau-hoi');
-    Route::delete('/gv_soande/xoa-cau-hoi/{id}', [CauHoiController::class, 'xoaCauHoi'])->name('xoa-cau-hoi');
+    Route::get('/gv_soande/xoa-cau-hoi/{id}', [CauHoiController::class, 'xoaCauHoi'])->name('xoa-cau-hoi');
     //Cau tao de thi
     Route::get('/gv_soande/soan-de', [CauTaoController::class, 'index'])->name('soan-de');
     Route::get('/gv_soande/cau-tao-de-thi/{id}', [CauTaoController::class, 'cautaoDeThi'])->name('cau-tao-de-thi');

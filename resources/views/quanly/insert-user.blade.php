@@ -5,7 +5,7 @@
 ['url' => route('phan-bo-sinh-vien'), 'label' => 'Phân bổ sinh viên'],
 ['url' => route('tao-de-thi'), 'label' => 'Tạo đề thi'],
 ['url' => route('ql-thi'), 'label' => 'Quản lý thi'],
-['url' => route('trang-chu-quan-ly'), 'label' => 'Thống kê']
+['url' => route('thong-ke'), 'label' => 'Thống kê']
 ]])
 
 @section('content')
@@ -56,7 +56,7 @@
                     <div class="col-md-4">
                         <div class="form-group">
                             <label for="role_id" class="form-label">Quyền</label>
-                            <select name="role_id" id="role_id  " class="form-select">
+                            <select name="role_id" id="role_id" class="form-select">
                                 <option value="">Chọn Quyền</option>
                                 @foreach($dsrole as $role)
                                 <option value="{{ $role->RoleID }}">{{ $role->RoleName }}</option>
@@ -71,8 +71,8 @@
                         <label for="ngay_sinh" class="form-label">Ngày sinh</label>
                         <input type="date" class="form-control text-left" id="ngaysinh" name="ngaysinh" required>
 
-                        @if ($errors->has('ngay_sinh'))
-                        <span class="text-danger">{{ $errors->first('ngay_sinh')}}</span>
+                        @if ($errors->has('ngaysinh'))
+                        <span class="text-danger">{{ $errors->first('ngaysinh')}}</span>
                         @endif
                     </div>
                     <div class="col-md-4">

@@ -30,7 +30,7 @@ class RegisterController extends Controller
             'city' => 'required|string',
             'district' => 'required|string',
             'ward' => 'required|string',
-            'ngaysinh' => 'required|date|before_or_equal:today',
+            'ngaysinh' => 'required|date|before_or_equal:' . now()->subYears(18)->format('Y-m-d'),
         ]);
 
         if ($validator->fails()) {

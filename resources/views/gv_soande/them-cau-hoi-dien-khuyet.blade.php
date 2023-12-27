@@ -16,119 +16,77 @@
     {{ session('success') }}
 </div>
 @endif
-<div class="container">
+<div class="row justify-content-center bg-white">
     <h2>Thêm Câu Hỏi</h2>
 
-    <form method="POST" action="/gv_soande/them-cau-hoi-dien-khuyet">
-        @csrf
+    <div class="col-md-6">
+        <form method="POST" action="/gv_soande/them-cau-hoi-dien-khuyet">
+            @csrf
 
-        <div class="form-group">
-            <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
-            <select style="max-width: 350px;" class="form-control" id="MonHoc" name="MonHoc" required>
-                <option value="">Chọn môn học</option>
-                @foreach($monhocs as $monhoc)
-                <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
-                @endforeach
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="MonHoc"><strong>Chọn Môn Học</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="MonHoc" name="MonHoc" required>
+                    <option value="">Chọn môn học</option>
+                    @foreach($monhocs as $monhoc)
+                    <option value="{{ $monhoc->MaMH }}">{{ $monhoc->TenMH }}</option>
+                    @endforeach
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="Chuong"><strong>Chọn Chương</strong></label>
-            <select style="max-width: 350px;" class="form-control" id="Chuong" name="MaChuong" required>
-                <option value="">Chọn chương</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="Chuong"><strong>Chọn Chương</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="Chuong" name="MaChuong" required>
+                    <option value="">Chọn chương</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="DoanVan">Chọn Đoạn Văn</label>
-            <select style="max-width: 350px;" class="form-control" id="DoanVan" name="DoanVan" required>
-                <option value="">Chọn đoạn văn</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="DoanVan"><strong>Chọn Đoạn Văn</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="DoanVan" name="DoanVan" required>
+                    <option value="">Chọn đoạn văn</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="NoiDung">Nội Dung Câu Hỏi</label>
-            <textarea style="max-width: 500px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
-        </div>
+            <div class="form-group">
+                <label for="NoiDung"><strong>Nội Dung Câu Hỏi</strong></label>
+                <textarea style="max-width: 600px;" class="form-control" id="NoiDung" name="NoiDung" rows="3"></textarea>
+            </div>
 
-        <div class="form-group">
-            <label for="MucDo">Chọn Loại Câu Hỏi</label>
-            <select style="max-width: 350px;" class="form-control" id="MucDo" name="MucDo" required>
-                <option value="">Chọn mức độ</option>
-                <!-- Thêm các option cho loại câu hỏi -->
-                <option value="Giỏi">Giỏi</option>
-                <option value="Khá">Khá</option>
-                <option value="Trung Bình">Trung Bình</option>
-            </select>
-        </div>
+            <div class="form-group">
+                <label for="MucDo"><strong>Chọn Loại Câu Hỏi</strong></label>
+                <select style="max-width: 600px;" class="form-control" id="MucDo" name="MucDo" required>
+                    <option value="">Chọn mức độ</option>
+                    <!-- Thêm các option cho loại câu hỏi -->
+                    <option value="Giỏi">Giỏi</option>
+                    <option value="Khá">Khá</option>
+                    <option value="Trung Bình">Trung Bình</option>
+                </select>
+            </div>
 
-        <div class="form-group">
-            <label for="DapAn">Đáp Án</label>
-            <input style="max-width: 500px;" type="text" class="form-control" id="DapAn" name="DapAn">
-        </div>
+            <div class="form-group">
+                <label for="DapAn"><strong>Đáp Án</strong></label>
+                <input style="max-width: 600px;" type="text" class="form-control" id="DapAn" name="DapAn">
+            </div>
 
-        <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+            <div style="text-align: center; margin-top: 20px;">
+                <button style=" margin-bottom: 50px; padding-left: 50px; padding-right: 50px;" type="submit" class="btn btn-primary">Thêm</button>
+            </div>
 
-    </form>
-
-    <table class="table" style="background-color: aliceblue; margin-top: 20px;">
-        <thead id='name-table'>
-            <tr>
-            </tr>
-        </thead>
-        <tbody id="value-table">
-            <!-- Dữ liệu chương sẽ được thêm bởi JavaScript -->
-        </tbody>
-    </table>
+        </form>
+    </div>
+    <div class="col-md-6" style="max-height: 550px; overflow: auto">
+        <table class="table" style="background-color: aliceblue; margin-top: 20px;">
+            <thead id='name-table'>
+                <tr>
+                </tr>
+            </thead>
+            <tbody id="value-table">
+                <!-- Dữ liệu chương sẽ được thêm bởi JavaScript -->
+            </tbody>
+        </table>
+    </div>
 </div>
 
-{{-- <script>
-    $(document).ready(function() {
-        // Lắng nghe sự kiện khi thay đổi môn học và nạp dữ liệu vào dropdown chương tương ứng.
-        $('#MonHoc').on('change', function() {
-            var mamh = $(this).val();
-            if (mamh) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-chuongs/' + mamh,
-                    success: function(data) {
-                        console.log(data); // Kiểm tra dữ liệu trả về
-                        $('#Chuong').empty();
-                        $('#Chuong').append('<option value="">Chọn chương</option>');
-                        $.each(data, function(index, chuong) { // sửa ở đây
-                            $('#Chuong').append('<option value="' + chuong.MaChuong + '">' + chuong.TenChuong + '</option>'); // sửa ở đây
-                        });
-                    }
-                });
-            } else {
-                $('#Chuong').empty();
-                $('#DoanVan').empty();
-            }
-        });
-    });
-</script>
-<script>
-    $(document).ready(function() {
-        $('#Chuong').on('change', function() {
-            var machuong = $(this).val();
-            if (machuong) {
-                $.ajax({
-                    type: 'GET',
-                    url: '/get-doanvans/' + machuong,
-                    success: function(data) {
-                        $('#DoanVan').empty();
-                        $('#DoanVan').append('<option value="">Chọn đoạn văn</option>');
-                        $.each(data, function(index, doanvan) {
-                            $('#DoanVan').append('<option value="' + doanvan.MaDV + '">' + doanvan.TenDV + '</option>');
-                        });
-                    }
-                });
-            } else {
-                $('#DoanVan').empty();
-            }
-        });
-    });
-</script> --}}
 <script>
     $(document).ready(function() {
         // Lắng nghe sự kiện khi thay đổi môn học và nạp dữ liệu vào dropdown chương tương ứng.
@@ -147,23 +105,23 @@
                         $('#DoanVan').empty();
                         $('#Chuong').append('<option value="">Chọn chương</option>');
                         $('#name-table').append('<tr>' +
-                                '<td>Tên Chương</td>' +
-                                '<td>Thao tác</td>' +
-                                '</tr>');
+                            '<td>Tên Chương</td>' +
+                            '<td>Thao tác</td>' +
+                            '</tr>');
                         $.each(data, function(index, chuong) { // sửa ở đây
                             $('#Chuong').append('<option value="' + chuong.MaChuong + '">' + chuong.TenChuong + '</option>'); // sửa ở đây
 
                             $('#value-table').append('<tr>' +
-                                    '<td>' + chuong.TenChuong + '</td>' +
-                                    '<td>' +
-                                    '<a class="btn btn-warning" href="/soande/sua-chuong/' + chuong.MaChuong + '">Sửa</a>' +
-                                    '<form method="POST" action="/soande/xoa-chuong/' + chuong.MaChuong + '" style="display: inline;">' +
-                                    '@csrf' +
-                                    '@method("DELETE")' +
-                                    '<button type="submit" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa chương này không?\')">Xóa</button>' +
-                                    '</form>' +
-                                    '</td>' +
-                                    '</tr>');
+                                '<td>' + chuong.TenChuong + '</td>' +
+                                '<td>' +
+                                '<a class="btn btn-warning" href="/soande/sua-chuong/' + chuong.MaChuong + '">Sửa</a>' +
+                                '<form method="POST" action="/soande/xoa-chuong/' + chuong.MaChuong + '" style="display: inline;">' +
+                                '@csrf' +
+                                '@method("DELETE")' +
+                                '<button type="submit" class="btn btn-danger" onclick="return confirm(\'Bạn có chắc chắn muốn xóa chương này không?\')">Xóa</button>' +
+                                '</form>' +
+                                '</td>' +
+                                '</tr>');
                         });
                     }
                 });
@@ -188,9 +146,9 @@
                         $('#DoanVan').empty();
                         $('#DoanVan').append('<option value="">Chọn đoạn văn</option>');
                         $('#name-table').append('<tr>' +
-                                '<td>Tên Đoạn Văn</td>' +
-                                '<td>Thao tác</td>' +
-                                '</tr>');
+                            '<td>Tên Đoạn Văn</td>' +
+                            '<td>Thao tác</td>' +
+                            '</tr>');
                         $.each(data, function(index, doanvan) {
                             $('#DoanVan').append('<option value="' + doanvan.MaDV + '">' + doanvan.TenDV + '</option>');
 
@@ -226,10 +184,10 @@
                     url: '/get-cauhois/' + madv,
                     success: function(data) {
                         $('#name-table').append('<tr>' +
-                                '<td>Nội dung câu hỏi</td>' +
-                                '<td>Mức độ</td>' +
-                                '<td>Thao tác</td>' +
-                                '</tr>');
+                            '<td>Nội dung câu hỏi</td>' +
+                            '<td>Mức độ</td>' +
+                            '<td>Thao tác</td>' +
+                            '</tr>');
                         $.each(data, function(index, cauhoi) {
                             $('#value-table').append('<tr>' +
                                 '<td>' + cauhoi.NoiDung + '</td>' +
@@ -246,8 +204,7 @@
                         });
                     }
                 });
-            } else {
-            }
+            } else {}
         });
     });
 </script>
