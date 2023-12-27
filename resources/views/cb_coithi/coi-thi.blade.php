@@ -62,7 +62,7 @@
                 <td>{{ optional($dethi->phongThi)->TenPT }}</td>
                 <td>
                     @if ($thoiGianHienTai >= $thoiGianBatDau && $thoiGianHienTai <= $thoiGianKetThuc && $ngayThi == $ngayHienTai) 
-                            <a href="{{ route('coi-thi-de', ['id' => $dethi->MaDe]) }}" class="btn btn-primary">Vào Thi</a>
+                            <a href="{{ route('coi-thi-de', ['id' => $dethi->MaDe]) }}" class="btn btn-primary">Coi Thi</a>
                         @endif
                 </td>
             </tr>

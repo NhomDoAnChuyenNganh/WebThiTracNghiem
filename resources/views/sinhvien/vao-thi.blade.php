@@ -117,8 +117,9 @@
 </div>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
-    // Lấy thời gian còn lại từ localStorage hoặc PHP và chuyển đổi thành giây
-    var thoiGianConLai = localStorage.getItem('thoiGianConLai') || {{ $dethi->ThoiGianLamBai * 60 }}; // Thời gian làm bài theo phút
+    var storedThoiGianConLai = localStorage.getItem('thoiGianConLai');
+    var thoiGianConLai = isNaN(storedThoiGianConLai) ? {{ $dethi->ThoiGianLamBai * 60 }} : parseInt(storedThoiGianConLai);
+    
 
     // Hàm cập nhật thời gian còn lại và hiển thị
     function capNhatThoiGian() {
@@ -137,8 +138,8 @@
             alert('Hết thời gian làm bài!');
             // Tự động nộp form
             document.forms["FormThi"].submit();
-            // Reset thời gian
-            thoiGianConLai = {{ $dethi->ThoiGianLamBai * 60 }};
+            // // Reset thời gian
+            thoiGianConLai = null;
         }
     }
 
@@ -260,6 +261,8 @@
 
     // Nếu không có câu hỏi nào chưa được trả lời, thực hiện submit form
     if (!hasUnansweredQuestion) {
+        thoiGianConLai = null;
+        localStorage.setItem('thoiGianConLai', thoiGianConLai);
         this.submit();
     }
 });
